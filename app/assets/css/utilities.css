@@ -1,0 +1,86 @@
+/* Pomoćne klase koje se koriste kroz ceo sajt. */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Telefon koji „zvoni“: slušalica se kratko zatrese i pusti talas, pa pauza.
+   Pokret na pauze privlači pogled, a ne nervira kao stalno treptanje.
+   Upotreba: <span class="ringing"><UiIcon name="phone" /></span> na okruglom elementu. */
+.ringing {
+  position: relative;
+  isolation: isolate;
+}
+
+.ringing::before,
+.ringing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--color-brand);
+  opacity: 0;
+  animation: ring-wave 4.5s var(--ease-out) 1.5s infinite;
+}
+
+.ringing::after {
+  animation-delay: 1.85s;
+}
+
+.ringing .ui-icon {
+  animation: ring-shake 4.5s ease-in-out 1.5s infinite;
+}
+
+@keyframes ring-wave {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  40%,
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@keyframes ring-shake {
+  0%,
+  16%,
+  100% {
+    transform: rotate(0);
+  }
+  2% {
+    transform: rotate(-16deg);
+  }
+  4% {
+    transform: rotate(16deg);
+  }
+  6% {
+    transform: rotate(-14deg);
+  }
+  8% {
+    transform: rotate(14deg);
+  }
+  10% {
+    transform: rotate(-8deg);
+  }
+  12% {
+    transform: rotate(8deg);
+  }
+  14% {
+    transform: rotate(-3deg);
+  }
+}

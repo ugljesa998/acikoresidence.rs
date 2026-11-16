@@ -1,0 +1,112 @@
+/* ==========================================================================
+   Dizajn tokeni — jedino mesto gde se definišu boje, fontovi, razmaci i pokret.
+
+   Pravilo: komponente koriste samo SEMANTIČKE tokene (--color-*, --font-*,
+   --text-*, --space-*...). Sirove vrednosti iz palete (--palette-*) i HEX boje
+   ne pišu se direktno u komponentama.
+
+   Breakpointi (CSS promenljive ne rade u @media, pa su ovde dokumentovani):
+     1280px  uži laptop (sakriva se „Residence“ uz logo)
+     1080px  header prelazi na burger meni, pojavljuje se donja traka na telefonu
+      900px  hero: tekst preko cele širine, činjenice u punoj širini
+      700px  hero: slika gore, tekst ispod
+      560px  telefon
+      430px  uzak telefon (logo bez „Residence“)
+   ========================================================================== */
+
+:root {
+  /* 1. Paleta — sirove vrednosti, ne koristiti direktno u komponentama */
+  --palette-ink-900: #14120f;
+  --palette-ink-700: #2b2722;
+  --palette-paper: #f6f2ec;
+  --palette-sand-100: #efe3cf;
+  --palette-sand-200: #ead9bf;
+  --palette-sand-400: #b8a68c;
+  --palette-sand-600: #9a8466;
+  --palette-sand-700: #967648;
+  --palette-red-500: #f80000; /* ACIKO logo */
+  --palette-red-600: #d90900; /* dugmad: kontrast sa belim tekstom ≥ 4.5:1 */
+  --palette-red-700: #b80800; /* hover */
+  --palette-white: #fff;
+
+  /* 2. Semantičke boje */
+  --color-bg: var(--palette-paper);
+  --color-bg-inverse: var(--palette-ink-900);
+  --color-text: var(--palette-ink-900);
+  --color-text-subtle: var(--palette-sand-600);
+  --color-text-inverse: var(--palette-white);
+  --color-text-inverse-soft: color-mix(in srgb, var(--palette-white) 82%, transparent);
+  --color-text-inverse-muted: color-mix(in srgb, var(--palette-white) 62%, transparent);
+  --color-line: color-mix(in srgb, var(--palette-ink-900) 8%, transparent);
+  --color-line-inverse: color-mix(in srgb, var(--palette-white) 18%, transparent);
+  --color-line-inverse-strong: color-mix(in srgb, var(--palette-white) 45%, transparent);
+
+  --color-brand: var(--palette-red-500); /* znak u logu, sitni akcenti */
+  --color-accent: var(--palette-red-600); /* glavna dugmad i poziv */
+  --color-accent-hover: var(--palette-red-700);
+  --color-highlight: var(--palette-sand-200); /* kurziv u naslovima */
+  --color-muted: var(--palette-sand-400);
+
+  --color-surface-sand: var(--palette-sand-100); /* padajući meniji, kartice */
+  --color-surface-sand-hover: color-mix(in srgb, var(--palette-sand-700) 12%, transparent);
+  --color-surface-sand-line: color-mix(in srgb, var(--palette-sand-700) 18%, transparent);
+  --color-surface-glass: color-mix(in srgb, var(--palette-paper) 86%, transparent); /* header posle skrola */
+  --color-surface-glass-dark: color-mix(in srgb, var(--palette-ink-900) 90%, transparent); /* donja traka */
+
+  --color-overlay: var(--palette-ink-900); /* osnova za zatamnjenja preko fotografija */
+
+  /* Messengeri — posvetljene nijanse da se vide na tamnoj pozadini */
+  --color-viber: #a493ff;
+  --color-telegram: #5fc0f0;
+  --color-whatsapp: #4ade80;
+
+  /* 3. Tipografija */
+  --font-display: 'EB Garamond', 'Times New Roman', serif;
+  --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-2xs: 10.5px;
+  --text-xs: 11.5px;
+  --text-sm: 12.5px;
+  --text-md: 14.5px;
+  --text-base: 16px;
+  --text-lead: clamp(16px, 1.25vw, 18.5px);
+  --text-stat: clamp(26px, 2.3vw, 36px);
+  --text-display: clamp(44px, 5.6vw, 104px);
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --tracking-display: -0.015em;
+  --tracking-label: 0.14em;
+  --tracking-caps: 0.24em;
+
+  /* 4. Raspored */
+  --gutter: clamp(20px, 4.5vw, 72px);
+  --container-max: 1520px;
+  --header-h: 88px;
+  --header-h-compact: 72px;
+
+  --radius-sm: 2px;
+  --radius-full: 999px;
+
+  --shadow-pop: 0 18px 40px -12px color-mix(in srgb, var(--palette-ink-900) 35%, transparent);
+  --shadow-accent: 0 6px 18px -6px color-mix(in srgb, var(--palette-red-600) 70%, transparent);
+
+  /* 5. Pokret */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 0.3s;
+  --duration-base: 0.5s;
+  --duration-slow: 0.8s;
+
+  /* 6. Slojevi */
+  --z-actionbar: 40;
+  --z-header: 50;
+}
+
+@media (max-width: 560px) {
+  :root {
+    --header-h: 72px;
+  }
+}

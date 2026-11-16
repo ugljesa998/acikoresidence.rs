@@ -11,11 +11,23 @@
     "menu": "Meni",
     "close": "Zatvori meni",
     "language": "Jezik",
-    "home": "ACIKO Residence, početna"
+    "home": "ACIKO Residence, početna",
+    "construction": "Gradnja",
+    "main": "Glavna navigacija"
   },
   "cta": {
     "choose": "Izaberite stan",
-    "inquiry": "Pošaljite upit"
+    "inquiry": "Pošaljite upit",
+    "prices": "Zatražite cenovnik",
+    "pricesShort": "Cenovnik"
+  },
+  "contact": {
+    "sales": "Prodaja stanova",
+    "call": "Pozovite",
+    "callAria": "Pozovite prodaju: {n}",
+    "writeAria": "Pišite nam na {app}",
+    "bar": "Brzi kontakt",
+    "address": "Kneza Miloša, Vrnjačka Banja"
   },
   "hero": {
     "eyebrow": "Novogradnja · Ulica Kneza Miloša",

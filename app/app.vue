@@ -24,5 +24,6 @@ useSeoMeta({
     <main>
       <NuxtPage />
     </main>
+    <MobileActionBar />
   </div>
 </template>

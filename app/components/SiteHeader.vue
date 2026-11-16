@@ -1,50 +1,31 @@
 <script setup lang="ts">
-import type { LocaleObject } from '@nuxtjs/i18n'
-
-const { t, locale, locales } = useI18n()
-const localePath = useLocalePath()
-const switchLocalePath = useSwitchLocalePath()
+// Header: providan preko hero slike, posle skrola svetao. Pri skrolovanju nadole se sklanja,
+// a vraća se čim korisnik krene nagore. Ispod 1080px prelazi na burger meni.
+const { t } = useI18n()
 const route = useRoute()
+const nav = useNavigation()
+const contact = useContact()
+const messenger = contact.messenger
 
-const nav = computed(() => [
-  { id: 'stanovi', label: t('nav.apartments') },
-  { id: 'lokacija', label: t('nav.location') },
-  { id: 'galerija', label: t('nav.gallery') },
-  { id: 'kontakt', label: t('nav.contact') },
-])
-const langs = computed(() => locales.value as LocaleObject[])
+const SCROLLED_AFTER = 24 // px
+const HIDE_AFTER = 520 // px; iznad ove visine header je uvek vidljiv
 
-const scrolled = ref(false)
+// Deljeno stanje: donja traka na mobilnom se sklanja dok je meni otvoren.
+const open = useState('menu-open', () => false)
+const { y } = useWindowScroll()
+const scrolled = computed(() => y.value > SCROLLED_AFTER)
 const hidden = ref(false)
-const open = ref(false)
-let lastY = 0
 
-function onScroll() {
-  const y = window.scrollY
-  scrolled.value = y > 24
-  // Sakrij header dok se skroluje nadole, vrati ga čim korisnik krene nagore.
-  hidden.value = !open.value && y > 520 && y > lastY + 2
-  if (y < lastY - 2 || y <= 520) hidden.value = false
-  lastY = y
-}
-
-function onKey(e: KeyboardEvent) {
-  if (e.key === 'Escape') open.value = false
-}
-
-onMounted(() => {
-  onScroll()
-  window.addEventListener('scroll', onScroll, { passive: true })
-  window.addEventListener('keydown', onKey)
-})
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll)
-  window.removeEventListener('keydown', onKey)
-  document.documentElement.classList.remove('no-scroll')
+watch(y, (now, prev) => {
+  if (open.value || now <= HIDE_AFTER) hidden.value = false
+  else if (now > prev + 2) hidden.value = true
+  else if (now < prev - 2) hidden.value = false
 })
 
-watch(open, (v) => document.documentElement.classList.toggle('no-scroll', v))
+const scrollLocked = useScrollLock(import.meta.client ? document.documentElement : null)
+watch(open, (isOpen) => (scrollLocked.value = isOpen))
 watch(() => route.fullPath, () => (open.value = false))
+onKeyStroke('Escape', () => (open.value = false))
 </script>
 
 <template>
@@ -53,36 +34,31 @@ watch(() => route.fullPath, () => (open.value = false))
     :class="{ 'is-scrolled': scrolled && !open, 'is-hidden': hidden, 'is-open': open }"
   >
     <div class="header__bar container">
-      <NuxtLink :to="localePath('/')" class="brand" :aria-label="t('nav.home')">
-        <span class="brand__mark" aria-hidden="true" />
-        <span class="brand__word" aria-hidden="true" />
-        <span class="brand__sub" aria-hidden="true">Residence</span>
-      </NuxtLink>
+      <BrandLogo class="header__brand" />
 
-      <nav class="nav" aria-label="Main">
+      <nav class="nav" :aria-label="t('nav.main')">
         <a v-for="item in nav" :key="item.id" :href="`#${item.id}`" class="nav__link">
           {{ item.label }}
         </a>
       </nav>
 
       <div class="header__end">
-        <nav class="lang" :aria-label="t('nav.language')">
-          <NuxtLink
-            v-for="l in langs"
-            :key="l.code"
-            :to="switchLocalePath(l.code)"
-            class="lang__link"
-            :class="{ 'is-active': l.code === locale }"
-            :lang="l.language"
-            :hreflang="l.language"
-            :title="l.name"
-            :aria-current="l.code === locale ? 'true' : undefined"
-          >
-            {{ l.code.toUpperCase() }}
-          </NuxtLink>
-        </nav>
+        <LangSwitcher />
 
-        <a href="#kontakt" class="header__cta">{{ t('cta.inquiry') }}</a>
+        <a
+          v-if="contact.phoneHref"
+          :href="contact.phoneHref"
+          class="phone"
+          :aria-label="t('contact.callAria', { n: contact.phoneDisplay })"
+        >
+          <span class="phone__icon ringing"><UiIcon name="phone" /></span>
+          <span class="phone__number">{{ contact.phoneDisplay }}</span>
+        </a>
+
+        <!-- Na vrhu stranice hero ima ista dugmad; ovde se pojavljuje tek posle skrolovanja. -->
+        <a href="#kontakt" class="header__cta" :tabindex="scrolled ? undefined : -1">
+          {{ t('cta.pricesShort') }}
+        </a>
 
         <button
           type="button"
@@ -100,7 +76,7 @@ watch(() => route.fullPath, () => (open.value = false))
 
     <div id="mobile-menu" class="menu" :class="{ 'is-open': open }" :inert="!open">
       <div class="menu__inner container">
-        <nav class="menu__nav">
+        <nav class="menu__nav" :aria-label="t('nav.main')">
           <a
             v-for="(item, i) in nav"
             :key="item.id"
@@ -112,9 +88,25 @@ watch(() => route.fullPath, () => (open.value = false))
             <span class="menu__num">0{{ i + 1 }}</span>{{ item.label }}
           </a>
         </nav>
+
         <div class="menu__foot">
-          <a href="#kontakt" class="btn btn--primary" @click="open = false">{{ t('cta.inquiry') }}</a>
-          <p class="menu__address">Kneza Miloša · Vrnjačka Banja</p>
+          <div v-if="contact.phoneHref || messenger" class="menu__contact">
+            <a v-if="contact.phoneHref" :href="contact.phoneHref" class="menu__phone">
+              <UiIcon name="phone" />{{ contact.phoneDisplay }}
+            </a>
+            <a
+              v-if="messenger"
+              :href="messenger.href"
+              class="menu__msg"
+              :class="`is-${messenger.type}`"
+              :target="messenger.external ? '_blank' : undefined"
+              :rel="messenger.external ? 'noopener' : undefined"
+            >
+              <UiIcon name="chat" />{{ messenger.label }}
+            </a>
+          </div>
+          <a href="#kontakt" class="btn btn--primary" @click="open = false">{{ t('cta.prices') }}</a>
+          <p class="menu__address">{{ t('contact.address') }}</p>
         </div>
       </div>
     </div>
@@ -125,27 +117,28 @@ watch(() => route.fullPath, () => (open.value = false))
 .header {
   position: fixed;
   inset: 0 0 auto;
-  z-index: 50;
-  color: #fff;
+  z-index: var(--z-header);
+  color: var(--color-text-inverse);
   transition:
     transform 0.6s var(--ease-out),
-    color 0.4s var(--ease-out);
+    color var(--duration-fast) var(--ease-out);
 }
 
+/* Svetla „staklena“ pozadina koja se uključuje posle skrola */
 .header::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgb(246 242 236 / 0.86);
+  background: var(--color-surface-glass);
   backdrop-filter: blur(16px) saturate(1.2);
   -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border-bottom: 1px solid rgb(20 18 15 / 0.08);
+  border-bottom: 1px solid var(--color-line);
   opacity: 0;
-  transition: opacity 0.4s var(--ease-out);
+  transition: opacity var(--duration-fast) var(--ease-out);
 }
 
 .header.is-scrolled {
-  color: var(--ink);
+  color: var(--color-text);
 }
 
 .header.is-scrolled::before {
@@ -160,158 +153,146 @@ watch(() => route.fullPath, () => (open.value = false))
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
+  column-gap: 32px;
   height: var(--header-h);
-  transition: height 0.4s var(--ease-out);
+  transition: height var(--duration-fast) var(--ease-out);
 }
 
 .header.is-scrolled .header__bar {
-  height: 72px;
-}
-
-/* Logo: PNG maske, da boju kontrolišemo iz CSS-a */
-.brand {
-  --h: 21px;
-  display: inline-flex;
-  align-items: center;
-  justify-self: start;
-}
-
-.brand__mark,
-.brand__word {
-  display: block;
-  height: var(--h);
-  -webkit-mask: var(--src) center / contain no-repeat;
-  mask: var(--src) center / contain no-repeat;
-}
-
-.brand__mark {
-  --src: url('/brand/logo-mark.png');
-  width: calc(var(--h) * 172 / 160);
-  margin-right: calc(var(--h) * 0.36);
-  background: var(--red-logo);
-}
-
-.brand__word {
-  --src: url('/brand/logo-word.png');
-  width: calc(var(--h) * 834 / 160);
-  background: currentColor;
-}
-
-.brand__sub {
-  margin-left: 14px;
-  padding-left: 14px;
-  border-left: 1px solid currentColor;
-  border-left-color: color-mix(in srgb, currentColor 40%, transparent);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.36em;
-  line-height: var(--h);
-  text-transform: uppercase;
+  height: var(--header-h-compact);
 }
 
 /* Glavna navigacija */
 .nav {
   display: flex;
+  justify-content: center;
   gap: clamp(24px, 2.6vw, 44px);
+  white-space: nowrap;
 }
 
-.nav__link,
-.header__cta,
-.lang__link {
+.nav__link {
   position: relative;
-  font-size: 12.5px;
-  font-weight: 500;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.nav__link::after,
-.header__cta::after {
+.nav__link::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -6px;
+  inset: auto 0 -6px;
   height: 1px;
   background: currentColor;
   transform: scaleX(0);
   transform-origin: right;
-  transition: transform 0.5s var(--ease-out);
+  transition: transform var(--duration-base) var(--ease-out);
 }
 
-.nav__link:hover::after,
-.header__cta:hover::after {
+.nav__link:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
 
 .header__end {
+  --end-gap: 24px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 28px;
+  gap: var(--end-gap);
 }
 
-.lang {
+/* Telefon: crveni krug koji povremeno „zazvoni“ + ceo broj */
+.phone {
   display: flex;
-  gap: 2px;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
-.lang__link {
-  padding: 6px 7px;
-  opacity: 0.55;
-  letter-spacing: 0.1em;
-  transition: opacity 0.3s;
+.phone__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-size: 16px;
+  box-shadow: var(--shadow-accent);
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
 }
 
-.lang__link:hover,
-.lang__link.is-active {
-  opacity: 1;
+.phone__number {
+  position: relative;
 }
 
-.lang__link.is-active::after {
+.phone__number::after {
   content: '';
   position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 4px;
-  height: 4px;
-  margin-left: -2px;
-  border-radius: 50%;
-  background: var(--red-logo);
+  inset: auto 0 -4px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-base) var(--ease-out);
 }
 
+.phone:hover .phone__icon {
+  transform: scale(1.08);
+  background: var(--color-accent-hover);
+}
+
+.phone:hover .phone__number::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Dugme se „otvara“ tek posle skrolovanja; na vrhu ne zauzima mesto. */
 .header__cta {
-  padding: 13px 20px;
-  border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
-  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  max-width: 0;
+  margin-left: calc(-1 * var(--end-gap));
+  padding-inline: 0;
+  overflow: hidden;
+  opacity: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
   transition:
-    background-color 0.35s var(--ease-out),
-    color 0.35s var(--ease-out),
-    border-color 0.35s var(--ease-out);
-}
-
-.header__cta::after {
-  display: none;
-}
-
-.header__cta:hover {
-  background: #fff;
-  border-color: #fff;
-  color: var(--ink);
+    max-width var(--duration-base) var(--ease-out),
+    padding var(--duration-base) var(--ease-out),
+    margin var(--duration-base) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out),
+    background-color var(--duration-fast) var(--ease-out);
 }
 
 .header.is-scrolled .header__cta {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: #fff;
+  max-width: 220px;
+  margin-left: 0;
+  padding-inline: 22px;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.header.is-scrolled .header__cta:hover {
-  background: var(--red);
-  border-color: var(--red);
+.header__cta:hover {
+  background: var(--color-accent-hover);
 }
 
 /* Burger */
@@ -330,10 +311,11 @@ watch(() => route.fullPath, () => (open.value = false))
   height: 1.5px;
   background: currentColor;
   transition:
-    transform 0.5s var(--ease-out),
-    top 0.5s var(--ease-out);
+    transform var(--duration-base) var(--ease-out),
+    top var(--duration-base) var(--ease-out);
 }
 
+/* nth-of-type broji i skriveni <span> sa tekstom, pa su linije 2. i 3. */
 .burger__line:nth-of-type(2) {
   top: 18px;
 }
@@ -358,19 +340,19 @@ watch(() => route.fullPath, () => (open.value = false))
   inset: 0;
   z-index: 1;
   display: none;
-  background: var(--ink);
-  color: #fff;
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity 0.5s var(--ease-out),
-    visibility 0s linear 0.5s;
+    opacity var(--duration-base) var(--ease-out),
+    visibility 0s linear var(--duration-base);
 }
 
 .menu.is-open {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.5s var(--ease-out);
+  transition: opacity var(--duration-base) var(--ease-out);
 }
 
 .menu__inner {
@@ -392,16 +374,16 @@ watch(() => route.fullPath, () => (open.value = false))
   align-items: baseline;
   gap: 18px;
   padding: 10px 0;
-  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  border-bottom: 1px solid var(--color-line-inverse);
   font-family: var(--font-display);
   font-size: clamp(38px, 10vw, 56px);
-  font-weight: 500;
+  font-weight: var(--weight-medium);
   line-height: 1.1;
   opacity: 0;
   transform: translateY(24px);
   transition:
     opacity 0.6s var(--ease-out),
-    transform 0.8s var(--ease-out);
+    transform var(--duration-slow) var(--ease-out);
 }
 
 .menu.is-open .menu__link {
@@ -413,29 +395,94 @@ watch(() => route.fullPath, () => (open.value = false))
 .menu__num {
   font-family: var(--font-sans);
   font-size: 11px;
-  letter-spacing: 0.14em;
-  color: var(--stone);
+  letter-spacing: var(--tracking-label);
+  color: var(--color-muted);
 }
 
 .menu__foot {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
+}
+
+.menu__contact {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.menu__phone,
+.menu__msg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 56px;
+  padding-inline: 20px;
+  border: 1px solid var(--color-line-inverse);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.menu__msg {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+.menu__phone .ui-icon,
+.menu__msg .ui-icon {
+  font-size: 18px;
+}
+
+.menu__msg.is-viber .ui-icon {
+  color: var(--color-viber);
+}
+
+.menu__msg.is-telegram .ui-icon {
+  color: var(--color-telegram);
+}
+
+.menu__msg.is-whatsapp .ui-icon {
+  color: var(--color-whatsapp);
 }
 
 .menu__address {
+  margin-top: 6px;
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgb(255 255 255 / 0.5);
+  color: var(--color-text-inverse-muted);
 }
 
+/* Uži laptopi: sve staje bez „Residence“ uz logo i sa manjim razmacima */
+@media (min-width: 1081px) and (max-width: 1280px) {
+  .header__brand :deep(.brand__suffix) {
+    display: none;
+  }
+
+  .header__bar {
+    column-gap: 24px;
+  }
+
+  .nav {
+    gap: 20px;
+  }
+
+  .header__end {
+    --end-gap: 18px;
+  }
+}
+
+/* Tablet i telefon: burger meni, a od telefona ostaje samo crveni krug */
 @media (max-width: 1080px) {
   .header__bar {
     grid-template-columns: 1fr auto;
   }
 
   .nav,
+  .phone__number,
   .header__cta {
     display: none;
   }
@@ -446,31 +493,18 @@ watch(() => route.fullPath, () => (open.value = false))
   }
 
   .header__end {
-    gap: 14px;
+    --end-gap: 10px;
+  }
+
+  .phone__icon {
+    width: 38px;
+    height: 38px;
   }
 }
 
 @media (max-width: 560px) {
-  .brand {
-    --h: 17px;
-  }
-
-  .brand__sub {
-    margin-left: 10px;
-    padding-left: 10px;
-    font-size: 9px;
-    letter-spacing: 0.3em;
-  }
-
-  .lang__link {
-    padding: 6px 5px;
-    font-size: 11.5px;
-  }
-}
-
-@media (max-width: 380px) {
-  .brand__sub {
-    display: none;
+  .header__brand {
+    --logo-h: 17px;
   }
 }
 </style>

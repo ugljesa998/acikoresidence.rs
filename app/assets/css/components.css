@@ -1,0 +1,54 @@
+/* Zajednički UI elementi (dugmad i slično). */
+
+.btn {
+  --btn-h: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: var(--btn-h);
+  padding-inline: 28px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.btn .ui-icon {
+  font-size: 18px;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.btn:hover .ui-icon {
+  transform: translateX(5px);
+}
+
+/* Glavna akcija: crveno dugme */
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.btn--primary:hover {
+  background: var(--color-accent-hover);
+}
+
+/* Sporedna akcija preko tamne pozadine */
+.btn--ghost {
+  border-color: var(--color-line-inverse-strong);
+  color: var(--color-text-inverse);
+}
+
+.btn--ghost:hover {
+  background: var(--color-text-inverse);
+  border-color: var(--color-text-inverse);
+  color: var(--color-text);
+}

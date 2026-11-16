@@ -1,10 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { site } from './app/data/site'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
-  modules: ['@nuxtjs/i18n', '@nuxt/fonts', '@nuxt/image'],
+  modules: ['@nuxtjs/i18n', '@nuxt/fonts', '@nuxt/image', '@vueuse/nuxt'],
 
+  // Globalni CSS: tokeni, osnova, pomoćne klase, komponente (vidi assets/css/main.css)
   css: ['~/assets/css/main.css'],
 
   app: {
@@ -17,10 +20,11 @@ export default defineNuxtConfig({
     },
   },
 
+  // Prevodi: i18n/locales/<kod>.json. Svaki jezik se učitava tek kada zatreba.
   i18n: {
-    baseUrl: 'https://acikoresidence.rs',
+    baseUrl: site.url,
     defaultLocale: 'sr',
-    strategy: 'prefix_except_default',
+    strategy: 'prefix_except_default', // sr na „/“, ostali na „/en“, „/ru“
     locales: [
       { code: 'sr', language: 'sr-Latn-RS', name: 'Srpski', file: 'sr.json' },
       { code: 'en', language: 'en', name: 'English', file: 'en.json' },
@@ -30,9 +34,10 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
   },
 
+  // Fontovi se preuzimaju i serviraju lokalno; ćirilica je uključena zbog ruskog.
   fonts: {
     defaults: {
-      weights: [400, 500, 600],
+      weights: [400, 500, 600, 700],
       styles: ['normal', 'italic'],
       subsets: ['latin', 'latin-ext', 'cyrillic', 'cyrillic-ext'],
     },

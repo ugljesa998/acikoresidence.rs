@@ -11,11 +11,23 @@
     "menu": "Menu",
     "close": "Close menu",
     "language": "Language",
-    "home": "ACIKO Residence, home"
+    "home": "ACIKO Residence, home",
+    "construction": "Construction",
+    "main": "Main navigation"
   },
   "cta": {
     "choose": "Choose an apartment",
-    "inquiry": "Send an inquiry"
+    "inquiry": "Send an inquiry",
+    "prices": "Get the price list",
+    "pricesShort": "Prices"
+  },
+  "contact": {
+    "sales": "Sales office",
+    "call": "Call",
+    "callAria": "Call sales: {n}",
+    "writeAria": "Message us on {app}",
+    "bar": "Quick contact",
+    "address": "Kneza Miloša St, Vrnjačka Banja"
   },
   "hero": {
     "eyebrow": "New build · Kneza Miloša Street",
