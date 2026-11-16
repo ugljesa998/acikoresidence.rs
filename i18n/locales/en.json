@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "title": "ACIKO Residence — new apartments in Vrnjačka Banja, Serbia",
+    "description": "16 new apartments from 38 to 65 m² on Kneza Miloša Street in Vrnjačka Banja. A home, a retreat, or a rental investment."
+  },
+  "nav": {
+    "apartments": "Apartments",
+    "location": "Location",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close menu",
+    "language": "Language",
+    "home": "ACIKO Residence, home"
+  },
+  "cta": {
+    "choose": "Choose an apartment",
+    "inquiry": "Send an inquiry"
+  },
+  "hero": {
+    "eyebrow": "New build · Kneza Miloša Street",
+    "titleA": "Find your apartment",
+    "titleB": "in Vrnjačka Banja.",
+    "lead": "To live in, to unwind or to invest — ACIKO Residence is a new building with 16 apartments in Serbia’s most visited spa town.",
+    "imageAlt": "The ACIKO Residence building among the greenery of Vrnjačka Banja",
+    "scroll": "Scroll",
+    "facts": {
+      "units": "apartments · 4 per floor",
+      "sizeValue": "{min}–{max} m²",
+      "size": "1 or 2 bedrooms",
+      "terraceValue": "up to {n} m²",
+      "terrace": "terraces on the top floor"
+    }
+  }
+}

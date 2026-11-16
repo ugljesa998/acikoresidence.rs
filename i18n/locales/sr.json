@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "title": "ACIKO Residence — novi stanovi u Vrnjačkoj Banji",
+    "description": "16 novih stanova od 38 do 65 m² u ulici Kneza Miloša u Vrnjačkoj Banji. Za život, za odmor ili kao investicija za izdavanje."
+  },
+  "nav": {
+    "apartments": "Stanovi",
+    "location": "Lokacija",
+    "gallery": "Galerija",
+    "contact": "Kontakt",
+    "menu": "Meni",
+    "close": "Zatvori meni",
+    "language": "Jezik",
+    "home": "ACIKO Residence, početna"
+  },
+  "cta": {
+    "choose": "Izaberite stan",
+    "inquiry": "Pošaljite upit"
+  },
+  "hero": {
+    "eyebrow": "Novogradnja · Ulica Kneza Miloša",
+    "titleA": "Pronađite svoj stan",
+    "titleB": "u Vrnjačkoj Banji.",
+    "lead": "Za život, odmor ili ulaganje — ACIKO Residence je nova zgrada sa 16 stanova u najposećenijoj banji Srbije.",
+    "imageAlt": "Stambena zgrada ACIKO Residence u zelenilu Vrnjačke Banje",
+    "scroll": "Skrolujte",
+    "facts": {
+      "units": "stanova · po 4 na spratu",
+      "sizeValue": "{min}–{max} m²",
+      "size": "1 ili 2 spavaće sobe",
+      "terraceValue": "do {n} m²",
+      "terrace": "terase na povučenom spratu"
+    }
+  }
+}
