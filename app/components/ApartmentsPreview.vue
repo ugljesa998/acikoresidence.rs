@@ -71,7 +71,7 @@ const allHref = computed(() => localePath('/stanovi'))
 
 <style scoped>
 .apts {
-  padding-block: clamp(56px, 6vw, 104px);
+  padding-bottom: clamp(48px, 5vw, 88px);
   background: var(--color-bg);
 }
 
@@ -80,6 +80,8 @@ const allHref = computed(() => localePath('/stanovi'))
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   align-items: end;
   gap: clamp(20px, 4vw, 64px);
+  padding-top: clamp(48px, 5vw, 88px);
+  border-top: 1px solid var(--color-line-strong);
 }
 
 .apts__eyebrow {

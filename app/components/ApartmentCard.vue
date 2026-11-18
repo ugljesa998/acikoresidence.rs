@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { NuxtLink } from '#components'
 import type { Apartment } from '~/data/apartments'
 
 // Kartica stana: osnova gore, ispod sprat, broj, površina i kratak opis.
@@ -23,7 +24,7 @@ const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`
 </script>
 
 <template>
-  <component :is="to ? resolveComponent('NuxtLink') : 'article'" :to="to" class="apt" :class="{ 'apt--link': to }">
+  <component :is="to ? NuxtLink : 'article'" :to="to" class="apt" :class="{ 'apt--link': to }">
     <div class="apt__plan">
       <NuxtImg
         :src="planSrc"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// O projektu: nastavlja tamnu, toplu podlogu hero sekcije. Velika rečenica se „pali“ reč po reč
+// O projektu: prva svetla sekcija posle hero fotografije. Velika rečenica se „pali“ reč po reč
 // dok korisnik skroluje, ispod nje dva pasusa i tri razloga (život, odmor, ulaganje).
 const { t } = useI18n()
 
@@ -47,8 +47,6 @@ const pillars = ['living', 'leisure', 'investment'] as const
 
 <template>
   <section id="o-projektu" class="about" aria-labelledby="about-title">
-    <div class="about__glow" aria-hidden="true" />
-
     <div class="about__grid container">
       <p class="about__eyebrow">
         <span class="about__mark" aria-hidden="true" />
@@ -91,22 +89,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   position: relative;
   padding-block: clamp(44px, 5vw, 80px) clamp(48px, 5vw, 80px);
   overflow: hidden;
-  background: linear-gradient(180deg, var(--color-bg-inverse) 0%, var(--color-bg-inverse-warm) 62%);
-  color: var(--color-text-inverse);
-  isolation: isolate;
-}
-
-/* Topao odsjaj u uglu — da tamna podloga ne bude ravna i hladna */
-.about__glow {
-  position: absolute;
-  top: 5%;
-  right: -12%;
-  z-index: -1;
-  width: min(70vw, 980px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, var(--color-glow-warm), transparent);
-  pointer-events: none;
+  background: var(--color-bg);
 }
 
 .about__grid {
@@ -125,7 +108,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-caps);
   text-transform: uppercase;
-  color: var(--color-text-inverse-soft);
+  color: var(--color-text-subtle);
 }
 
 .about__mark {
@@ -146,12 +129,12 @@ const pillars = ['living', 'leisure', 'investment'] as const
 }
 
 .word {
-  color: var(--color-text-inverse-faint);
+  color: var(--color-text-faint);
   transition: color var(--duration-slow) var(--ease-out);
 }
 
 .word.is-lit {
-  color: var(--color-highlight);
+  color: var(--color-text);
 }
 
 .about__copy {
@@ -162,7 +145,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   margin-top: clamp(20px, 2.2vw, 32px);
   font-size: var(--text-base);
   line-height: 1.65;
-  color: var(--color-text-inverse-soft);
+  color: var(--color-text-soft);
 }
 
 /* Tri razloga */
@@ -172,7 +155,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   margin: clamp(36px, 4vw, 60px) 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--color-line-inverse);
+  border-top: 1px solid var(--color-line-strong);
 }
 
 .pillar {
@@ -181,7 +164,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   column-gap: 16px;
   align-items: baseline;
   padding: clamp(20px, 2vw, 28px) clamp(20px, 3vw, 48px) 0;
-  border-left: 1px solid var(--color-line-inverse);
+  border-left: 1px solid var(--color-line);
 }
 
 .pillar:first-child {
@@ -194,7 +177,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   font-size: var(--text-xs);
   font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-label);
-  color: var(--color-muted);
+  color: var(--color-text-subtle);
 }
 
 .pillar__title {
@@ -209,7 +192,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   margin-top: 8px;
   font-size: var(--text-md);
   line-height: 1.65;
-  color: var(--color-text-inverse-muted);
+  color: var(--color-text-soft);
 }
 
 .about__link {
@@ -218,7 +201,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   gap: 14px;
   margin-top: clamp(28px, 3vw, 44px);
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-line-inverse-strong);
+  border-bottom: 1px solid var(--color-line-strong);
   font-size: 13px;
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
@@ -228,11 +211,12 @@ const pillars = ['living', 'leisure', 'investment'] as const
 
 .about__link .ui-icon {
   font-size: 18px;
+  color: var(--color-accent);
   transition: transform 0.45s var(--ease-out);
 }
 
 .about__link:hover {
-  border-color: var(--color-highlight);
+  border-color: var(--color-text);
 }
 
 .about__link:hover .ui-icon {
@@ -279,7 +263,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   .pillar {
     padding: 18px 0;
     border-left: 0;
-    border-top: 1px solid var(--color-line-inverse);
+    border-top: 1px solid var(--color-line);
   }
 
   .pillar:last-child {

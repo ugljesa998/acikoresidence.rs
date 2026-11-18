@@ -10,6 +10,12 @@ export default defineNuxtConfig({
   // Globalni CSS: tokeni, osnova, pomoćne klase, komponente (vidi assets/css/main.css)
   css: ['~/assets/css/main.css'],
 
+  // Adresa na koju server prosleđuje upite sa forme (server/api/inquiry.post.ts).
+  // Postavlja se promenljivom okruženja NUXT_INQUIRY_WEBHOOK; prazno = u razvoju se upit samo ispiše u terminalu.
+  runtimeConfig: {
+    inquiryWebhook: '',
+  },
+
   app: {
     head: {
       link: [

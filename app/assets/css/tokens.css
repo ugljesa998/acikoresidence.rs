@@ -18,7 +18,6 @@
   /* 1. Paleta — sirove vrednosti, ne koristiti direktno u komponentama */
   --palette-ink-900: #14120f;
   --palette-ink-700: #2b2722;
-  --palette-ink-500: #4a4034;
   --palette-paper: #f6f2ec;
   --palette-sand-100: #efe3cf;
   --palette-sand-200: #ead9bf;
@@ -30,18 +29,19 @@
   --palette-red-700: #b80800; /* hover */
   --palette-white: #fff;
 
-  /* 2. Semantičke boje */
+  /* 2. Semantičke boje
+     Podloge sekcija su samo dve: tamna (--color-bg-inverse: hero, vrh podstranica, footer)
+     i svetla (--color-bg: sve ostalo). Peščana i bela služe samo za manje površine (kartice, mapa, meniji),
+     nikad kao podloga cele sekcije. Susedne sekcije iste podloge razdvaja tanka linija. */
   --color-bg: var(--palette-paper);
   --color-bg-inverse: var(--palette-ink-900);
-  --color-bg-inverse-warm: var(--palette-ink-500); /* topla braon podloga u koju se tamna pretapa */
-  --color-glow-warm: color-mix(in srgb, var(--palette-sand-700) 38%, transparent); /* odsjaj na tamnoj podlozi */
   --color-text: var(--palette-ink-900);
   --color-text-subtle: var(--palette-sand-600);
   --color-text-soft: color-mix(in srgb, var(--palette-ink-900) 68%, transparent); /* sporedni tekst na svetloj podlozi */
   --color-text-inverse: var(--palette-white);
   --color-text-inverse-soft: color-mix(in srgb, var(--palette-white) 82%, transparent);
   --color-text-inverse-muted: color-mix(in srgb, var(--palette-white) 62%, transparent);
-  --color-text-inverse-faint: color-mix(in srgb, var(--palette-white) 32%, transparent); /* još neosvetljen tekst */
+  --color-text-faint: color-mix(in srgb, var(--palette-ink-900) 24%, transparent); /* još neosvetljen tekst */
   --color-line: color-mix(in srgb, var(--palette-ink-900) 8%, transparent);
   --color-line-strong: color-mix(in srgb, var(--palette-ink-900) 22%, transparent);
   --color-line-inverse: color-mix(in srgb, var(--palette-white) 18%, transparent);
@@ -61,6 +61,8 @@
   --color-surface-glass: color-mix(in srgb, var(--palette-paper) 50%, transparent);
   --color-surface-glass-top: color-mix(in srgb, var(--palette-white) 46%, transparent);
   --color-surface-glass-dark: color-mix(in srgb, var(--palette-ink-900) 90%, transparent); /* donja traka */
+
+  --color-landscape: color-mix(in srgb, var(--palette-sand-600) 4%, transparent); /* crtež Vrnjačke Banje iza svetlih sekcija; procenat = jačina */
 
   --color-overlay: var(--palette-ink-900); /* osnova za zatamnjenja preko fotografija */
 

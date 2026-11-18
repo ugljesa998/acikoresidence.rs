@@ -13,7 +13,8 @@
     "language": "Language",
     "home": "ACIKO Residence, home",
     "construction": "Construction",
-    "main": "Main navigation"
+    "main": "Main navigation",
+    "footer": "Footer navigation"
   },
   "cta": {
     "choose": "Choose an apartment",
@@ -105,5 +106,82 @@
       "metaTitle": "Apartments — ACIKO Residence, Vrnjačka Banja",
       "metaDescription": "The full offer: {n} new apartments from {min} to {max} m² in Vrnjačka Banja, with floor plans and room areas."
     }
+  },
+  "location": {
+    "eyebrow": "Location",
+    "title": "Everything you need is within walking distance.",
+    "lead": "The building is on Kneza Miloša Street, away from the promenade crowds, while a shop, a pharmacy and the spa centre are within walking distance. The Morava Corridor motorway is {m} away.",
+    "walkTitle": "On foot from the building",
+    "carTitle": "By car",
+    "minutes": "{n} min",
+    "hours": "{n} h",
+    "approx": "about {v}",
+    "building": "ACIKO Residence",
+    "mapLink": "Open in Google Maps",
+    "mapAlt": "Map of the area around ACIKO Residence with nearby places",
+    "places": {
+      "shop": "Shop",
+      "bus": "Bus station",
+      "hall": "Sports hall",
+      "pharmacy": "Pharmacy",
+      "supermarket": "Supermarket",
+      "bridge": "Bridge of Love",
+      "health": "Health centre",
+      "spring": "Mineral water spring"
+    },
+    "car": {
+      "motorway": "Morava Corridor",
+      "kraljevo": "Kraljevo",
+      "krusevac": "Kruševac",
+      "belgrade": "Belgrade"
+    }
+  },
+  "gallery": {
+    "eyebrow": "Gallery",
+    "title": "See the building from every angle.",
+    "lead": "A set-back top floor with pergolas, generous terraces and greenery around the building. Click an image to view it full size.",
+    "note": "Images are 3D renderings; the finished building may differ slightly.",
+    "open": "Enlarge image: {alt}",
+    "close": "Close gallery",
+    "prev": "Previous image",
+    "next": "Next image",
+    "images": {
+      "front": "The building from the street, main entrance",
+      "side": "Side of the building in afternoon light",
+      "aerialTerrace": "Aerial view of the roof and planted terrace",
+      "aerialParking": "Aerial view of the terraces and parking",
+      "rear": "Rear of the building with terraces"
+    }
+  },
+  "inquiry": {
+    "eyebrow": "Contact",
+    "titleA": "Request an offer",
+    "titleB": "for your apartment.",
+    "lead": "Leave your name and phone number and we will get back to you with available apartments, prices and purchase terms.",
+    "phoneLabel": "Phone",
+    "messengerLabel": "Message",
+    "addressLabel": "Address",
+    "form": {
+      "name": "Full name",
+      "phone": "Phone",
+      "interest": "Apartment you are interested in",
+      "any": "Not sure yet — send me all available",
+      "option": "Apartment {n} · {floor} · {area} m²",
+      "message": "Message",
+      "optional": "optional",
+      "submit": "Send inquiry",
+      "sending": "Sending…",
+      "privacy": "We use your details only to reply to your inquiry.",
+      "successTitle": "Thank you, your inquiry has been sent.",
+      "successText": "We will get back to you as soon as possible. If it is urgent, call {phone}.",
+      "again": "Send another inquiry",
+      "error": "The inquiry was not sent. Please try again or call {phone}.",
+      "errorName": "Please enter your full name.",
+      "errorPhone": "Please enter your phone number."
+    }
+  },
+  "footer": {
+    "rights": "© {year} ACIKO Residence. All rights reserved.",
+    "note": "Images and floor plans are for information purposes only."
   }
 }

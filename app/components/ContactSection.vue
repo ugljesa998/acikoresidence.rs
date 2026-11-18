@@ -2,8 +2,9 @@
 import { apartments, isSold } from '~/data/apartments'
 import { building } from '~/data/location'
 
-// Kontakt: levo telefon, poruka i adresa; desno forma za upit.
-// Stan izabran u delu „Stanovi“ stiže kroz useInquiry() i već je upisan u formu.
+// Kontakt: tamni završni blok stranice. Levo naslov, telefon, poruka i adresa; desno forma za upit na svetloj kartici.
+// Stan izabran na stranici /stanovi stiže kroz useInquiry() i već je upisan u formu.
+// Forma šalje na /api/inquiry (server/api/inquiry.post.ts).
 const { t, localeProperties } = useI18n()
 const contact = useContact()
 const messenger = contact.messenger
@@ -26,7 +27,7 @@ const options = computed(() =>
     })),
 )
 
-const form = reactive({ name: '', phone: '', email: '', message: '', website: '' })
+const form = reactive({ name: '', phone: '', message: '', website: '' })
 const status = ref<'idle' | 'sending' | 'sent' | 'error'>('idle')
 const tried = ref(false)
 
@@ -55,17 +56,23 @@ function reset() {
 </script>
 
 <template>
-  <section id="kontakt" class="section" aria-labelledby="contact-title">
-    <div class="contact container">
+  <section id="kontakt" class="contact" aria-labelledby="contact-title">
+    <div class="contact__grid container">
       <div class="contact__info">
-        <h2 id="contact-title" class="h2">{{ t('inquiry.title') }}</h2>
-        <p class="lead">{{ t('inquiry.lead') }}</p>
+        <p class="contact__eyebrow">
+          <span class="contact__mark" aria-hidden="true" />
+          {{ t('inquiry.eyebrow') }}
+        </p>
+        <h2 id="contact-title" class="contact__title">
+          {{ t('inquiry.titleA') }} <em>{{ t('inquiry.titleB') }}</em>
+        </h2>
+        <p class="contact__lead">{{ t('inquiry.lead') }}</p>
 
         <dl class="channels">
           <div v-if="contact.phoneHref" class="channels__row">
             <dt>{{ t('inquiry.phoneLabel') }}</dt>
             <dd>
-              <a :href="contact.phoneHref" class="channels__phone num" @click="track('contact_click', { method: 'phone' })">
+              <a :href="contact.phoneHref" class="channels__phone" @click="track('contact_click', { method: 'phone' })">
                 {{ contact.phoneDisplay }}
               </a>
             </dd>
@@ -100,50 +107,45 @@ function reset() {
           <span class="done__icon" aria-hidden="true"><UiIcon name="check" /></span>
           <h3 class="done__title">{{ t('inquiry.form.successTitle') }}</h3>
           <p class="done__text">{{ t('inquiry.form.successText', { phone: contact.phoneDisplay }) }}</p>
-          <button type="button" class="btn btn--secondary btn--small" @click="reset">
-            {{ t('inquiry.form.again') }}
-          </button>
+          <button type="button" class="done__again" @click="reset">{{ t('inquiry.form.again') }}</button>
         </div>
 
         <form v-else class="form" novalidate @submit.prevent="submit">
-          <div class="field" :class="{ 'has-error': tried && nameMissing }">
-            <label for="inq-name">{{ t('inquiry.form.name') }}</label>
-            <input
-              id="inq-name"
-              v-model="form.name"
-              type="text"
-              name="name"
-              autocomplete="name"
-              required
-              :aria-invalid="tried && nameMissing"
-              :aria-describedby="tried && nameMissing ? 'inq-name-error' : undefined"
-            />
-            <p v-if="tried && nameMissing" id="inq-name-error" class="field__error">{{ t('inquiry.form.errorName') }}</p>
-          </div>
+          <div class="form__row">
+            <div class="field" :class="{ 'has-error': tried && nameMissing }">
+              <label for="inq-name">{{ t('inquiry.form.name') }}</label>
+              <input
+                id="inq-name"
+                v-model="form.name"
+                type="text"
+                name="name"
+                autocomplete="name"
+                required
+                :aria-invalid="tried && nameMissing"
+                :aria-describedby="tried && nameMissing ? 'inq-name-error' : undefined"
+              />
+              <p v-if="tried && nameMissing" id="inq-name-error" class="field__error">
+                {{ t('inquiry.form.errorName') }}
+              </p>
+            </div>
 
-          <div class="field" :class="{ 'has-error': tried && phoneInvalid }">
-            <label for="inq-phone">{{ t('inquiry.form.phone') }}</label>
-            <input
-              id="inq-phone"
-              v-model="form.phone"
-              type="tel"
-              name="phone"
-              autocomplete="tel"
-              inputmode="tel"
-              required
-              :aria-invalid="tried && phoneInvalid"
-              :aria-describedby="tried && phoneInvalid ? 'inq-phone-error' : undefined"
-            />
-            <p v-if="tried && phoneInvalid" id="inq-phone-error" class="field__error">
-              {{ t('inquiry.form.errorPhone') }}
-            </p>
-          </div>
-
-          <div class="field">
-            <label for="inq-email">
-              {{ t('inquiry.form.email') }} <span class="field__opt">({{ t('inquiry.form.optional') }})</span>
-            </label>
-            <input id="inq-email" v-model="form.email" type="email" name="email" autocomplete="email" />
+            <div class="field" :class="{ 'has-error': tried && phoneInvalid }">
+              <label for="inq-phone">{{ t('inquiry.form.phone') }}</label>
+              <input
+                id="inq-phone"
+                v-model="form.phone"
+                type="tel"
+                name="phone"
+                autocomplete="tel"
+                inputmode="tel"
+                required
+                :aria-invalid="tried && phoneInvalid"
+                :aria-describedby="tried && phoneInvalid ? 'inq-phone-error' : undefined"
+              />
+              <p v-if="tried && phoneInvalid" id="inq-phone-error" class="field__error">
+                {{ t('inquiry.form.errorPhone') }}
+              </p>
+            </div>
           </div>
 
           <div class="field">
@@ -162,14 +164,23 @@ function reset() {
           </div>
 
           <!-- Zamka za botove: sakriveno od ljudi i čitača ekrana -->
-          <input v-model="form.website" class="form__trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <input
+            v-model="form.website"
+            class="form__trap"
+            type="text"
+            name="website"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
 
           <p v-if="status === 'error'" class="form__error" role="alert">
             {{ t('inquiry.form.error', { phone: contact.phoneDisplay }) }}
           </p>
 
-          <button type="submit" class="btn btn--primary" :disabled="status === 'sending'">
+          <button type="submit" class="btn btn--primary form__submit" :disabled="status === 'sending'">
             {{ status === 'sending' ? t('inquiry.form.sending') : t('inquiry.form.submit') }}
+            <UiIcon name="arrow" />
           </button>
           <p class="form__privacy">{{ t('inquiry.form.privacy') }}</p>
         </form>
@@ -180,41 +191,96 @@ function reset() {
 
 <style scoped>
 .contact {
+  padding-block: clamp(56px, 6vw, 104px);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  scroll-margin-top: var(--header-h-compact);
+}
+
+.contact__grid {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
   align-items: start;
-  gap: clamp(32px, 7vw, 112px);
+  gap: clamp(32px, 6vw, 104px);
+}
+
+.contact__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-soft);
+}
+
+.contact__mark {
+  width: 13px;
+  height: 12px;
+  background: var(--color-brand);
+  -webkit-mask: url('/brand/logo-mark.png') center / contain no-repeat;
+  mask: url('/brand/logo-mark.png') center / contain no-repeat;
+}
+
+.contact__title {
+  margin-top: 16px;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 3.8vw, 64px);
+  font-weight: var(--weight-medium);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.contact__title em {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--color-highlight);
+}
+
+.contact__lead {
+  max-width: 30em;
+  margin-top: 18px;
+  font-size: var(--text-lead);
+  line-height: 1.6;
+  color: var(--color-text-inverse-soft);
 }
 
 .channels {
-  margin-top: clamp(28px, 4vw, 48px);
-  border-top: 1px solid var(--color-line-strong);
+  margin-top: clamp(28px, 3vw, 44px);
+  border-top: 1px solid var(--color-line-inverse);
 }
 
 .channels__row {
   display: grid;
-  grid-template-columns: minmax(120px, 2fr) minmax(0, 4fr);
+  grid-template-columns: minmax(110px, 2fr) minmax(0, 4fr);
   align-items: baseline;
   gap: 16px;
-  padding-block: 16px;
-  border-bottom: 1px solid var(--color-line);
+  padding-block: 14px;
+  border-bottom: 1px solid var(--color-line-inverse);
 }
 
 .channels__row dt {
-  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
 }
 
 .channels__phone {
-  font-size: clamp(24px, 2.4vw, 32px);
+  font-family: var(--font-display);
+  font-size: var(--text-stat);
   font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-tight);
   line-height: 1.1;
+  font-variant-numeric: tabular-nums;
 }
 
 .channels__link {
   font-weight: var(--weight-medium);
   text-decoration: underline;
-  text-decoration-color: var(--color-line-strong);
+  text-decoration-color: var(--color-line-inverse-strong);
   text-underline-offset: 5px;
 }
 
@@ -225,11 +291,12 @@ function reset() {
   text-underline-offset: 5px;
 }
 
-/* Forma */
+/* Forma na svetloj kartici */
 .card {
-  padding: clamp(20px, 3vw, 40px);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
+  padding: clamp(20px, 2.6vw, 40px);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .form {
@@ -237,19 +304,28 @@ function reset() {
   gap: 16px;
 }
 
+.form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
 .field {
   display: grid;
+  align-content: start;
   gap: 6px;
 }
 
 .field label {
-  font-size: 15px;
-  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
 }
 
 .field__opt {
   font-weight: var(--weight-regular);
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
 }
 
 .field input,
@@ -260,7 +336,9 @@ function reset() {
   padding: 13px 14px;
   border: 1px solid var(--color-line-strong);
   border-radius: var(--radius-sm);
-  background: var(--color-bg);
+  background: var(--color-surface-card);
+  color: inherit;
+  font-family: inherit;
   font-size: 16px; /* manje od 16px bi na iPhone-u zumiralo stranicu pri kucanju */
   transition: border-color var(--duration-fast) var(--ease-out);
 }
@@ -272,7 +350,7 @@ function reset() {
 .field select {
   appearance: none;
   padding-right: 42px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23141414' stroke-width='1.4'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%2314120f' stroke-width='1.4'%3E%3Cpath d='M3 4.5 6 7.5 9 4.5'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
   background-size: 12px;
@@ -288,13 +366,13 @@ function reset() {
 }
 
 .field.has-error input {
-  border-color: var(--color-error);
+  border-color: var(--color-accent);
 }
 
 .field__error,
 .form__error {
   font-size: var(--text-sm);
-  color: var(--color-error);
+  color: var(--color-accent);
 }
 
 .form__trap {
@@ -305,13 +383,20 @@ function reset() {
   opacity: 0;
 }
 
-.form .btn {
+.form__submit {
+  justify-self: start;
   margin-top: 4px;
+  cursor: pointer;
+}
+
+.form__submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
 }
 
 .form__privacy {
   font-size: var(--text-sm);
-  color: var(--color-text-muted);
+  color: var(--color-text-soft);
 }
 
 /* Posle slanja */
@@ -319,42 +404,61 @@ function reset() {
   display: grid;
   justify-items: start;
   gap: 12px;
-  padding-block: 24px;
+  padding-block: clamp(16px, 3vw, 40px);
 }
 
 .done__icon {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: var(--radius-full);
-  background: var(--color-available);
-  color: var(--color-on-dark);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
   font-size: 22px;
 }
 
 .done__title {
-  font-size: var(--text-h3);
+  font-family: var(--font-display);
+  font-size: var(--text-stat);
   font-weight: var(--weight-medium);
-  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .done__text {
-  margin-bottom: 8px;
-  color: var(--color-text-muted);
+  max-width: 30em;
+  color: var(--color-text-soft);
 }
 
-/* Tablet i telefon: naslov, forma, pa ostali kontakti */
+.done__again {
+  margin-top: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--color-line-strong);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+/* Tablet i telefon: naslov i kontakti, pa forma */
 @media (max-width: 900px) {
-  .contact {
+  .contact__grid {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
+  .form__row {
+    grid-template-columns: 1fr;
+  }
+
   .channels__row {
     grid-template-columns: 1fr;
     gap: 2px;
+  }
+
+  .form__submit {
+    justify-self: stretch;
   }
 }
 </style>

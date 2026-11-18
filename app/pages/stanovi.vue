@@ -23,7 +23,8 @@ const byFloor = computed(() =>
   })),
 )
 
-const contactHref = computed(() => `${localePath('/')}#kontakt`)
+const contactTo = computed(() => ({ path: localePath('/'), hash: '#kontakt' }))
+const { apartment } = useInquiry() // klik na „Zatražite ponudu“ upisuje stan u formu na početnoj
 
 useSeoMeta({
   title: () => t('apartments.page.metaTitle'),
@@ -52,10 +53,10 @@ useSeoMeta({
         <ul class="floor__list">
           <li v-for="unit in group.units" :id="`stan-${unit.number}`" :key="unit.number">
             <ApartmentCard :apartment="unit" detailed>
-              <a :href="contactHref" class="floor__cta">
+              <NuxtLink :to="contactTo" class="floor__cta" @click="apartment = unit.number">
                 {{ t('cta.offer') }}
                 <UiIcon name="arrow" />
-              </a>
+              </NuxtLink>
             </ApartmentCard>
           </li>
         </ul>
@@ -72,7 +73,7 @@ useSeoMeta({
 /* Tamna traka na vrhu: header je preko nje providan, kao na početnoj */
 .page__head {
   padding-block: calc(var(--header-h) + clamp(28px, 4vw, 64px)) clamp(36px, 4.5vw, 72px);
-  background: linear-gradient(180deg, var(--color-bg-inverse) 0%, var(--color-bg-inverse-warm) 140%);
+  background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
 }
 
