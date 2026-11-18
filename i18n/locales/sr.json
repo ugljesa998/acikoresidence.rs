@@ -64,5 +64,46 @@
       }
     },
     "link": "Pogledajte stanove"
+  },
+  "apartments": {
+    "eyebrow": "Stanovi",
+    "title": "Izaberite raspored koji vam odgovara.",
+    "lead": "{n} stanova na četiri sprata, od {min} do {max} m². Izdvojili smo tri, a osnove i površine svih stanova su u kompletnoj ponudi.",
+    "cta": "Pogledajte kompletnu ponudu",
+    "ctaNote": "Svih {n} stanova, sa osnovama i površinama",
+    "details": "Pogledajte stan",
+    "unit": "Stan {n}",
+    "area": "{n} m²",
+    "bedrooms": "1 spavaća soba | 2 spavaće sobe",
+    "terrace": "terasa {n} m²",
+    "planAlt": "Osnova stana {n}, {floor}",
+    "floors": {
+      "f1": "I sprat",
+      "f2": "II sprat",
+      "f3": "III sprat",
+      "ph": "Povučeni sprat"
+    },
+    "tags": {
+      "compact": "Najkompaktniji",
+      "family": "Dve spavaće sobe",
+      "terrace": "Najveća terasa"
+    },
+    "rooms": {
+      "living": "Dnevna soba sa kuhinjom",
+      "kitchenDining": "Kuhinja sa trpezarijom",
+      "livingOnly": "Dnevna soba",
+      "bedroom": "Spavaća soba",
+      "bathroom": "Kupatilo",
+      "hall": "Predprostor",
+      "lobby": "Degažman",
+      "terrace": "Terasa"
+    },
+    "page": {
+      "title": "Stanovi u ponudi",
+      "lead": "{n} stanova od {min} do {max} m², po četiri na spratu. Za svaki stan su prikazane osnova i površine po prostorijama.",
+      "back": "Početna",
+      "metaTitle": "Stanovi u ponudi — ACIKO Residence, Vrnjačka Banja",
+      "metaDescription": "Kompletna ponuda: {n} novih stanova od {min} do {max} m² u Vrnjačkoj Banji, sa osnovama i površinama po prostorijama."
+    }
   }
 }

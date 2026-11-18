@@ -3,6 +3,7 @@
 // Pojavljuje se tek kad korisnik prođe dugmad u hero sekciji, da se ne dupliraju,
 // i sklanja se dok je otvoren meni (meni ima svoj kontakt).
 const { t } = useI18n()
+const localePath = useLocalePath()
 const contact = useContact()
 const messenger = contact.messenger
 
@@ -35,7 +36,7 @@ const visible = computed(() => y.value > height.value * SHOW_AFTER && !menuOpen.
     >
       <UiIcon name="chat" />{{ messenger.label }}
     </a>
-    <a href="#kontakt" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</a>
+    <a :href="`${localePath('/')}#kontakt`" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</a>
   </nav>
 </template>
 

@@ -3,6 +3,9 @@
 // a vraća se čim korisnik krene nagore. Ispod 1080px prelazi na burger meni.
 const { t } = useI18n()
 const route = useRoute()
+// Sidra vode na početnu, da meni radi i sa drugih stranica (npr. /stanovi).
+const localePath = useLocalePath()
+const home = computed(() => localePath('/'))
 const nav = useNavigation()
 const contact = useContact()
 const messenger = contact.messenger
@@ -37,7 +40,7 @@ onKeyStroke('Escape', () => (open.value = false))
       <BrandLogo class="header__brand" />
 
       <nav class="nav" :aria-label="t('nav.main')">
-        <a v-for="item in nav" :key="item.id" :href="`#${item.id}`" class="nav__link">
+        <a v-for="item in nav" :key="item.id" :href="`${home}#${item.id}`" class="nav__link">
           {{ item.label }}
         </a>
       </nav>
@@ -56,7 +59,7 @@ onKeyStroke('Escape', () => (open.value = false))
         </a>
 
         <!-- Na vrhu stranice hero ima ista dugmad; ovde se pojavljuje tek posle skrolovanja. -->
-        <a href="#kontakt" class="header__cta" :tabindex="scrolled ? undefined : -1">
+        <a :href="`${home}#kontakt`" class="header__cta" :tabindex="scrolled ? undefined : -1">
           {{ t('cta.offerShort') }}
         </a>
 
@@ -80,7 +83,7 @@ onKeyStroke('Escape', () => (open.value = false))
           <a
             v-for="(item, i) in nav"
             :key="item.id"
-            :href="`#${item.id}`"
+            :href="`${home}#${item.id}`"
             class="menu__link"
             :style="{ '--i': i }"
             @click="open = false"
@@ -105,7 +108,7 @@ onKeyStroke('Escape', () => (open.value = false))
               <UiIcon name="chat" />{{ messenger.label }}
             </a>
           </div>
-          <a href="#kontakt" class="btn btn--primary" @click="open = false">{{ t('cta.offer') }}</a>
+          <a :href="`${home}#kontakt`" class="btn btn--primary" @click="open = false">{{ t('cta.offer') }}</a>
           <p class="menu__address">{{ t('contact.address') }}</p>
         </div>
       </div>

@@ -37,11 +37,13 @@
   --color-glow-warm: color-mix(in srgb, var(--palette-sand-700) 38%, transparent); /* odsjaj na tamnoj podlozi */
   --color-text: var(--palette-ink-900);
   --color-text-subtle: var(--palette-sand-600);
+  --color-text-soft: color-mix(in srgb, var(--palette-ink-900) 68%, transparent); /* sporedni tekst na svetloj podlozi */
   --color-text-inverse: var(--palette-white);
   --color-text-inverse-soft: color-mix(in srgb, var(--palette-white) 82%, transparent);
   --color-text-inverse-muted: color-mix(in srgb, var(--palette-white) 62%, transparent);
   --color-text-inverse-faint: color-mix(in srgb, var(--palette-white) 32%, transparent); /* još neosvetljen tekst */
   --color-line: color-mix(in srgb, var(--palette-ink-900) 8%, transparent);
+  --color-line-strong: color-mix(in srgb, var(--palette-ink-900) 22%, transparent);
   --color-line-inverse: color-mix(in srgb, var(--palette-white) 18%, transparent);
   --color-line-inverse-strong: color-mix(in srgb, var(--palette-white) 45%, transparent);
 
@@ -51,6 +53,7 @@
   --color-highlight: var(--palette-sand-200); /* kurziv u naslovima */
   --color-muted: var(--palette-sand-400);
 
+  --color-surface-card: var(--palette-white); /* kartice stanova */
   --color-surface-sand: var(--palette-sand-100); /* padajući meniji, kartice */
   --color-surface-sand-hover: color-mix(in srgb, var(--palette-sand-700) 12%, transparent);
   --color-surface-sand-line: color-mix(in srgb, var(--palette-sand-700) 18%, transparent);

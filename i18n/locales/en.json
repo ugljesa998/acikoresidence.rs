@@ -64,5 +64,46 @@
       }
     },
     "link": "View apartments"
+  },
+  "apartments": {
+    "eyebrow": "Apartments",
+    "title": "Choose the layout that suits you.",
+    "lead": "{n} apartments on four floors, from {min} to {max} m². Here are three of them; floor plans and areas of all apartments are in the full offer.",
+    "cta": "View the full offer",
+    "ctaNote": "All {n} apartments, with floor plans and areas",
+    "details": "View apartment",
+    "unit": "Apartment {n}",
+    "area": "{n} m²",
+    "bedrooms": "1 bedroom | 2 bedrooms",
+    "terrace": "terrace {n} m²",
+    "planAlt": "Floor plan of apartment {n}, {floor}",
+    "floors": {
+      "f1": "1st floor",
+      "f2": "2nd floor",
+      "f3": "3rd floor",
+      "ph": "Set-back top floor"
+    },
+    "tags": {
+      "compact": "Most compact",
+      "family": "Two bedrooms",
+      "terrace": "Largest terrace"
+    },
+    "rooms": {
+      "living": "Living room with kitchen",
+      "kitchenDining": "Kitchen with dining area",
+      "livingOnly": "Living room",
+      "bedroom": "Bedroom",
+      "bathroom": "Bathroom",
+      "hall": "Hallway",
+      "lobby": "Lobby",
+      "terrace": "Terrace"
+    },
+    "page": {
+      "title": "Available apartments",
+      "lead": "{n} apartments from {min} to {max} m², four per floor. Each one is shown with its floor plan and room areas.",
+      "back": "Home",
+      "metaTitle": "Apartments — ACIKO Residence, Vrnjačka Banja",
+      "metaDescription": "The full offer: {n} new apartments from {min} to {max} m² in Vrnjačka Banja, with floor plans and room areas."
+    }
   }
 }
