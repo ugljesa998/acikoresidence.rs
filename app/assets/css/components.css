@@ -1,17 +1,24 @@
 /* Zajednički UI elementi (dugmad i slično). */
 
+/* Dugme (arhitektonski stil): oštri uglovi, mala velika slova, tekst levo.
+   Ako u dugmetu postoji <UiIcon name="arrow" />, strelica stoji u kvadratu uz desnu ivicu,
+   a na prelaz mišem „krene“ napred (kvadrat se proširi ulevo). */
 .btn {
-  --btn-h: 56px;
+  --btn-h: 52px;
+  --btn-pad: 20px;
+  --btn-icon: 20px;
+  /* razmak oko strelice tako da kvadrat zauzme celu unutrašnju visinu (bez 1px okvira gore i dole) */
+  --btn-icon-pad: calc((var(--btn-h) - 2px - var(--btn-icon)) / 2);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 14px;
+  justify-content: space-between;
+  gap: 20px;
   height: var(--btn-h);
-  padding-inline: 28px;
+  padding-inline: var(--btn-pad);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
-  font-family: var(--font-sans);
-  font-size: 13px;
+  font-family: var(--font-grotesk);
+  font-size: 12px;
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
@@ -22,33 +29,90 @@
     border-color var(--duration-fast) var(--ease-out);
 }
 
-.btn .ui-icon {
-  font-size: 18px;
-  transition: transform 0.45s var(--ease-out);
+/* Strelica tačno u sredini kvadrata pune visine; negativna desna margina poništava unutrašnji razmak
+   dugmeta, pa kvadrat leži uz desnu ivicu. Linija strelice je deblja nego kod ostalih ikonica.
+   `svg.ui-icon` (a ne samo `.ui-icon`): UiIcon ima svoje `width/height: 1em` iste jačine koje se učitava
+   kasnije, pa bi bez toga strelica ostala veličine slova. */
+.btn svg.ui-icon {
+  box-sizing: content-box;
+  width: var(--btn-icon);
+  height: var(--btn-icon);
+  padding: var(--btn-icon-pad);
+  margin-right: calc(-1 * var(--btn-pad));
+  stroke-width: 2;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    padding var(--duration-base) var(--ease-out);
 }
 
-.btn:hover .ui-icon {
-  transform: translateX(5px);
+/* Na prelaz strelica „krene“ 4px udesno; kvadrat ostaje iste veličine */
+.btn:hover .ui-icon,
+.btn:focus-visible .ui-icon {
+  padding-left: calc(var(--btn-icon-pad) + 4px);
+  padding-right: calc(var(--btn-icon-pad) - 4px);
 }
 
-/* Glavna akcija: crveno dugme */
+/* Glavna akcija: isti izgled kao sporedna (tanak beli okvir + crveni kvadrat sa strelicom), uz tamnu
+   staklenu podlogu da se čita i preko fotografije; na prelaz se celo oboji crveno */
 .btn--primary {
+  border-color: var(--color-line-inverse-strong);
+  background: var(--color-surface-btn-glass);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--color-text-inverse);
+}
+
+.btn--primary .ui-icon {
   background: var(--color-accent);
   color: var(--color-text-inverse);
 }
 
 .btn--primary:hover {
-  background: var(--color-accent-hover);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
-/* Sporedna akcija preko tamne pozadine */
+.btn--primary:hover .ui-icon {
+  background: var(--color-accent-deep);
+}
+
+/* Sporedna akcija na tamnoj podlozi: tanak okvir i crveni kvadrat; na prelaz se celo oboji crveno */
 .btn--ghost {
   border-color: var(--color-line-inverse-strong);
   color: var(--color-text-inverse);
 }
 
+.btn--ghost .ui-icon {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
 .btn--ghost:hover {
-  background: var(--color-text-inverse);
-  border-color: var(--color-text-inverse);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn--ghost:hover .ui-icon {
+  background: var(--color-accent-deep);
+}
+
+/* Sporedna akcija na svetloj podlozi (stranica /stanovi): taman okvir i crveni kvadrat; na prelaz crveno */
+.btn--outline {
+  border-color: var(--color-line-strong);
   color: var(--color-text);
+}
+
+.btn--outline .ui-icon {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.btn--outline:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-text-inverse);
+}
+
+.btn--outline:hover .ui-icon {
+  background: var(--color-accent-deep);
 }

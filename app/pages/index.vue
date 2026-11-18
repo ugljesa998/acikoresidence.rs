@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Početna (arhitektonski stil): fotografija zgrade preko celog ekrana sa naslovom i krupnim brojevima,
-// pa o projektu, pa tabela spratova.
-// Ostale sekcije (izdvojeni stanovi, lokacija, galerija, kontakt) su skinute sa početne;
+// pa o projektu, tri izdvojena stana, poziv ka svim stanovima sa fotografijom i tabela spratova.
+// Ostale sekcije (lokacija, galerija, kontakt) su skinute sa početne;
 // njihove komponente su i dalje u app/components, za kada se vrate u novom stilu.
 </script>
 
@@ -9,6 +9,8 @@
   <div class="home">
     <HeroSection />
     <AboutSection />
+    <ApartmentsPreview />
+    <OfferCta />
     <FloorsSection />
   </div>
 </template>

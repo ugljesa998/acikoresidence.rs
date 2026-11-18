@@ -53,10 +53,12 @@ useSeoMeta({
         <ul class="floor__list">
           <li v-for="unit in group.units" :id="`stan-${unit.number}`" :key="unit.number">
             <ApartmentCard :apartment="unit" detailed>
-              <NuxtLink :to="contactTo" class="floor__cta" @click="apartment = unit.number">
-                {{ t('cta.offer') }}
-                <UiIcon name="arrow" />
-              </NuxtLink>
+              <div class="floor__action">
+                <NuxtLink :to="contactTo" class="btn btn--outline floor__cta" @click="apartment = unit.number">
+                  {{ t('cta.offer') }}
+                  <UiIcon name="arrow" />
+                </NuxtLink>
+              </div>
             </ApartmentCard>
           </li>
         </ul>
@@ -137,27 +139,15 @@ useSeoMeta({
   scroll-margin-top: calc(var(--header-h-compact) + 16px);
 }
 
-.floor__cta {
-  display: inline-flex;
-  align-items: center;
-  align-self: flex-start;
-  gap: 12px;
+/* Dugme na dnu kartice, preko cele širine; izgled je zajednički (.btn--outline u components.css).
+   `margin-top: auto` ga spušta na dno, pa su dugmad u istom redu u ravni iako kartice imaju različit broj prostorija. */
+.floor__action {
   margin-top: auto;
   padding-top: 20px;
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
 }
 
-.floor__cta .ui-icon {
-  font-size: 17px;
-  color: var(--color-accent);
-  transition: transform 0.45s var(--ease-out);
-}
-
-.floor__cta:hover .ui-icon {
-  transform: translateX(5px);
+.floor__cta {
+  display: flex;
 }
 
 @media (max-width: 1280px) {

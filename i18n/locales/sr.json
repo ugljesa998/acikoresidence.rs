@@ -62,8 +62,9 @@
   },
   "about": {
     "eyebrow": "O projektu",
+    "title": "Stan za život, odmor ili ulaganje.",
     "statement": "Mirna ulica, zelenilo pred prozorom i banja na dohvat ruke — dom u kome se živi sporije i lepše.",
-    "textA": "ACIKO Residence je butik zgrada sa samo 16 stanova u ulici Kneza Miloša. Po četiri stana na spratu znače manje komšija, više mira i osećaj da zaista znate ko živi pored vas.",
+    "textA": "ACIKO Residence je nova zgrada sa samo 16 stanova u ulici Kneza Miloša. Po četiri stana na spratu znače manje komšija, više mira i osećaj da zaista znate ko živi pored vas.",
     "textB": "Svaki stan je promišljen do detalja: funkcionalni rasporedi sa jednom ili dve spavaće sobe, velike staklene površine i terase okrenute zelenilu. Gradimo onako kako bismo gradili za sebe.",
     "pillars": {
       "living": {

@@ -1,29 +1,11 @@
 <script setup lang="ts">
 // O projektu (arhitektonski stil): tamna podloga, tanke linije, široki Archivo, bez uvlačenja.
-// Gore oznaka sekcije, pa velika rečenica preko cele širine koja se „pali“ reč po reč dok korisnik skroluje.
-// Ispod, u dve polovine: fotografija levo i desno dva pasusa, tri razloga (život, odmor, ulaganje) kao
+// Gore oznaka „O projektu“ ispod tanke linije, pa dve simetrične polovine: fotografija levo, a desno naslov
+// (about.title) poravnat sa vrhom slike, ispod njega dva pasusa, tri razloga (život, odmor, ulaganje) kao
 // redovi tabele i link. Fotografija se rasteže do visine desne kolone, pa nigde ne ostaje prazan prostor.
-// Tekstovi su postojeći ključevi `about.*` u i18n/locales/*.json.
+// Tekstovi su ključevi `about.*` u i18n/locales/*.json.
 const { t } = useI18n()
 const localePath = useLocalePath()
-
-const words = computed(() => t('about.statement').split(' '))
-
-// Koliko reči je osvetljeno: 0 kad rečenica uđe u ekran odozdo, sve kad stigne malo iznad sredine.
-const statementEl = ref<HTMLElement | null>(null)
-const { top } = useElementBounding(statementEl)
-const { height } = useWindowSize()
-const motion = usePreferredReducedMotion()
-const mounted = useMounted()
-
-const litCount = computed(() => {
-  if (!mounted.value) return 0
-  if (motion.value === 'reduce') return words.value.length
-  const start = height.value * 0.85
-  const distance = height.value * 0.45
-  const progress = Math.min(Math.max((start - top.value) / distance, 0), 1)
-  return Math.round(progress * words.value.length)
-})
 
 const pillars = ['living', 'leisure', 'investment'] as const
 </script>
@@ -32,11 +14,6 @@ const pillars = ['living', 'leisure', 'investment'] as const
   <section id="o-projektu" class="project" aria-labelledby="project-title">
     <div class="container">
       <p class="project__label">{{ t('about.eyebrow') }}</p>
-      <h2 id="project-title" ref="statementEl" class="project__statement">
-        <span v-for="(word, i) in words" :key="i" class="word" :class="{ 'is-lit': i < litCount }">{{
-          word + ' '
-        }}</span>
-      </h2>
 
       <div class="project__body">
         <figure class="project__photo">
@@ -51,6 +28,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
         </figure>
 
         <div class="project__side">
+          <h2 id="project-title" class="project__title">{{ t('about.title') }}</h2>
           <div class="project__copy">
             <p>{{ t('about.textA') }}</p>
             <p>{{ t('about.textB') }}</p>
@@ -64,7 +42,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
             </li>
           </ol>
 
-          <NuxtLink :to="localePath('/stanovi')" class="project__link">
+          <NuxtLink :to="localePath('/stanovi')" class="btn btn--ghost project__link">
             {{ t('about.link') }}
             <UiIcon name="arrow" />
           </NuxtLink>
@@ -83,7 +61,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
   scroll-margin-top: var(--header-h-compact);
 }
 
-/* Oznaka i rečenica, od leve ivice, ispod tanke linije */
+/* Naslov sekcije: mala velika slova sa znakom iz loga, ispod tanke linije */
 .project__label {
   display: flex;
   align-items: center;
@@ -107,9 +85,10 @@ const pillars = ['living', 'leisure', 'investment'] as const
   mask: url('/brand/logo-mark.png') center / contain no-repeat;
 }
 
-.project__statement {
-  max-width: 24em;
-  margin-top: clamp(16px, 1.8vw, 28px);
+/* Naslov: prvi u desnoj koloni, poravnat sa gornjom ivicom slike; stil kao naslov sekcije Stanovi */
+.project__title {
+  max-width: 16em;
+  margin-bottom: clamp(20px, 2vw, 32px);
   font-size: clamp(26px, 3vw, 48px);
   font-weight: 300;
   font-stretch: var(--stretch-wide);
@@ -117,21 +96,12 @@ const pillars = ['living', 'leisure', 'investment'] as const
   letter-spacing: -0.025em;
 }
 
-.word {
-  color: var(--color-text-inverse-faint);
-  transition: color var(--duration-slow) var(--ease-out);
-}
-
-.word.is-lit {
-  color: var(--color-text-inverse);
-}
-
 /* Dve polovine: fotografija levo, tekst + razlozi + link desno */
 .project__body {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(24px, 3vw, 48px);
-  margin-top: clamp(32px, 3.6vw, 56px);
+  margin-top: clamp(24px, 2.6vw, 40px);
 }
 
 /* Slika prati visinu desne kolone (nema rupe ni ispod slike ni ispod teksta).
@@ -205,34 +175,10 @@ const pillars = ['living', 'leisure', 'investment'] as const
   color: var(--color-text-inverse-muted);
 }
 
+/* Izgled dugmeta je zajednički (.btn--ghost u components.css); ovde je samo mesto */
 .project__link {
-  display: inline-flex;
-  align-items: center;
   align-self: flex-start;
-  gap: 12px;
   margin-top: clamp(24px, 2.6vw, 36px);
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-line-inverse-strong);
-  font-size: 12px;
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-inverse);
-  transition: border-color var(--duration-fast) var(--ease-out);
-}
-
-.project__link .ui-icon {
-  font-size: 16px;
-  color: var(--color-accent);
-  transition: transform 0.45s var(--ease-out);
-}
-
-.project__link:hover {
-  border-color: var(--color-text-inverse);
-}
-
-.project__link:hover .ui-icon {
-  transform: translateX(5px);
 }
 
 /* Tablet i telefon: sve u jednoj koloni; slika dobija svoj odnos stranica */

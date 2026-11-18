@@ -41,9 +41,7 @@
   --color-text-inverse: var(--palette-white);
   --color-text-inverse-soft: color-mix(in srgb, var(--palette-white) 82%, transparent);
   --color-text-inverse-muted: color-mix(in srgb, var(--palette-white) 62%, transparent);
-  --color-text-faint: color-mix(in srgb, var(--palette-ink-900) 24%, transparent); /* još neosvetljen tekst */
-  --color-text-inverse-faint: color-mix(in srgb, var(--palette-white) 24%, transparent); /* još neosvetljen tekst na tamnoj podlozi */
-  --color-line: color-mix(in srgb, var(--palette-ink-900) 8%, transparent);
+  --color-text-faint: color-mix(in srgb, var(--palette-ink-900) 24%, transparent); /* još neosvetljen tekst */  --color-line: color-mix(in srgb, var(--palette-ink-900) 8%, transparent);
   --color-line-strong: color-mix(in srgb, var(--palette-ink-900) 22%, transparent);
   --color-line-inverse: color-mix(in srgb, var(--palette-white) 18%, transparent);
   --color-line-inverse-strong: color-mix(in srgb, var(--palette-white) 45%, transparent);
@@ -51,6 +49,8 @@
   --color-brand: var(--palette-red-500); /* znak u logu, sitni akcenti */
   --color-accent: var(--palette-red-600); /* glavna dugmad i poziv */
   --color-accent-hover: var(--palette-red-700);
+  --color-accent-deep: color-mix(in srgb, var(--palette-red-700) 78%, var(--palette-ink-900)); /* kvadrat sa strelicom kad je dugme crveno (prelaz) */
+  --color-surface-btn-glass: color-mix(in srgb, var(--palette-ink-900) 35%, transparent); /* tamna staklena podloga glavnog dugmeta */
   --color-highlight: var(--palette-sand-200); /* kurziv u naslovima */
   --color-muted: var(--palette-sand-400);
 
@@ -67,6 +67,10 @@
 
   --color-overlay: var(--palette-ink-900); /* osnova za zatamnjenja preko fotografija */
   --color-line-on-photo: color-mix(in srgb, var(--palette-white) 28%, transparent); /* tanke linije preko fotografije */
+  /* Svetla podloga iza osnova stanova na tamnoj strani (gore svetlija, dole tamnija; ivice su razmazane) */
+  --color-surface-inverse-raised: color-mix(in srgb, var(--palette-sand-200) 6%, transparent);
+  --color-surface-inverse-glow: color-mix(in srgb, var(--palette-sand-200) 20%, transparent);
+  --shadow-plan: drop-shadow(0 22px 34px color-mix(in srgb, var(--palette-ink-900) 55%, transparent)); /* meka senka ispod osnove sa providnom pozadinom */
 
   /* Messengeri — posvetljene nijanse da se vide na tamnoj pozadini */
   --color-viber: #a493ff;

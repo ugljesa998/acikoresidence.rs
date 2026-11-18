@@ -202,7 +202,6 @@ const stats = computed(() => [
 
 .hero__cta {
   --btn-h: 48px;
-  font-size: 12px;
 }
 
 /* Ulazne animacije; `--delay` se zadaje u template-u */

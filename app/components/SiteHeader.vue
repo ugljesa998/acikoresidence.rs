@@ -227,13 +227,8 @@ onKeyStroke('Escape', () => (open.value = false))
 
 .header__cta {
   --btn-h: 44px;
-  gap: 12px;
-  padding-inline: 20px;
-  font-size: 12px;
-}
-
-.header__cta .ui-icon {
-  font-size: 15px;
+  --btn-pad: 18px;
+  --btn-icon: 18px;
 }
 
 /* Burger */
