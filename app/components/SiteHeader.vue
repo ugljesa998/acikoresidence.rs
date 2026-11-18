@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Header: providan preko hero slike, posle skrola svetao. Pri skrolovanju nadole se sklanja,
+// Header: providan preko hero slike, posle skrola staklena traka preko cele širine („liquid glass“). Pri skrolovanju nadole se sklanja,
 // a vraća se čim korisnik krene nagore. Ispod 1080px prelazi na burger meni.
 const { t } = useI18n()
 const route = useRoute()
@@ -57,7 +57,7 @@ onKeyStroke('Escape', () => (open.value = false))
 
         <!-- Na vrhu stranice hero ima ista dugmad; ovde se pojavljuje tek posle skrolovanja. -->
         <a href="#kontakt" class="header__cta" :tabindex="scrolled ? undefined : -1">
-          {{ t('cta.pricesShort') }}
+          {{ t('cta.offerShort') }}
         </a>
 
         <button
@@ -105,7 +105,7 @@ onKeyStroke('Escape', () => (open.value = false))
               <UiIcon name="chat" />{{ messenger.label }}
             </a>
           </div>
-          <a href="#kontakt" class="btn btn--primary" @click="open = false">{{ t('cta.prices') }}</a>
+          <a href="#kontakt" class="btn btn--primary" @click="open = false">{{ t('cta.offer') }}</a>
           <p class="menu__address">{{ t('contact.address') }}</p>
         </div>
       </div>
@@ -124,15 +124,16 @@ onKeyStroke('Escape', () => (open.value = false))
     color var(--duration-fast) var(--ease-out);
 }
 
-/* Svetla „staklena“ pozadina koja se uključuje posle skrola */
+/* „Liquid glass“ traka koja se uključuje posle skrola: cela širina, priljubljena uz vrh ekrana.
+   Poluprovidna je i jako muti ono što prolazi ispod nje, pa deluje kao deo ekrana. */
 .header::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--color-surface-glass);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border-bottom: 1px solid var(--color-line);
+  background: linear-gradient(180deg, var(--color-surface-glass-top), var(--color-surface-glass));
+  backdrop-filter: blur(32px) saturate(1.8);
+  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  pointer-events: none;
   opacity: 0;
   transition: opacity var(--duration-fast) var(--ease-out);
 }

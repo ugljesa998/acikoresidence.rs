@@ -18,6 +18,7 @@
   /* 1. Paleta — sirove vrednosti, ne koristiti direktno u komponentama */
   --palette-ink-900: #14120f;
   --palette-ink-700: #2b2722;
+  --palette-ink-500: #4a4034;
   --palette-paper: #f6f2ec;
   --palette-sand-100: #efe3cf;
   --palette-sand-200: #ead9bf;
@@ -32,11 +33,14 @@
   /* 2. Semantičke boje */
   --color-bg: var(--palette-paper);
   --color-bg-inverse: var(--palette-ink-900);
+  --color-bg-inverse-warm: var(--palette-ink-500); /* topla braon podloga u koju se tamna pretapa */
+  --color-glow-warm: color-mix(in srgb, var(--palette-sand-700) 38%, transparent); /* odsjaj na tamnoj podlozi */
   --color-text: var(--palette-ink-900);
   --color-text-subtle: var(--palette-sand-600);
   --color-text-inverse: var(--palette-white);
   --color-text-inverse-soft: color-mix(in srgb, var(--palette-white) 82%, transparent);
   --color-text-inverse-muted: color-mix(in srgb, var(--palette-white) 62%, transparent);
+  --color-text-inverse-faint: color-mix(in srgb, var(--palette-white) 32%, transparent); /* još neosvetljen tekst */
   --color-line: color-mix(in srgb, var(--palette-ink-900) 8%, transparent);
   --color-line-inverse: color-mix(in srgb, var(--palette-white) 18%, transparent);
   --color-line-inverse-strong: color-mix(in srgb, var(--palette-white) 45%, transparent);
@@ -50,7 +54,9 @@
   --color-surface-sand: var(--palette-sand-100); /* padajući meniji, kartice */
   --color-surface-sand-hover: color-mix(in srgb, var(--palette-sand-700) 12%, transparent);
   --color-surface-sand-line: color-mix(in srgb, var(--palette-sand-700) 18%, transparent);
-  --color-surface-glass: color-mix(in srgb, var(--palette-paper) 86%, transparent); /* header posle skrola */
+  /* „Liquid glass“ header posle skrola: poluprovidna svetla traka, ravna, bez donje ivice */
+  --color-surface-glass: color-mix(in srgb, var(--palette-paper) 50%, transparent);
+  --color-surface-glass-top: color-mix(in srgb, var(--palette-white) 46%, transparent);
   --color-surface-glass-dark: color-mix(in srgb, var(--palette-ink-900) 90%, transparent); /* donja traka */
 
   --color-overlay: var(--palette-ink-900); /* osnova za zatamnjenja preko fotografija */
@@ -71,6 +77,7 @@
   --text-base: 16px;
   --text-lead: clamp(16px, 1.25vw, 18.5px);
   --text-stat: clamp(26px, 2.3vw, 36px);
+  --text-h2: clamp(26px, 2.7vw, 44px);
   --text-display: clamp(44px, 5.6vw, 104px);
 
   --weight-regular: 400;

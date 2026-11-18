@@ -35,7 +35,7 @@ const visible = computed(() => y.value > height.value * SHOW_AFTER && !menuOpen.
     >
       <UiIcon name="chat" />{{ messenger.label }}
     </a>
-    <a href="#kontakt" class="actionbar__btn actionbar__btn--primary">{{ t('cta.pricesShort') }}</a>
+    <a href="#kontakt" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</a>
   </nav>
 </template>
 

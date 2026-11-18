@@ -65,7 +65,7 @@ const parallaxStyle = computed(() =>
           {{ t('cta.choose') }}
           <UiIcon name="arrow" />
         </a>
-        <a href="#kontakt" class="btn btn--ghost">{{ t('cta.prices') }}</a>
+        <a href="#kontakt" class="btn btn--ghost">{{ t('cta.offer') }}</a>
       </div>
     </div>
 
@@ -131,7 +131,8 @@ const parallaxStyle = computed(() =>
   }
 }
 
-/* Zatamnjenje gore (header), dole (činjenice) i levo (tekst preko neba) */
+/* Zatamnjenje gore (header), dole (činjenice) i levo (tekst preko neba).
+   Na samom dnu je potpuno neprozirno, da se hero bez linije pretopi u sledeću sekciju. */
 .hero__scrim {
   --o: var(--color-overlay);
   position: absolute;
@@ -141,9 +142,10 @@ const parallaxStyle = computed(() =>
     linear-gradient(180deg, color-mix(in srgb, var(--o) 55%, transparent) 0%, transparent 22%),
     linear-gradient(
       0deg,
-      color-mix(in srgb, var(--o) 82%, transparent) 0%,
-      color-mix(in srgb, var(--o) 35%, transparent) 26%,
-      transparent 48%
+      var(--o) 0%,
+      color-mix(in srgb, var(--o) 80%, transparent) 9%,
+      color-mix(in srgb, var(--o) 35%, transparent) 28%,
+      transparent 50%
     ),
     linear-gradient(
       90deg,
@@ -344,7 +346,8 @@ const parallaxStyle = computed(() =>
       linear-gradient(180deg, color-mix(in srgb, var(--o) 50%, transparent) 0%, transparent 20%),
       linear-gradient(
         0deg,
-        color-mix(in srgb, var(--o) 90%, transparent) 0%,
+        var(--o) 0%,
+        color-mix(in srgb, var(--o) 88%, transparent) 10%,
         color-mix(in srgb, var(--o) 62%, transparent) 42%,
         transparent 72%
       );

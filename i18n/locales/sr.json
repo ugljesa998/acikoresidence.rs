@@ -18,8 +18,8 @@
   "cta": {
     "choose": "Izaberite stan",
     "inquiry": "Pošaljite upit",
-    "prices": "Zatražite cenovnik",
-    "pricesShort": "Cenovnik"
+    "offer": "Zatražite ponudu",
+    "offerShort": "Ponuda"
   },
   "contact": {
     "sales": "Prodaja stanova",
@@ -43,5 +43,26 @@
       "terraceValue": "do {n} m²",
       "terrace": "terase na povučenom spratu"
     }
+  },
+  "about": {
+    "eyebrow": "O projektu",
+    "statement": "Mirna ulica, zelenilo pred prozorom i banja na dohvat ruke — dom u kome se živi sporije i lepše.",
+    "textA": "ACIKO Residence je butik zgrada sa samo 16 stanova u ulici Kneza Miloša. Po četiri stana na spratu znače manje komšija, više mira i osećaj da zaista znate ko živi pored vas.",
+    "textB": "Svaki stan je promišljen do detalja: funkcionalni rasporedi sa jednom ili dve spavaće sobe, velike staklene površine i terase okrenute zelenilu. Gradimo onako kako bismo gradili za sebe.",
+    "pillars": {
+      "living": {
+        "title": "Za život",
+        "text": "Tiha ulica, a sve što svakodnevica traži je blizu — bez gradske gužve i žurbe."
+      },
+      "leisure": {
+        "title": "Za odmor",
+        "text": "Vaša adresa u banji tokom cele godine: izvori, parkovi i šetališta čekaju kad god poželite predah."
+      },
+      "investment": {
+        "title": "Za ulaganje",
+        "text": "Stan u najposećenijoj banji Srbije čuva vrednost, a možete ga izdavati gostima kada u njemu ne boravite."
+      }
+    },
+    "link": "Pogledajte stanove"
   }
 }

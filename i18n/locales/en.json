@@ -18,8 +18,8 @@
   "cta": {
     "choose": "Choose an apartment",
     "inquiry": "Send an inquiry",
-    "prices": "Get the price list",
-    "pricesShort": "Prices"
+    "offer": "Request an offer",
+    "offerShort": "Offer"
   },
   "contact": {
     "sales": "Sales office",
@@ -43,5 +43,26 @@
       "terraceValue": "up to {n} m²",
       "terrace": "terraces on the top floor"
     }
+  },
+  "about": {
+    "eyebrow": "About the project",
+    "statement": "A quiet street, greenery outside your window and the spa within easy reach — a home for living slower and better.",
+    "textA": "ACIKO Residence is a boutique building with just 16 apartments on Kneza Miloša Street. Four apartments per floor mean fewer neighbours, more peace and the feeling that you truly know who lives next door.",
+    "textB": "Every apartment is thought through in detail: practical layouts with one or two bedrooms, large glazed surfaces and terraces facing the greenery. We build the way we would build for ourselves.",
+    "pillars": {
+      "living": {
+        "title": "For living",
+        "text": "A quiet street with everything daily life needs close by — without city crowds and rush."
+      },
+      "leisure": {
+        "title": "For leisure",
+        "text": "Your address in the spa town all year round: springs, parks and promenades are there whenever you need a break."
+      },
+      "investment": {
+        "title": "For investment",
+        "text": "An apartment in Serbia's most visited spa holds its value, and you can rent it to guests when you are not staying there."
+      }
+    },
+    "link": "View apartments"
   }
 }
