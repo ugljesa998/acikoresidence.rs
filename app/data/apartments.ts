@@ -1,6 +1,14 @@
 // Svi stanovi, prepisano iz kataloga (INFO/.../KATALOG 01). Površine su neto, u m².
 // Crteži: public/images/plans/stan-XX.jpg (isečeni iz istih stranica kataloga).
 
+// Slika osnove za karticu stana (početna i /stanovi).
+// PRIVREMENO: dok se ne srede prave osnove sa providnom pozadinom, sve kartice prikazuju istu primer-osnovu
+// (public/images/plans/primer.png). Kad budu spremne, ovde vratiti putanju po broju stana, npr.
+//   (number) => `/images/plans/stan-${String(number).padStart(2, '0')}.png`
+// i obrisati primer.png ako se više ne koristi.
+export const PLAN_EXAMPLE = { src: '/images/plans/primer.png', width: 522, height: 478 } as const
+export const planImage = (_number: number) => PLAN_EXAMPLE
+
 // TODO: upisati brojeve PRODATIH stanova (npr. [2, 5, 9, 11, 14, 16]).
 // Dok je lista prazna, sajt prikazuje samo ukupan broj iz `project.sold`, a nijedan stan nije označen kao prodat.
 export const soldUnits: number[] = []

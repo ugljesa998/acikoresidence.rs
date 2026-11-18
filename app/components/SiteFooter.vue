@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import { building } from '~/data/location'
+import { site } from '~/data/site'
 
-// Footer: tamni završetak stranice. Logo, meni, telefon i adresa, pa red sa pravima i napomenom o prikazima.
+// Footer: tamni završetak stranice. Logo, meni, telefon i adresa, pa red sa pravima, napomenom o prikazima
+// i potpisom izrade sajta.
 const { t } = useI18n()
 const nav = useNavigation()
 const contact = useContact()
 const year = new Date().getFullYear()
+
+// Potpis „Developed by Omniit“: UTM oznake da se u Omniit analitici vidi da poseta dolazi sa ovog sajta
+// (utm_source = domen sajta, npr. acikoresidence.rs).
+const creditUrl = `https://www.omniit.rs/?${new URLSearchParams({
+  utm_source: new URL(site.url).hostname,
+  utm_medium: 'referral',
+  utm_campaign: 'client_footer',
+})}`
 </script>
 
 <template>
@@ -27,6 +37,10 @@ const year = new Date().getFullYear()
       <div class="footer__base">
         <p>{{ t('footer.rights', { year }) }}</p>
         <p>{{ t('footer.note') }}</p>
+        <p class="footer__credit">
+          Developed by
+          <a :href="creditUrl" target="_blank" rel="noopener">Omniit</a>
+        </p>
       </div>
     </div>
   </footer>
@@ -94,6 +108,21 @@ const year = new Date().getFullYear()
   margin-top: clamp(28px, 3vw, 44px);
   font-size: var(--text-sm);
   color: var(--color-text-inverse-muted);
+}
+
+.footer__credit a {
+  color: var(--color-text-inverse-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--color-line-inverse-strong);
+  text-underline-offset: 4px;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    text-decoration-color var(--duration-fast) var(--ease-out);
+}
+
+.footer__credit a:hover {
+  color: var(--color-text-inverse);
+  text-decoration-color: currentColor;
 }
 
 /* Na telefonu je dole traka sa kontaktom, pa footer ostavlja mesta za nju */
