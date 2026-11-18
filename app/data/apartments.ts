@@ -1,20 +1,27 @@
 // Svi stanovi, prepisano iz kataloga (INFO/.../KATALOG 01). Površine su neto, u m².
-// Crteži: public/images/plans/stan-XX.jpg (isečeni iz istih stranica kataloga).
+// Osnove: public/images/plans/stan-XX.png; cele strane kataloga: public/images/katalog/stan-XX.jpg.
 
-// Slika osnove za karticu stana (početna i /stanovi).
-// PRIVREMENO: dok se ne srede prave osnove sa providnom pozadinom, sve kartice prikazuju istu primer-osnovu
-// (public/images/plans/primer.png). Kad budu spremne, ovde vratiti putanju po broju stana, npr.
-//   (number) => `/images/plans/stan-${String(number).padStart(2, '0')}.png`
-// i obrisati primer.png ako se više ne koristi.
-export const PLAN_EXAMPLE = { src: '/images/plans/primer.png', width: 522, height: 478 } as const
-export const planImage = (_number: number) => PLAN_EXAMPLE
+// Osnova stana za karticu (početna i /stanovi): providan PNG (bez pozadine kataloga), izoštren i kompresovan.
+// Pravljene iz osnova sa Desktopa (s1–s16.png); sajt ih servira kao AVIF/WebP u veličini kartice.
+// Dimenzije su upisane da se kartica ne pomera dok se slika učitava.
+const PLAN_SIZE: Record<number, readonly [number, number]> = {
+  1: [765, 705], 2: [810, 628], 3: [797, 582], 4: [824, 636],
+  5: [745, 688], 6: [814, 641], 7: [832, 626], 8: [798, 607],
+  9: [756, 688], 10: [813, 641], 11: [797, 586], 12: [831, 641],
+  13: [757, 693], 14: [830, 641], 15: [874, 647], 16: [918, 627],
+}
+export const planImage = (number: number) => {
+  const [width, height] = PLAN_SIZE[number] ?? [800, 640]
+  return { src: `/images/plans/stan-${String(number).padStart(2, '0')}.png`, width, height }
+}
 
 // Cela strana kataloga za stan (osnova, 3D prikaz, položaj na spratu, zgrada i tabela površina) — glavna slika
-// na stranici stana. Smanjene iz originala (INFO/.../KATALOG 01/STAN BROJ XX.jpg, 4134 × 2923) na 2400 px.
+// na stranici stana. Iz originala (INFO/.../KATALOG 01/STAN BROJ XX.jpg, 4134 × 2923): smanjene na 3000 px,
+// izoštrene i sa malo jačim kontrastom; sajt ih servira kao WebP u veličini ekrana.
 export const catalogPage = (number: number) => ({
   src: `/images/katalog/stan-${String(number).padStart(2, '0')}.jpg`,
-  width: 2400,
-  height: 1697,
+  width: 3000,
+  height: 2121,
 })
 
 // Adresa stranice stana: /stanovi/stan-15 (na en/ru sa prefiksom jezika)

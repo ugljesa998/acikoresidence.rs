@@ -268,5 +268,17 @@
   "footer": {
     "rights": "© {year} ACIKO Residence. Sva prava zadržana.",
     "note": "Slike i osnove su informativnog karaktera."
+  },
+  "error": {
+    "label": "Greška {code}",
+    "notFoundTitle": "Ova stranica ne postoji.",
+    "notFoundLead": "Možda je adresa pogrešno upisana ili je stranica premeštena. Svi stanovi su na jednom mestu, a sa početne stižete svuda.",
+    "otherTitle": "Nešto nije u redu.",
+    "otherLead": "Stranica trenutno ne može da se prikaže. Pokušajte ponovo za koji trenutak, a ako vam je hitno, pozovite nas.",
+    "apartments": "Pogledajte stanove",
+    "home": "Početna",
+    "call": "Prodaja stanova:",
+    "notFoundMeta": "Stranica nije pronađena — ACIKO Residence",
+    "otherMeta": "Greška — ACIKO Residence"
   }
 }

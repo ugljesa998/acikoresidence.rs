@@ -16,7 +16,7 @@ const floorKeys: FloorKey[] = ['f1', 'f2', 'f3', 'ph']
 const activeFloor = ref<FloorKey>('f1')
 
 const units = computed(() => apartments.filter((a) => a.floor === activeFloor.value))
-const planSrc = (n: number) => `/images/plans/stan-${String(n).padStart(2, '0')}.jpg`
+const planSrc = (n: number) => `/images/plans/stan-${String(n).padStart(2, '0')}.png`
 </script>
 
 <template>

@@ -85,6 +85,20 @@ const open = (index: number) => {
   scrollLocked.value = true
 }
 const close = () => dialog.value?.close()
+
+// Slika ispunjava ceo prostor iznad trake (object-fit: contain), pa je oko nje tamni prostor deo slike:
+// klik tu (van samog crteža) zatvara pregled, kao klik pored slike.
+function onImageClick(event: MouseEvent) {
+  const img = event.currentTarget as HTMLImageElement
+  if (!img.naturalWidth) return
+  const box = img.getBoundingClientRect()
+  const scale = Math.min(box.width / img.naturalWidth, box.height / img.naturalHeight)
+  const w = img.naturalWidth * scale
+  const h = img.naturalHeight * scale
+  const x = event.clientX - box.left - (box.width - w) / 2
+  const y = event.clientY - box.top - (box.height - h) / 2
+  if (x < 0 || y < 0 || x > w || y > h) close()
+}
 const step = (by: number) => {
   current.value = (current.value + by + images.value.length) % images.value.length
 }
@@ -180,6 +194,7 @@ const { direction } = useSwipe(stage, {
           :height="GALLERY_IMAGE_SIZE.height"
           sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           class="lightbox__img"
+          @click="onImageClick"
         />
       </div>
 
@@ -438,19 +453,22 @@ const { direction } = useSwipe(stage, {
   }
 }
 
+/* Jedna ćelija tačno veličine prostora iznad trake (minmax(0, 1fr)): bez toga „max-height: 100%“ na slici
+   nema od čega da se računa, pa slika u punoj veličini ide preko trake sa potpisom */
 .lightbox__stage {
   display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   place-items: center;
+  min-width: 0;
   min-height: 0;
   padding: clamp(64px, 7vw, 80px) clamp(12px, 3vw, 48px) 0;
   touch-action: pan-y;
 }
 
+/* Slika zauzima celu ćeliju i u nju se smešta cela (contain): najveća moguća, nikad preko trake */
 .lightbox__img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   animation: lightbox-in var(--duration-base) var(--ease-out);
 }

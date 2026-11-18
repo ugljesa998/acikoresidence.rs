@@ -268,5 +268,17 @@
   "footer": {
     "rights": "© {year} ACIKO Residence. All rights reserved.",
     "note": "Images and floor plans are for information purposes only."
+  },
+  "error": {
+    "label": "Error {code}",
+    "notFoundTitle": "This page does not exist.",
+    "notFoundLead": "The address may be mistyped or the page may have moved. All apartments are in one place, and the home page leads everywhere.",
+    "otherTitle": "Something went wrong.",
+    "otherLead": "The page cannot be shown right now. Please try again in a moment, or call us if it is urgent.",
+    "apartments": "View apartments",
+    "home": "Home",
+    "call": "Apartment sales:",
+    "notFoundMeta": "Page not found — ACIKO Residence",
+    "otherMeta": "Error — ACIKO Residence"
   }
 }

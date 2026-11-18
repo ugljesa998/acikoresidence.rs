@@ -36,7 +36,8 @@ const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`
         :alt="t('apartments.planAlt', { n: apartment.number, floor: floorLabel })"
         :width="plan.width"
         :height="plan.height"
-        sizes="100vw md:50vw lg:480px"
+        sizes="xs:100vw sm:100vw md:50vw lg:480px"
+        format="webp"
         loading="lazy"
       />
     </div>
@@ -79,6 +80,7 @@ const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`
   position: relative;
   isolation: isolate;
   aspect-ratio: 6 / 5;
+  min-height: 0; /* uspravnija osnova ne sme da produži okvir: sve kartice iste visine, naslovi u ravni */
 }
 
 /* Stanje iznad osnove, levo, sa razmakom (da se ne lepi uz crtež) */

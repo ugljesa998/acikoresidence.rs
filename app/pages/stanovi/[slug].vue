@@ -111,13 +111,21 @@ useSeoMeta({
           :alt="sheetAlt"
           :width="sheet.width"
           :height="sheet.height"
-          sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1400px"
+          sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1300px"
+          format="webp"
+          quality="88"
           fetchpriority="high"
           class="sheet__img"
         />
-        <span class="sheet__zoom" aria-hidden="true"><UiIcon name="zoom" /></span>
       </button>
-      <figcaption class="sheet__note">{{ t('apartments.detail.planNote') }}</figcaption>
+      <!-- Ispod lista: potpis levo, dugme za uvećanje desno (ne preko lista, da ne pokrije tekst na njemu) -->
+      <figcaption class="sheet__bar">
+        <span class="sheet__note">{{ t('apartments.detail.planNote') }}</span>
+        <button type="button" class="btn btn--ghost sheet__zoom" @click="openZoom">
+          {{ t('apartments.detail.zoom') }}
+          <UiIcon name="zoom" />
+        </button>
+      </figcaption>
     </figure>
 
     <!-- Dve polovine: površine levo, upit baš za ovaj stan desno -->
@@ -192,6 +200,8 @@ useSeoMeta({
           :width="sheet.width"
           :height="sheet.height"
           sizes="xs:1100px sm:1100px md:100vw lg:100vw xl:100vw xxl:100vw"
+          format="webp"
+          quality="88"
           class="zoom__img"
         />
       </div>
@@ -294,9 +304,17 @@ useSeoMeta({
   background: var(--color-line-inverse-strong);
 }
 
-/* Strana kataloga preko cele širine, kao odštampan list na tamnoj podlozi */
+/* Strana kataloga kao odštampan list na tamnoj podlozi. Na računaru staje cela u ekran (ispod headera,
+   sa potpisom), pa je najviše toliko široka i stoji na sredini; na užim ekranima ide preko cele širine. */
 .sheet {
+  --sheet-max: calc((100svh - var(--header-h-compact) - 120px) * 3000 / 2121);
   margin-top: clamp(32px, 3.6vw, 56px);
+}
+
+.sheet__open,
+.sheet__bar {
+  max-width: max(var(--sheet-max), 560px);
+  margin-inline: auto;
 }
 
 .sheet__open {
@@ -320,35 +338,26 @@ useSeoMeta({
   transform: scale(1.01);
 }
 
-/* Kvadratno crveno dugme u uglu, kao strelice na sajtu */
-.sheet__zoom {
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-sm);
-  background: var(--color-accent);
-  color: var(--color-text-inverse);
-  transition: background-color var(--duration-fast) var(--ease-out);
-}
-
-.sheet__zoom .ui-icon {
-  width: 22px;
-  height: 22px;
-  stroke-width: 2;
-}
-
-.sheet__open:hover .sheet__zoom {
-  background: var(--color-accent-deep);
+/* Potpis levo, dugme „Uvećajte sliku“ desno; na uskom ekranu dugme ide ispod */
+.sheet__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 14px;
 }
 
 .sheet__note {
-  margin-top: 12px;
   font-size: 13px;
   color: var(--color-text-inverse-muted);
+}
+
+.sheet__zoom {
+  --btn-h: 44px;
+  --btn-pad: 18px;
+  --btn-icon: 18px;
+  cursor: zoom-in;
 }
 
 /* Dve iste polovine: površine levo, upit desno; obe počinju tankom linijom */
@@ -605,15 +614,6 @@ useSeoMeta({
   }
 }
 
-/* Telefon: manje dugme za uvećanje */
-@media (max-width: 600px) {
-  .sheet__zoom {
-    right: 8px;
-    bottom: 8px;
-    width: 40px;
-    height: 40px;
-  }
-}
 
 /* Telefon: prethodni i sledeći jedan pored drugog, „Svi stanovi“ ispod preko cele širine */
 @media (max-width: 600px) {
