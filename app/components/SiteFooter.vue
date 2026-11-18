@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { building } from '~/data/location'
 
-// Footer: nastavlja tamni blok kontakta. Logo, meni, telefon i adresa, pa red sa pravima i napomenom o prikazima.
+// Footer: tamni završetak stranice. Logo, meni, telefon i adresa, pa red sa pravima i napomenom o prikazima.
 const { t } = useI18n()
-const localePath = useLocalePath()
 const nav = useNavigation()
 const contact = useContact()
 const year = new Date().getFullYear()
-
-// Sidra vode na početnu, da linkovi rade i sa drugih stranica (npr. /stanovi).
-const home = computed(() => localePath('/'))
 </script>
 
 <template>
@@ -19,8 +15,7 @@ const home = computed(() => localePath('/'))
         <BrandLogo class="footer__brand" />
 
         <nav class="footer__nav" :aria-label="t('nav.footer')">
-          <a v-for="item in nav" :key="item.id" :href="`${home}#${item.id}`">{{ item.label }}</a>
-          <a :href="`${home}#kontakt`">{{ t('nav.contact') }}</a>
+          <NuxtLink v-for="item in nav" :key="item.key" :to="item.to">{{ item.label }}</NuxtLink>
         </nav>
 
         <div class="footer__contact">
@@ -42,6 +37,7 @@ const home = computed(() => localePath('/'))
   padding-block: clamp(32px, 3.4vw, 48px) 28px;
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
+  font-family: var(--font-grotesk);
 }
 
 .footer__top {

@@ -14,7 +14,8 @@
     "home": "ACIKO Residence, početna",
     "construction": "Gradnja",
     "main": "Glavna navigacija",
-    "footer": "Navigacija u podnožju"
+    "footer": "Navigacija u podnožju",
+    "floors": "Spratovi"
   },
   "cta": {
     "choose": "Izaberite stan",
@@ -43,7 +44,21 @@
       "size": "1 ili 2 spavaće sobe",
       "terraceValue": "do {n} m²",
       "terrace": "terase na povučenom spratu"
+    },
+    "stats": {
+      "units": "stanova",
+      "area": "m² po stanu",
+      "floors": "sprata, po {n} stana",
+      "terrace": "m² najveća terasa"
     }
+  },
+  "floorsList": {
+    "title": "Spratovi",
+    "hint": "Izaberite sprat",
+    "units": "Stanovi {from}–{to}",
+    "area": "{min}–{max} m²",
+    "bedroomsRange": "1 ili 2 spavaće sobe",
+    "terraceUpTo": "terase do {n} m²"
   },
   "about": {
     "eyebrow": "O projektu",

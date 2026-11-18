@@ -1,42 +1,26 @@
 <script setup lang="ts">
+import { floors } from '~/data/apartments'
 import { project } from '~/data/project'
 
-// Hero: fotografija zgrade preko celog ekrana, naslov, dva dugmeta i traka sa činjenicama iz kataloga.
+// Hero (arhitektonski stil): fotografija zgrade od samog vrha preko celog ekrana; header je providan preko nje.
+// Pri dnu, preko zatamnjenog dela slike: nadnaslov, naslov, pa iznad tanke linije četiri krupna broja
+// iz kataloga (data/project.ts i data/apartments.ts) i dugme „Izaberite stan“.
 const { t, localeProperties } = useI18n()
 
 const formatNumber = (n: number, digits = 0) =>
   new Intl.NumberFormat(localeProperties.value.language, { maximumFractionDigits: digits }).format(n)
 
-const facts = computed(() => [
-  { value: String(project.units), label: t('hero.facts.units') },
-  {
-    value: t('hero.facts.sizeValue', {
-      min: formatNumber(project.minArea),
-      max: formatNumber(project.maxArea),
-    }),
-    label: t('hero.facts.size'),
-  },
-  {
-    value: t('hero.facts.terraceValue', { n: formatNumber(project.maxTerrace, 1) }),
-    label: t('hero.facts.terrace'),
-  },
+const stats = computed(() => [
+  { value: String(project.units), label: t('hero.stats.units') },
+  { value: `${formatNumber(project.minArea)}–${formatNumber(project.maxArea)}`, label: t('hero.stats.area') },
+  { value: String(floors.length), label: t('hero.stats.floors', { n: project.unitsPerFloor }) },
+  { value: formatNumber(project.maxTerrace, 1), label: t('hero.stats.terrace') },
 ])
-
-// Blagi parallax: slika se pomera sporije od stranice (isključen ako korisnik ne želi animacije).
-const PARALLAX_SPEED = 0.25
-const { y } = useWindowScroll()
-const { height } = useWindowSize()
-const motion = usePreferredReducedMotion()
-const parallaxStyle = computed(() =>
-  motion.value === 'reduce'
-    ? undefined
-    : { transform: `translate3d(0, ${Math.min(y.value, height.value) * PARALLAX_SPEED}px, 0)` },
-)
 </script>
 
 <template>
   <section class="hero" aria-labelledby="hero-title">
-    <div class="hero__media" :style="parallaxStyle">
+    <div class="hero__media">
       <NuxtPicture
         src="/images/hero.jpg"
         :alt="t('hero.imageAlt')"
@@ -45,41 +29,26 @@ const parallaxStyle = computed(() =>
         :img-attrs="{ class: 'hero__img' }"
       />
     </div>
-    <div class="hero__scrim" aria-hidden="true" />
 
     <div class="hero__body container">
-      <p class="hero__eyebrow reveal" style="--delay: 0.35s">
-        <span class="hero__mark" aria-hidden="true" />
-        {{ t('hero.eyebrow') }}
-      </p>
+      <p class="hero__eyebrow reveal" style="--delay: 0.2s">{{ t('hero.eyebrow') }}</p>
 
       <h1 id="hero-title" class="hero__title">
-        <span class="hero__line"><span class="reveal-line" style="--delay: 0.45s">{{ t('hero.titleA') }}</span></span>
-        <span class="hero__line"><em class="reveal-line" style="--delay: 0.58s">{{ t('hero.titleB') }}</em></span>
+        <span class="hero__line"><span style="--delay: 0.3s">{{ t('hero.titleA') }}</span></span>
+        <span class="hero__line"><span style="--delay: 0.42s">{{ t('hero.titleB') }}</span></span>
       </h1>
 
-      <p class="hero__lead reveal" style="--delay: 0.85s">{{ t('hero.lead') }}</p>
-
-      <div class="hero__actions reveal" style="--delay: 1s">
-        <a href="#stanovi" class="btn btn--primary">
-          {{ t('cta.choose') }}
-          <UiIcon name="arrow" />
-        </a>
-        <a href="#kontakt" class="btn btn--ghost">{{ t('cta.offer') }}</a>
-      </div>
-    </div>
-
-    <div class="hero__foot reveal" style="--delay: 1.2s">
-      <div class="hero__foot-inner container">
-        <dl class="facts">
-          <div v-for="fact in facts" :key="fact.label" class="fact">
-            <dt class="fact__label">{{ fact.label }}</dt>
-            <dd class="fact__value">{{ fact.value }}</dd>
+      <div class="hero__bar reveal" style="--delay: 0.7s">
+        <dl class="stats">
+          <div v-for="stat in stats" :key="stat.label" class="stat">
+            <dt class="stat__label">{{ stat.label }}</dt>
+            <dd class="stat__value">{{ stat.value }}</dd>
           </div>
         </dl>
-        <a href="#stanovi" class="scrollcue">
-          <span>{{ t('hero.scroll') }}</span>
-          <span class="scrollcue__track" aria-hidden="true"><span class="scrollcue__dot" /></span>
+
+        <a href="#spratovi" class="btn btn--primary hero__cta">
+          {{ t('cta.choose') }}
+          <UiIcon name="arrow" />
         </a>
       </div>
     </div>
@@ -87,25 +56,26 @@ const parallaxStyle = computed(() =>
 </template>
 
 <style scoped>
+/* Fotografija preko celog prvog ekrana; tekst i brojevi su pri dnu */
 .hero {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 100vh;
-  min-height: 100svh;
+  height: 100vh;
+  height: 100svh;
+  min-height: 640px;
   overflow: hidden;
+  isolation: isolate;
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
-  isolation: isolate;
+  font-family: var(--font-grotesk);
 }
 
-/* Fotografija */
 .hero__media {
   position: absolute;
   inset: 0;
   z-index: -2;
-  will-change: transform;
 }
 
 .hero__media :deep(picture),
@@ -116,211 +86,134 @@ const parallaxStyle = computed(() =>
 
 .hero__media :deep(.hero__img) {
   object-fit: cover;
-  object-position: 42% 50%;
-  animation: hero-zoom 2.8s var(--ease-out) both;
+  object-position: 58% 50%;
+  animation: settle 2.6s var(--ease-out) both;
 }
 
-@keyframes hero-zoom {
+@keyframes settle {
   from {
-    transform: scale(1.14);
-    filter: brightness(0.7);
-  }
-  to {
-    transform: scale(1);
-    filter: none;
+    transform: scale(1.08);
   }
 }
 
-/* Zatamnjenje gore (header), dole (činjenice) i levo (tekst preko neba) */
-.hero__scrim {
+/* Zatamnjenje: gore za header, dole i levo za tekst i brojeve; zgrada desno ostaje svetla */
+.hero::after {
   --o: var(--color-overlay);
+  content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--o) 55%, transparent) 0%, transparent 22%),
+    linear-gradient(180deg, color-mix(in srgb, var(--o) 60%, transparent) 0%, transparent 16%),
     linear-gradient(
       0deg,
-      color-mix(in srgb, var(--o) 82%, transparent) 0%,
-      color-mix(in srgb, var(--o) 35%, transparent) 26%,
-      transparent 48%
+      color-mix(in srgb, var(--o) 90%, transparent) 0%,
+      color-mix(in srgb, var(--o) 60%, transparent) 34%,
+      transparent 62%
     ),
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--o) 76%, transparent) 0%,
-      color-mix(in srgb, var(--o) 46%, transparent) 40%,
-      transparent 66%
-    );
+    linear-gradient(90deg, color-mix(in srgb, var(--o) 45%, transparent) 0%, transparent 55%);
 }
 
-/* Tekst */
 .hero__body {
-  padding-top: calc(var(--header-h) + 48px);
-  padding-bottom: clamp(40px, 7vh, 72px);
+  padding-bottom: clamp(20px, 3.5vh, 40px);
 }
 
 .hero__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: clamp(20px, 3vh, 32px);
+  margin-bottom: clamp(14px, 2.2vh, 24px);
   font-size: 12px;
   font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-inverse-soft);
 }
 
-.hero__mark {
-  width: 13px;
-  height: 12px;
-  background: var(--color-brand);
-  -webkit-mask: url('/brand/logo-mark.png') center / contain no-repeat;
-  mask: url('/brand/logo-mark.png') center / contain no-repeat;
-}
-
+/* Naslov: širok, tanak; drugi red prigušen. Redovi „izranjaju“ odozdo. */
 .hero__title {
-  max-width: 14em;
-  font-family: var(--font-display);
-  font-size: var(--text-display);
-  font-weight: var(--weight-medium);
-  line-height: 0.96;
-  letter-spacing: var(--tracking-display);
-  text-wrap: balance;
+  font-size: var(--text-hero);
+  font-weight: 300;
+  font-stretch: var(--stretch-wide);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
 }
 
-/* Maska za animaciju reda; padding ostavlja mesta za kvačice (Ž, Й) i repove slova (g, j, у). */
+/* Maska za animaciju reda; padding ostavlja mesta za kvačice (Š, Ć) i repove slova (j, g). */
 .hero__line {
   display: block;
   overflow: hidden;
-  padding-block: 0.14em 0.26em;
-  margin-block: -0.14em -0.26em;
+  padding-block: 0.14em 0.1em;
+  margin-block: -0.14em -0.1em;
 }
 
-.hero__line > * {
+.hero__line > span {
   display: block;
+  text-wrap: balance;
+  animation: line-up 1.3s var(--ease-out) var(--delay, 0s) both;
 }
 
-.hero__title em {
-  font-style: italic;
-  font-weight: var(--weight-regular);
-  color: var(--color-highlight);
+.hero__line:nth-child(2) > span {
+  color: var(--color-text-inverse-muted);
 }
 
-.hero__lead {
-  max-width: 34em;
-  margin-top: clamp(22px, 3.2vh, 34px);
-  font-size: var(--text-lead);
-  line-height: 1.6;
-  color: var(--color-text-inverse-soft);
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: clamp(28px, 4.5vh, 44px);
-}
-
-/* Traka sa činjenicama */
-.hero__foot {
-  border-top: 1px solid var(--color-line-inverse);
-}
-
-.hero__foot-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* Traka ispod naslova: četiri broja odvojena tankim linijama, dugme desno */
+.hero__bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
   gap: 32px;
+  margin-top: clamp(24px, 3.5vh, 40px);
+  border-top: 1px solid var(--color-line-on-photo);
 }
 
-.facts {
-  display: flex;
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
-.fact {
+.stat {
   display: flex;
-  flex-direction: column-reverse; /* vrednost iznad oznake, a u HTML-u ostaje dt → dd */
+  flex-direction: column-reverse; /* broj iznad oznake, a u HTML-u ostaje dt → dd */
   justify-content: flex-end;
-  gap: 4px;
-  padding: 22px clamp(20px, 3vw, 48px) 26px;
-  border-left: 1px solid var(--color-line-inverse);
+  gap: 10px;
+  padding: 20px 20px 2px;
+  border-left: 1px solid var(--color-line-on-photo);
 }
 
-.fact:first-child {
+.stat:first-child {
   padding-left: 0;
   border-left: 0;
 }
 
-.fact__value {
-  font-family: var(--font-display);
-  font-size: var(--text-stat);
-  font-weight: var(--weight-medium);
-  line-height: 1;
+.stat__value {
+  font-size: var(--text-figure);
+  font-weight: 300;
+  font-stretch: var(--stretch-wide);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
   white-space: nowrap;
 }
 
-.fact__label {
-  font-size: var(--text-xs);
-  letter-spacing: 0.08em;
-  color: var(--color-text-inverse-muted);
-}
-
-.scrollcue {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.stat__label {
   font-size: 11px;
   font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-inverse-soft);
 }
 
-.scrollcue__track {
-  position: relative;
-  width: 1px;
-  height: 44px;
-  overflow: hidden;
-  background: var(--color-line-inverse);
-}
-
-.scrollcue__dot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 14px;
-  background: var(--color-text-inverse);
-  animation: scrollcue 2.2s var(--ease-out) infinite;
-}
-
-@keyframes scrollcue {
-  from {
-    transform: translateY(-14px);
-  }
-  to {
-    transform: translateY(44px);
-  }
+.hero__cta {
+  --btn-h: 48px;
+  font-size: 12px;
 }
 
 /* Ulazne animacije; `--delay` se zadaje u template-u */
 .reveal {
-  animation: fade-up 1.1s var(--ease-out) var(--delay, 0s) both;
-}
-
-.reveal-line {
-  animation: line-up 1.2s var(--ease-out) var(--delay, 0s) both;
+  animation: fade-up 1.2s var(--ease-out) var(--delay, 0s) both;
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
+    transform: translateY(20px);
   }
 }
 
@@ -328,86 +221,49 @@ const parallaxStyle = computed(() =>
   from {
     transform: translateY(105%);
   }
-  to {
-    transform: none;
+}
+
+/* Tablet: dugme ispod brojeva */
+@media (max-width: 980px) {
+  .hero__bar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .hero__cta {
+    justify-self: start;
   }
 }
 
-/* Tablet */
-@media (max-width: 900px) {
-  .hero__media :deep(.hero__img) {
-    object-position: 60% 50%;
-  }
-
-  .hero__scrim {
-    background:
-      linear-gradient(180deg, color-mix(in srgb, var(--o) 50%, transparent) 0%, transparent 20%),
-      linear-gradient(
-        0deg,
-        color-mix(in srgb, var(--o) 90%, transparent) 0%,
-        color-mix(in srgb, var(--o) 62%, transparent) 42%,
-        transparent 72%
-      );
-  }
-
-  .scrollcue {
-    display: none;
-  }
-
-  .facts {
-    width: 100%;
-  }
-
-  .fact {
-    flex: 1;
-    padding: 18px 14px 22px;
-  }
-}
-
-/* Telefon: slika gore, tekst na tamnoj podlozi ispod nje */
-@media (max-width: 700px) {
-  .hero__media {
-    bottom: auto;
-    height: 64svh;
-  }
-
-  .hero__media :deep(.hero__img) {
-    object-position: 66% 40%;
-  }
-
-  .hero__scrim {
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--o) 50%, transparent) 0%,
-      transparent 16%,
-      transparent 28%,
-      color-mix(in srgb, var(--o) 75%, transparent) 48%,
-      var(--o) 64%
-    );
-  }
-}
-
+/* Telefon: slika isečena tako da se vidi zgrada; brojevi 2 × 2, dugme preko cele širine */
 @media (max-width: 560px) {
+  .hero__media :deep(.hero__img) {
+    object-position: 74% 50%;
+  }
+
   .hero__eyebrow {
-    font-size: var(--text-2xs);
-    letter-spacing: 0.2em;
+    font-size: 11px;
   }
 
-  .hero__actions .btn {
-    flex: 1 1 100%;
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .fact {
-    padding-inline: 10px;
+  .stat {
+    padding: 16px 14px 14px;
   }
 
-  .fact__value {
-    font-size: 21px;
+  .stat:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
   }
 
-  .fact__label {
-    font-size: var(--text-2xs);
-    letter-spacing: 0.02em;
+  .stat:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--color-line-on-photo);
+  }
+
+  .hero__cta {
+    justify-self: stretch;
   }
 }
 </style>

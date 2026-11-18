@@ -36,7 +36,8 @@ const visible = computed(() => y.value > height.value * SHOW_AFTER && !menuOpen.
     >
       <UiIcon name="chat" />{{ messenger.label }}
     </a>
-    <a :href="`${localePath('/')}#kontakt`" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</a>
+    <!-- Kontakt forma trenutno nije na početnoj, pa „Ponuda“ vodi na kompletnu ponudu stanova -->
+    <NuxtLink :to="localePath('/stanovi')" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</NuxtLink>
   </nav>
 </template>
 
@@ -45,6 +46,7 @@ const visible = computed(() => y.value > height.value * SHOW_AFTER && !menuOpen.
   position: fixed;
   inset: auto 0 0;
   z-index: var(--z-actionbar);
+  font-family: var(--font-grotesk);
   display: none;
   grid-auto-columns: 1fr;
   grid-auto-flow: column;

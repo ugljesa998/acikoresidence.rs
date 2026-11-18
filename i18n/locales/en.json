@@ -14,7 +14,8 @@
     "home": "ACIKO Residence, home",
     "construction": "Construction",
     "main": "Main navigation",
-    "footer": "Footer navigation"
+    "footer": "Footer navigation",
+    "floors": "Floors"
   },
   "cta": {
     "choose": "Choose an apartment",
@@ -43,7 +44,21 @@
       "size": "1 or 2 bedrooms",
       "terraceValue": "up to {n} m²",
       "terrace": "terraces on the top floor"
+    },
+    "stats": {
+      "units": "apartments",
+      "area": "m² per apartment",
+      "floors": "floors, {n} apartments each",
+      "terrace": "m² largest terrace"
     }
+  },
+  "floorsList": {
+    "title": "Floors",
+    "hint": "Choose a floor",
+    "units": "Apartments {from}–{to}",
+    "area": "{min}–{max} m²",
+    "bedroomsRange": "1 or 2 bedrooms",
+    "terraceUpTo": "terraces up to {n} m²"
   },
   "about": {
     "eyebrow": "About the project",

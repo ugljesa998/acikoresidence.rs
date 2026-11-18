@@ -71,7 +71,9 @@ watch(locale, () => (open.value = false))
   transition: transform var(--duration-fast) var(--ease-out);
 }
 
-.is-open .lang__toggle svg {
+/* `.lang.is-open`, a ne samo `.is-open`: header dobija `is-open` kad je otvoren mobilni meni,
+   pa bi se inače i lista jezika otvarala zajedno sa menijem. */
+.lang.is-open .lang__toggle svg {
   transform: rotate(180deg);
 }
 
@@ -97,7 +99,7 @@ watch(locale, () => (open.value = false))
     visibility 0s linear 0.35s;
 }
 
-.is-open .lang__menu {
+.lang.is-open .lang__menu {
   opacity: 1;
   visibility: visible;
   transform: none;

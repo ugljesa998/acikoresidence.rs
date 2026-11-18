@@ -1,14 +1,17 @@
 <script setup lang="ts">
-// Header: providan preko hero slike, posle skrola staklena traka preko cele širine („liquid glass“). Pri skrolovanju nadole se sklanja,
-// a vraća se čim korisnik krene nagore. Ispod 1080px prelazi na burger meni.
+// Header (arhitektonski stil): tanka traka sa linijom ispod, providna preko fotografije u heru i preko tamnog
+// vrha podstranica. Logo levo, meni u sredini velikim slovima, desno jezik, telefon i crveno dugme „Ponuda“.
+// Posle skrola postaje tamna zamućena traka; pri skrolovanju nadole se sklanja, a vraća se čim korisnik krene nagore.
+// Ispod 1080px prelazi na burger meni.
 const { t } = useI18n()
 const route = useRoute()
-// Sidra vode na početnu, da meni radi i sa drugih stranica (npr. /stanovi).
 const localePath = useLocalePath()
-const home = computed(() => localePath('/'))
 const nav = useNavigation()
 const contact = useContact()
 const messenger = contact.messenger
+
+// Kontakt forma trenutno nije na početnoj, pa „Ponuda“ vodi na kompletnu ponudu stanova.
+const offerHref = computed(() => localePath('/stanovi'))
 
 const SCROLLED_AFTER = 24 // px
 const HIDE_AFTER = 520 // px; iznad ove visine header je uvek vidljiv
@@ -32,17 +35,12 @@ onKeyStroke('Escape', () => (open.value = false))
 </script>
 
 <template>
-  <header
-    class="header"
-    :class="{ 'is-scrolled': scrolled && !open, 'is-hidden': hidden, 'is-open': open }"
-  >
+  <header class="header" :class="{ 'is-scrolled': scrolled && !open, 'is-hidden': hidden, 'is-open': open }">
     <div class="header__bar container">
       <BrandLogo class="header__brand" />
 
       <nav class="nav" :aria-label="t('nav.main')">
-        <a v-for="item in nav" :key="item.id" :href="`${home}#${item.id}`" class="nav__link">
-          {{ item.label }}
-        </a>
+        <NuxtLink v-for="item in nav" :key="item.key" :to="item.to" class="nav__link">{{ item.label }}</NuxtLink>
       </nav>
 
       <div class="header__end">
@@ -58,10 +56,10 @@ onKeyStroke('Escape', () => (open.value = false))
           <span class="phone__number">{{ contact.phoneDisplay }}</span>
         </a>
 
-        <!-- Na vrhu stranice hero ima ista dugmad; ovde se pojavljuje tek posle skrolovanja. -->
-        <a :href="`${home}#kontakt`" class="header__cta" :tabindex="scrolled ? undefined : -1">
+        <NuxtLink :to="offerHref" class="header__cta btn btn--primary">
           {{ t('cta.offerShort') }}
-        </a>
+          <UiIcon name="arrow" />
+        </NuxtLink>
 
         <button
           type="button"
@@ -80,16 +78,16 @@ onKeyStroke('Escape', () => (open.value = false))
     <div id="mobile-menu" class="menu" :class="{ 'is-open': open }" :inert="!open">
       <div class="menu__inner container">
         <nav class="menu__nav" :aria-label="t('nav.main')">
-          <a
+          <NuxtLink
             v-for="(item, i) in nav"
-            :key="item.id"
-            :href="`${home}#${item.id}`"
+            :key="item.key"
+            :to="item.to"
             class="menu__link"
             :style="{ '--i': i }"
             @click="open = false"
           >
             <span class="menu__num">0{{ i + 1 }}</span>{{ item.label }}
-          </a>
+          </NuxtLink>
         </nav>
 
         <div class="menu__foot">
@@ -108,7 +106,10 @@ onKeyStroke('Escape', () => (open.value = false))
               <UiIcon name="chat" />{{ messenger.label }}
             </a>
           </div>
-          <a :href="`${home}#kontakt`" class="btn btn--primary" @click="open = false">{{ t('cta.offer') }}</a>
+          <NuxtLink :to="offerHref" class="btn btn--primary" @click="open = false">
+            {{ t('cta.offerShort') }}
+            <UiIcon name="arrow" />
+          </NuxtLink>
           <p class="menu__address">{{ t('contact.address') }}</p>
         </div>
       </div>
@@ -122,27 +123,21 @@ onKeyStroke('Escape', () => (open.value = false))
   inset: 0 0 auto;
   z-index: var(--z-header);
   color: var(--color-text-inverse);
-  transition:
-    transform 0.6s var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+  font-family: var(--font-grotesk);
+  transition: transform 0.6s var(--ease-out);
 }
 
-/* „Liquid glass“ traka koja se uključuje posle skrola: cela širina, priljubljena uz vrh ekrana.
-   Poluprovidna je i jako muti ono što prolazi ispod nje, pa deluje kao deo ekrana. */
+/* Posle skrola: tamna zamućena traka preko cele širine */
 .header::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, var(--color-surface-glass-top), var(--color-surface-glass));
-  backdrop-filter: blur(32px) saturate(1.8);
-  -webkit-backdrop-filter: blur(32px) saturate(1.8);
+  background: var(--color-surface-glass-dark);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--duration-fast) var(--ease-out);
-}
-
-.header.is-scrolled {
-  color: var(--color-text);
 }
 
 .header.is-scrolled::before {
@@ -153,150 +148,92 @@ onKeyStroke('Escape', () => (open.value = false))
   transform: translateY(-100%);
 }
 
+/* Linija ispod trake je deo mreže; na vrhu leži preko fotografije, posle skrola je tamna */
 .header__bar {
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr; /* meni ostaje tačno na sredini */
   align-items: center;
   column-gap: 32px;
   height: var(--header-h);
-  transition: height var(--duration-fast) var(--ease-out);
+  border-bottom: 1px solid var(--color-line-on-photo);
+  transition:
+    height var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
 }
 
 .header.is-scrolled .header__bar {
   height: var(--header-h-compact);
+  border-color: transparent;
 }
 
-/* Glavna navigacija */
+.header__brand {
+  justify-self: start;
+  --logo-h: 18px;
+}
+
+/* Glavna navigacija: mala velika slova sa razmakom */
 .nav {
   display: flex;
-  justify-content: center;
-  gap: clamp(24px, 2.6vw, 44px);
+  gap: clamp(24px, 2.4vw, 40px);
   white-space: nowrap;
 }
 
 .nav__link {
-  position: relative;
-  font-size: var(--text-sm);
+  font-size: 12px;
   font-weight: var(--weight-medium);
-  letter-spacing: 0.16em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+  color: var(--color-text-inverse-soft);
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
-.nav__link::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 -6px;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform var(--duration-base) var(--ease-out);
-}
-
-.nav__link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+.nav__link:hover {
+  color: var(--color-text-inverse);
 }
 
 .header__end {
-  --end-gap: 24px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--end-gap);
+  gap: 24px;
 }
 
-/* Telefon: crveni krug koji povremeno „zazvoni“ + ceo broj */
+.header__end :deep(.lang__toggle) {
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+}
+
+/* Telefon: na desktopu samo broj; na telefonu crveni krug koji „zvoni“ (vidi media upit dole) */
 .phone {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 15px;
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.02em;
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
+.phone:hover {
+  color: var(--color-text-inverse);
+}
+
 .phone__icon {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-full);
-  background: var(--color-accent);
-  color: var(--color-text-inverse);
-  font-size: 16px;
-  box-shadow: var(--shadow-accent);
-  transition:
-    transform var(--duration-fast) var(--ease-out),
-    background-color var(--duration-fast) var(--ease-out);
+  display: none;
 }
 
-.phone__number {
-  position: relative;
-}
-
-.phone__number::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 -4px;
-  height: 1px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform var(--duration-base) var(--ease-out);
-}
-
-.phone:hover .phone__icon {
-  transform: scale(1.08);
-  background: var(--color-accent-hover);
-}
-
-.phone:hover .phone__number::after {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
-/* Dugme se „otvara“ tek posle skrolovanja; na vrhu ne zauzima mesto. */
 .header__cta {
-  display: inline-flex;
-  align-items: center;
-  height: 44px;
-  max-width: 0;
-  margin-left: calc(-1 * var(--end-gap));
-  padding-inline: 0;
-  overflow: hidden;
-  opacity: 0;
-  border-radius: var(--radius-sm);
-  background: var(--color-accent);
-  color: var(--color-text-inverse);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  white-space: nowrap;
-  pointer-events: none;
-  transition:
-    max-width var(--duration-base) var(--ease-out),
-    padding var(--duration-base) var(--ease-out),
-    margin var(--duration-base) var(--ease-out),
-    opacity var(--duration-fast) var(--ease-out),
-    background-color var(--duration-fast) var(--ease-out);
+  --btn-h: 44px;
+  gap: 12px;
+  padding-inline: 20px;
+  font-size: 12px;
 }
 
-.header.is-scrolled .header__cta {
-  max-width: 220px;
-  margin-left: 0;
-  padding-inline: 22px;
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.header__cta:hover {
-  background: var(--color-accent-hover);
+.header__cta .ui-icon {
+  font-size: 15px;
 }
 
 /* Burger */
@@ -338,7 +275,7 @@ onKeyStroke('Escape', () => (open.value = false))
   transform: rotate(-45deg);
 }
 
-/* Mobilni meni */
+/* Mobilni meni: tamni ekran, stavke kao redovi tabele */
 .menu {
   position: fixed;
   inset: 0;
@@ -371,18 +308,20 @@ onKeyStroke('Escape', () => (open.value = false))
 .menu__nav {
   display: flex;
   flex-direction: column;
+  border-top: 1px solid var(--color-line-inverse);
 }
 
 .menu__link {
   display: flex;
   align-items: baseline;
   gap: 18px;
-  padding: 10px 0;
+  padding: 14px 0;
   border-bottom: 1px solid var(--color-line-inverse);
-  font-family: var(--font-display);
-  font-size: clamp(38px, 10vw, 56px);
-  font-weight: var(--weight-medium);
+  font-size: clamp(32px, 9vw, 48px);
+  font-weight: 300;
+  font-stretch: var(--stretch-wide);
   line-height: 1.1;
+  letter-spacing: -0.02em;
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -397,8 +336,9 @@ onKeyStroke('Escape', () => (open.value = false))
 }
 
 .menu__num {
-  font-family: var(--font-sans);
   font-size: 11px;
+  font-weight: var(--weight-medium);
+  font-stretch: 100%;
   letter-spacing: var(--tracking-label);
   color: var(--color-muted);
 }
@@ -460,26 +400,15 @@ onKeyStroke('Escape', () => (open.value = false))
   color: var(--color-text-inverse-muted);
 }
 
-/* Uži laptopi: sve staje bez „Residence“ uz logo i sa manjim razmacima */
-@media (min-width: 1081px) and (max-width: 1280px) {
-  .header__brand :deep(.brand__suffix) {
+/* Uži laptopi: bez „Residence“ uz logo i bez broja telefona */
+@media (min-width: 1081px) and (max-width: 1240px) {
+  .header__brand :deep(.brand__suffix),
+  .phone {
     display: none;
-  }
-
-  .header__bar {
-    column-gap: 24px;
-  }
-
-  .nav {
-    gap: 20px;
-  }
-
-  .header__end {
-    --end-gap: 18px;
   }
 }
 
-/* Tablet i telefon: burger meni, a od telefona ostaje samo crveni krug */
+/* Tablet i telefon: burger meni, a telefon postaje crveni krug koji „zvoni“ */
 @media (max-width: 1080px) {
   .header__bar {
     grid-template-columns: 1fr auto;
@@ -497,18 +426,25 @@ onKeyStroke('Escape', () => (open.value = false))
   }
 
   .header__end {
-    --end-gap: 10px;
+    gap: 10px;
   }
 
   .phone__icon {
+    display: grid;
+    place-items: center;
     width: 38px;
     height: 38px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+    font-size: 16px;
+    box-shadow: var(--shadow-accent);
   }
 }
 
 @media (max-width: 560px) {
   .header__brand {
-    --logo-h: 17px;
+    --logo-h: 16px;
   }
 }
 </style>

@@ -42,6 +42,7 @@
   --color-text-inverse-soft: color-mix(in srgb, var(--palette-white) 82%, transparent);
   --color-text-inverse-muted: color-mix(in srgb, var(--palette-white) 62%, transparent);
   --color-text-faint: color-mix(in srgb, var(--palette-ink-900) 24%, transparent); /* još neosvetljen tekst */
+  --color-text-inverse-faint: color-mix(in srgb, var(--palette-white) 24%, transparent); /* još neosvetljen tekst na tamnoj podlozi */
   --color-line: color-mix(in srgb, var(--palette-ink-900) 8%, transparent);
   --color-line-strong: color-mix(in srgb, var(--palette-ink-900) 22%, transparent);
   --color-line-inverse: color-mix(in srgb, var(--palette-white) 18%, transparent);
@@ -65,6 +66,7 @@
   --color-landscape: color-mix(in srgb, var(--palette-sand-600) 4%, transparent); /* crtež Vrnjačke Banje iza svetlih sekcija; procenat = jačina */
 
   --color-overlay: var(--palette-ink-900); /* osnova za zatamnjenja preko fotografija */
+  --color-line-on-photo: color-mix(in srgb, var(--palette-white) 28%, transparent); /* tanke linije preko fotografije */
 
   /* Messengeri — posvetljene nijanse da se vide na tamnoj pozadini */
   --color-viber: #a493ff;
@@ -74,6 +76,8 @@
   /* 3. Tipografija */
   --font-display: 'EB Garamond', 'Times New Roman', serif;
   --font-sans: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-grotesk: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif; /* početna i header (arhitektonski stil) */
+  --stretch-wide: 125%; /* proširena Archivo varijanta za naslove i brojeve */
 
   --text-2xs: 10.5px;
   --text-xs: 11.5px;
@@ -84,6 +88,9 @@
   --text-stat: clamp(26px, 2.3vw, 36px);
   --text-h2: clamp(26px, 2.7vw, 44px);
   --text-display: clamp(44px, 5.6vw, 104px);
+  --text-hero: clamp(40px, 6.4vw, 112px); /* naslov preko fotografije na početnoj */
+  --text-figure: clamp(30px, 3.4vw, 58px); /* krupni brojevi u heru, preko fotografije */
+  --text-row: clamp(22px, 2.2vw, 34px); /* nazivi spratova u tabeli */
 
   --weight-regular: 400;
   --weight-medium: 500;
@@ -97,8 +104,8 @@
   /* 4. Raspored */
   --gutter: clamp(20px, 4.5vw, 72px);
   --container-max: 1520px;
-  --header-h: 88px;
-  --header-h-compact: 72px;
+  --header-h: 64px;
+  --header-h-compact: 56px;
 
   --radius-sm: 2px;
   --radius-full: 999px;
@@ -119,6 +126,6 @@
 
 @media (max-width: 560px) {
   :root {
-    --header-h: 72px;
+    --header-h: 60px;
   }
 }

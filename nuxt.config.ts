@@ -47,6 +47,17 @@ export default defineNuxtConfig({
       styles: ['normal', 'italic'],
       subsets: ['latin', 'latin-ext', 'cyrillic', 'cyrillic-ext'],
     },
+    families: [
+      // Archivo (početna, header): varijabilan i po debljini i po širini, jer naslovi i brojevi koriste
+      // proširenu varijantu (font-stretch 110–125%). Nema ćirilicu, pa ruski tekst pada na sistemski font.
+      {
+        name: 'Archivo',
+        provider: 'google',
+        weights: ['300 700'],
+        styles: ['normal'],
+        variableAxis: { wdth: [[100, 125]] },
+      },
+    ],
   },
 
   image: {
