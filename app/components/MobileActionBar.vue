@@ -3,7 +3,7 @@
 // Pojavljuje se tek kad korisnik prođe dugmad u hero sekciji, da se ne dupliraju,
 // i sklanja se dok je otvoren meni (meni ima svoj kontakt).
 const { t } = useI18n()
-const localePath = useLocalePath()
+const offerHref = useOfferLink()
 const contact = useContact()
 const messenger = contact.messenger
 
@@ -36,8 +36,8 @@ const visible = computed(() => y.value > height.value * SHOW_AFTER && !menuOpen.
     >
       <UiIcon name="chat" />{{ messenger.label }}
     </a>
-    <!-- „Ponuda“ vodi na kontakt formu na dnu početne -->
-    <NuxtLink :to="`${localePath('/')}#kontakt`" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</NuxtLink>
+    <!-- „Ponuda“ vodi na kontakt formu na dnu početne, a na stranici stana na upit za taj stan -->
+    <NuxtLink :to="offerHref" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</NuxtLink>
   </nav>
 </template>
 

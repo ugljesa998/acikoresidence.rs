@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { apartments } from '~/data/apartments'
+import { apartments, apartmentSlug } from '~/data/apartments'
 import { project } from '~/data/project'
 
 // Stanovi na početnoj (arhitektonski stil): tri izdvojena stana (najmanji, sa dve spavaće sobe, sa najvećom
 // terasom) kao tri kolone odvojene tankim linijama. Kartica je zajednička sa stranicom /stanovi (ApartmentCard);
-// ovde je cela kartica link na taj stan na stranici /stanovi.
+// ovde je cela kartica link na stranicu tog stana (/stanovi/stan-N).
 // Odmah posle ove sekcije ide OfferCta (fotografija i dugme ka svim stanovima).
 const { t, localeProperties } = useI18n()
 const localePath = useLocalePath()
@@ -22,7 +22,7 @@ const featured = computed(() =>
   FEATURED.flatMap(({ number, tag }) => {
     const apartment = apartments.find((a) => a.number === number)
     return apartment
-      ? [{ apartment, tag: t(`apartments.tags.${tag}`), to: `${localePath('/stanovi')}#stan-${number}` }]
+      ? [{ apartment, tag: t(`apartments.tags.${tag}`), to: localePath(`/stanovi/${apartmentSlug(number)}`) }]
       : []
   }),
 )

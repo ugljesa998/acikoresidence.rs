@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components'
-import { type Apartment, planImage } from '~/data/apartments'
+import { type Apartment, planImage, statusOf } from '~/data/apartments'
 
 // Kartica stana (arhitektonski stil, za tamnu podlogu) — ista na početnoj i na stranici /stanovi.
-// Osnova na mekoj svetloj podlozi, oznaka (opciono), broj stana i površina krupno, pa sprat · sobe · terasa.
-// - `detailed`: ispod i tabela površina po prostorijama (stranica /stanovi);
-// - `to`: cela kartica je link, a na dnu je dugme „Pogledajte stan“ (početna);
-// - slot: sopstvena akcija na dnu kartice, npr. „Zatražite ponudu“ na /stanovi.
-// Akcija je uvek na dnu, pa su dugmad u istom redu u ravni i kad kartice imaju različit broj prostorija.
+// Oznaka stanja (Slobodno / Rezervisano / Prodato), ispod nje osnova na mekoj svetloj podlozi, oznaka (opciono),
+// broj stana i površina krupno, pa sprat · sobe · terasa. Prodat stan je prigušen.
+// - `to`: cela kartica je link na stranicu stana, a na dnu je dugme „Pogledajte stan“ (početna i /stanovi);
+// - slot: sopstvena akcija na dnu kartice (kada kartica nije link).
+// Akcija je uvek na dnu, pa su dugmad u istom redu u ravni i kad se sprat · sobe · terasa prelome u dva reda.
 const props = defineProps<{
   apartment: Apartment
   tag?: string
   to?: string
-  detailed?: boolean
 }>()
 
 const { t, localeProperties } = useI18n()
@@ -24,11 +23,13 @@ const formatArea = (n: number) =>
   }).format(n)
 
 const plan = computed(() => planImage(props.apartment.number))
+const sold = computed(() => statusOf(props.apartment.number) === 'sold')
 const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`))
 </script>
 
 <template>
-  <component :is="to ? NuxtLink : 'article'" :to="to" class="apt" :class="{ 'apt--link': to }">
+  <component :is="to ? NuxtLink : 'article'" :to="to" class="apt" :class="{ 'apt--link': to, 'apt--sold': sold }">
+    <StatusBadge :number="apartment.number" class="apt__status" />
     <div class="apt__plan">
       <NuxtImg
         :src="plan.src"
@@ -50,13 +51,6 @@ const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`
       <span>{{ t('apartments.bedrooms', apartment.bedrooms) }}</span>
       <span>{{ t('apartments.terrace', { n: formatArea(apartment.terrace) }) }}</span>
     </p>
-
-    <dl v-if="detailed" class="rooms">
-      <div v-for="(room, i) in apartment.rooms" :key="i" class="rooms__row">
-        <dt>{{ t(`apartments.rooms.${room[0]}`) }}</dt>
-        <dd>{{ t('apartments.area', { n: formatArea(room[1]) }) }}</dd>
-      </div>
-    </dl>
 
     <div v-if="to || $slots.default" class="apt__action">
       <span v-if="to" class="btn btn--ghost apt__more">
@@ -87,6 +81,12 @@ const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`
   aspect-ratio: 6 / 5;
 }
 
+/* Stanje iznad osnove, levo, sa razmakom (da se ne lepi uz crtež) */
+.apt__status {
+  align-self: flex-start;
+  margin-bottom: 16px;
+}
+
 .apt__plan::before {
   content: '';
   position: absolute;
@@ -109,6 +109,16 @@ const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`
 
 .apt--link:hover .apt__plan img {
   transform: scale(1.03);
+}
+
+/* Prodat: osnova i naslov prigušeni (oznaka u uglu ostaje jasna) */
+.apt--sold .apt__plan img,
+.apt--sold .apt__plan::before {
+  opacity: 0.35;
+}
+
+.apt--sold .apt__head {
+  color: var(--color-text-inverse-muted);
 }
 
 .apt__tag {
@@ -165,30 +175,6 @@ const floorLabel = computed(() => t(`apartments.floors.${props.apartment.floor}`
   margin-inline: 10px;
   vertical-align: -0.1em;
   background: var(--color-line-inverse-strong);
-}
-
-/* Površine po prostorijama kao redovi tabele */
-.rooms {
-  margin: 20px 0 0;
-  font-size: 14px;
-  border-top: 1px solid var(--color-line-inverse);
-}
-
-.rooms__row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-block: 8px;
-  border-bottom: 1px solid var(--color-line-inverse);
-}
-
-.rooms__row dt {
-  color: var(--color-text-inverse-soft);
-}
-
-.rooms__row dd {
-  margin: 0;
-  font-variant-numeric: tabular-nums;
 }
 
 /* Akcija na dnu kartice, preko cele širine */

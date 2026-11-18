@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ name: 'phone' | 'chat' | 'arrow' | 'check' }>()
+defineProps<{ name: 'phone' | 'chat' | 'arrow' | 'check' | 'zoom' }>()
 </script>
 
 <template>
@@ -22,6 +22,7 @@ defineProps<{ name: 'phone' | 'chat' | 'arrow' | 'check' }>()
       d="M20.5 11.6a8.4 8.4 0 0 1-12.2 7.5L3.5 20.5l1.4-4.6a8.4 8.4 0 1 1 15.6-4.3z"
     />
     <path v-else-if="name === 'check'" d="M5 12.5l4.5 4.5L19 7.5" />
+    <path v-else-if="name === 'zoom'" d="M10.5 3.5a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20.5 20.5l-5-5M10.5 7.5v6M7.5 10.5h6" />
     <path v-else d="M4 12h16M14 6l6 6-6 6" />
   </svg>
 </template>

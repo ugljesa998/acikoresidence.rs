@@ -9,9 +9,32 @@
 export const PLAN_EXAMPLE = { src: '/images/plans/primer.png', width: 522, height: 478 } as const
 export const planImage = (_number: number) => PLAN_EXAMPLE
 
-// TODO: upisati brojeve PRODATIH stanova (npr. [2, 5, 9, 11, 14, 16]).
-// Dok je lista prazna, sajt prikazuje samo ukupan broj iz `project.sold`, a nijedan stan nije označen kao prodat.
-export const soldUnits: number[] = []
+// Cela strana kataloga za stan (osnova, 3D prikaz, položaj na spratu, zgrada i tabela površina) — glavna slika
+// na stranici stana. Smanjene iz originala (INFO/.../KATALOG 01/STAN BROJ XX.jpg, 4134 × 2923) na 2400 px.
+export const catalogPage = (number: number) => ({
+  src: `/images/katalog/stan-${String(number).padStart(2, '0')}.jpg`,
+  width: 2400,
+  height: 1697,
+})
+
+// Adresa stranice stana: /stanovi/stan-15 (na en/ru sa prefiksom jezika)
+export const apartmentSlug = (number: number) => `stan-${number}`
+export const apartmentBySlug = (slug: unknown) => {
+  const match = /^stan-(\d{1,2})$/.exec(String(slug))
+  return match ? apartments.find((a) => a.number === Number(match[1])) : undefined
+}
+
+// Stanje stanova: oznaka „Slobodno“, „Rezervisano“ ili „Prodato“ na karticama i na stranici stana.
+// Ovde se upisuju samo rezervisani i prodati; svi ostali su slobodni.
+// TODO: PRIMER, nije pravo stanje — nasumično izabrani stanovi, samo da se vidi izgled oznaka.
+// Pre objavljivanja upisati pravo stanje (ili ostaviti prazno: {} = svi slobodni).
+export type UnitStatus = 'available' | 'reserved' | 'sold'
+export const unitStatus: Partial<Record<number, Exclude<UnitStatus, 'available'>>> = {
+  4: 'sold',
+  10: 'sold',
+  7: 'reserved',
+  16: 'reserved',
+}
 
 export type FloorKey = 'f1' | 'f2' | 'f3' | 'ph' // I, II, III i povučeni sprat
 export type RoomKey = 'living' | 'kitchenDining' | 'livingOnly' | 'bedroom' | 'bathroom' | 'hall' | 'lobby' | 'terrace'
@@ -65,8 +88,9 @@ export const apartments: readonly Apartment[] = [
     rooms: [['living', 18.41], ['bedroom', 9.04], ['bathroom', 4.66], ['hall', 1.67], ['terrace', 12.38]] },
 ]
 
-export const isSold = (number: number) => soldUnits.includes(number)
+export const statusOf = (number: number): UnitStatus => unitStatus[number] ?? 'available'
+export const isSold = (number: number) => statusOf(number) === 'sold'
 
-/** Broj slobodnih stanova: iz liste prodatih ako je popunjena, inače iz `project.sold`. */
+/** Broj slobodnih stanova: iz stanja stanova ako je upisano, inače iz `project.sold`. */
 export const availableCount = (total: number, soldFallback: number) =>
-  total - (soldUnits.length || soldFallback)
+  total - (Object.values(unitStatus).filter((s) => s === 'sold').length || soldFallback)

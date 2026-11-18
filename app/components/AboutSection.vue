@@ -1,13 +1,25 @@
 <script setup lang="ts">
+import { project } from '~/data/project'
+
 // O projektu (arhitektonski stil): tamna podloga, tanke linije, široki Archivo, bez uvlačenja.
 // Gore oznaka „O projektu“ ispod tanke linije, pa dve simetrične polovine: fotografija levo, a desno naslov
 // (about.title) poravnat sa vrhom slike, ispod njega dva pasusa, tri razloga (život, odmor, ulaganje) kao
 // redovi tabele i link. Fotografija se rasteže do visine desne kolone, pa nigde ne ostaje prazan prostor.
+// Na dnu fotografije traka sa dva podatka (planiran završetak, broj garažnih mesta), kao brojevi u heru;
+// na telefonu je traka ispod fotografije. Brojevi su u data/project.ts.
 // Tekstovi su ključevi `about.*` u i18n/locales/*.json.
-const { t } = useI18n()
+const { t, localeProperties } = useI18n()
 const localePath = useLocalePath()
 
 const pillars = ['living', 'leisure', 'investment'] as const
+
+// „Jun 2027“: naziv meseca po jeziku sajta, veliko prvo slovo
+const completion = computed(() => {
+  const { year, month } = project.completion
+  const lang = localeProperties.value.language
+  const name = new Intl.DateTimeFormat(lang, { month: 'long' }).format(new Date(year, month - 1, 1))
+  return `${name.charAt(0).toLocaleUpperCase(lang)}${name.slice(1)} ${year}`
+})
 </script>
 
 <template>
@@ -17,14 +29,28 @@ const pillars = ['living', 'leisure', 'investment'] as const
 
       <div class="project__body">
         <figure class="project__photo">
-          <NuxtImg
-            src="/images/gallery/zgrada-02.jpg"
-            :alt="t('gallery.images.side')"
-            width="1600"
-            height="900"
-            sizes="100vw md:50vw lg:760px"
-            loading="lazy"
-          />
+          <div class="project__media">
+            <NuxtImg
+              src="/images/o-projektu.jpg"
+              :alt="t('about.imageAlt')"
+              width="1674"
+              height="940"
+              sizes="xs:100vw sm:100vw md:50vw lg:760px"
+              loading="lazy"
+            />
+          </div>
+
+          <!-- Dva podatka na dnu fotografije -->
+          <dl class="project__facts">
+            <div class="pfact">
+              <dt>{{ t('about.facts.completion') }}</dt>
+              <dd>{{ completion }}</dd>
+            </div>
+            <div class="pfact">
+              <dt>{{ t('about.facts.garage') }}</dt>
+              <dd>{{ project.garageSpaces }}</dd>
+            </div>
+          </dl>
         </figure>
 
         <div class="project__side">
@@ -89,12 +115,70 @@ const pillars = ['living', 'leisure', 'investment'] as const
   overflow: hidden;
 }
 
-.project__photo img {
+.project__media {
+  position: absolute;
+  inset: 0;
+}
+
+/* Zgrada je malo desno od sredine slike; kad se slika seče u uspravan okvir, zgrada ostaje cela */
+.project__media img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 57% 50%;
+}
+
+/* Zatamnjenje odozdo, da se podaci na dnu čitaju */
+.project__media::after {
+  --o: var(--color-overlay);
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--o) 78%, transparent) 0%, transparent 42%);
+  pointer-events: none;
+}
+
+/* Traka sa dva podatka preko dna fotografije: tanka linija gore, između njih linija */
+.project__facts {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border-top: 1px solid var(--color-line-on-photo);
+}
+
+.pfact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: clamp(16px, 1.8vw, 24px) clamp(18px, 2vw, 28px);
+}
+
+.pfact + .pfact {
+  border-left: 1px solid var(--color-line-on-photo);
+}
+
+/* Broj krupno iznad oznake, kao u heru */
+.pfact dd {
+  order: -1;
+  margin: 0;
+  font-size: clamp(28px, 2.6vw, 44px);
+  font-weight: 300;
+  font-stretch: var(--stretch-wide);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.pfact dt {
+  font-size: 11px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-soft);
 }
 
 .project__side {
@@ -163,9 +247,33 @@ const pillars = ['living', 'leisure', 'investment'] as const
     grid-template-columns: minmax(0, 1fr);
   }
 
+  /* Fotografija dobija svoj odnos stranica, a podaci su ispod nje (ne preko) */
   .project__photo {
     min-height: 0;
+  }
+
+  .project__media {
+    position: relative;
     aspect-ratio: 3 / 2;
+  }
+
+  .project__media::after {
+    display: none;
+  }
+
+  .project__facts {
+    position: static;
+    border-top: 0;
+    border-bottom: 1px solid var(--color-line-inverse);
+  }
+
+  .pfact {
+    padding-inline: 0;
+  }
+
+  .pfact + .pfact {
+    padding-left: 20px;
+    border-left-color: var(--color-line-inverse);
   }
 }
 </style>

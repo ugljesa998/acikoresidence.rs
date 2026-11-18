@@ -28,6 +28,8 @@
   --palette-red-600: #d90900; /* dugmad: kontrast sa belim tekstom ≥ 4.5:1 */
   --palette-red-700: #b80800; /* hover */
   --palette-white: #fff;
+  --palette-green-500: #4fb57a; /* oznaka „Slobodno“ */
+  --palette-amber-400: #e2a33b; /* oznaka „Rezervisano“ */
 
   /* 2. Semantičke boje
      Podloge sekcija su samo dve: tamna (--color-bg-inverse: hero, vrh podstranica, footer)
@@ -50,6 +52,10 @@
   --color-accent: var(--palette-red-600); /* glavna dugmad i poziv */
   --color-accent-hover: var(--palette-red-700);
   --color-accent-deep: color-mix(in srgb, var(--palette-red-700) 78%, var(--palette-ink-900)); /* kvadrat sa strelicom kad je dugme crveno (prelaz) */
+  /* Stanje stana (tačka u oznaci na kartici i na stranici stana) */
+  --color-status-available: var(--palette-green-500);
+  --color-status-reserved: var(--palette-amber-400);
+  --color-status-sold: var(--palette-red-500);
   --color-surface-btn-glass: color-mix(in srgb, var(--palette-ink-900) 35%, transparent); /* tamna staklena podloga glavnog dugmeta */
   --color-highlight: var(--palette-sand-200); /* kurziv u naslovima */
   --color-muted: var(--palette-sand-400);
@@ -69,6 +75,7 @@
   --color-line-on-photo: color-mix(in srgb, var(--palette-white) 28%, transparent); /* tanke linije preko fotografije */
   /* Svetla podloga iza osnova stanova na tamnoj strani (gore svetlija, dole tamnija; ivice su razmazane) */
   --color-surface-inverse-raised: color-mix(in srgb, var(--palette-sand-200) 6%, transparent);
+  --color-surface-inverse-menu: color-mix(in srgb, var(--palette-sand-200) 7%, var(--palette-ink-900)); /* neprovidan padajući spisak na tamnoj podlozi */
   --color-surface-inverse-glow: color-mix(in srgb, var(--palette-sand-200) 20%, transparent);
   --shadow-plan: drop-shadow(0 22px 34px color-mix(in srgb, var(--palette-ink-900) 55%, transparent)); /* meka senka ispod osnove sa providnom pozadinom */
 

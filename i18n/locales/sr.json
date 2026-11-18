@@ -76,9 +76,10 @@
   "about": {
     "eyebrow": "O projektu",
     "title": "Stan za život, odmor ili ulaganje.",
+    "imageAlt": "Pogled iz vazduha na zgradu ACIKO Residence, okruženu zelenilom",
     "statement": "Mirna ulica, zelenilo pred prozorom i banja na dohvat ruke — dom u kome se živi sporije i lepše.",
     "textA": "ACIKO Residence je nova zgrada sa samo 16 stanova u ulici Kneza Miloša. Po četiri stana na spratu znače manje komšija, više mira i osećaj da zaista znate ko živi pored vas.",
-    "textB": "Svaki stan je promišljen do detalja: funkcionalni rasporedi sa jednom ili dve spavaće sobe, velike staklene površine i terase okrenute zelenilu. Gradimo onako kako bismo gradili za sebe.",
+    "textB": "Svaki stan je promišljen do detalja: funkcionalni rasporedi sa jednom ili dve spavaće sobe, podno grejanje i klima uređaji, velike staklene površine i terase okrenute zelenilu. Gradimo onako kako bismo gradili za sebe.",
     "pillars": {
       "living": {
         "title": "Za život",
@@ -93,7 +94,11 @@
         "text": "Stan u najposećenijoj banji Srbije čuva vrednost, a možete ga izdavati gostima kada u njemu ne boravite."
       }
     },
-    "link": "Pogledajte stanove"
+    "link": "Pogledajte stanove",
+    "facts": {
+      "completion": "planiran završetak gradnje",
+      "garage": "garažnih mesta"
+    }
   },
   "apartments": {
     "eyebrow": "Stanovi",
@@ -130,10 +135,35 @@
     },
     "page": {
       "title": "Stanovi u ponudi",
-      "lead": "{n} stanova od {min} do {max} m², po četiri na spratu. Za svaki stan su prikazane osnova i površine po prostorijama.",
+      "lead": "{n} stanova od {min} do {max} m², po četiri na spratu. Izaberite stan da vidite osnovu, površine po prostorijama i da pošaljete upit baš za njega.",
       "back": "Početna",
       "metaTitle": "Stanovi u ponudi — ACIKO Residence, Vrnjačka Banja",
       "metaDescription": "Kompletna ponuda: {n} novih stanova od {min} do {max} m² u Vrnjačkoj Banji, sa osnovama i površinama po prostorijama."
+    },
+    "detail": {
+      "back": "Svi stanovi",
+      "metaTitle": "Stan {n}, {area} m² — ACIKO Residence, Vrnjačka Banja",
+      "metaDescription": "Stan {n} u novoj zgradi ACIKO Residence u Vrnjačkoj Banji: {area} m², {floor}, {bedrooms}, terasa {terrace} m². Osnova, površine po prostorijama i upit za ovaj stan.",
+      "zoom": "Uvećajte sliku",
+      "close": "Zatvorite",
+      "planNote": "Strana iz kataloga. Prikazi su informativnog karaktera; nameštaj je prikazan kao predlog.",
+      "roomsTitle": "Površine po prostorijama",
+      "total": "Ukupno, neto",
+      "askTitle": "Zatražite ponudu za Stan {n}.",
+      "askLead": "Ostavite ime i broj telefona, a mi vam šaljemo cenu i uslove kupovine za ovaj stan.",
+      "pager": "Ostali stanovi",
+      "prev": "Prethodni stan",
+      "next": "Sledeći stan",
+      "all": "Svi stanovi",
+      "sheetAlt": "Strana kataloga za Stan {n}, {floor}: osnova, 3D prikaz stana, položaj na spratu i površine po prostorijama",
+      "soldTitle": "Stan {n} je prodat.",
+      "soldLead": "Javićemo vam koji su stanovi sličnog rasporeda još slobodni. Ostavite ime i broj telefona, a stan koji vas zanima možete izabrati iz spiska.",
+      "reservedLead": "Stan je trenutno rezervisan. Ostavite ime i broj telefona i javljamo vam se čim se oslobodi, uz cenu i uslove kupovine."
+    },
+    "status": {
+      "available": "Slobodno",
+      "reserved": "Rezervisano",
+      "sold": "Prodato"
     }
   },
   "location": {
@@ -182,6 +212,29 @@
       "rear": "Zadnja strana zgrade sa terasama"
     }
   },
+  "build": {
+    "eyebrow": "Gradnja",
+    "title": "Kvalitet koji se oseća svakog dana.",
+    "lead": "Ono što se ne vidi na slici, a čini stan prijatnim za život: zidovi od klima bloka, izolovana fasada, podno grejanje i aluminijumska stolarija.",
+    "specs": {
+      "heating": {
+        "title": "Podno grejanje i klima uređaji",
+        "text": "Zimi toplota ravnomerno raspoređena po celom stanu, a za letnje dane klima uređaji."
+      },
+      "walls": {
+        "title": "Zidovi od klima bloka",
+        "text": "Blok koji dobro čuva toplotu zimi i prijatnu temperaturu leti."
+      },
+      "facade": {
+        "title": "Izolovana fasada",
+        "text": "Termoizolacija i prirodni materijali, za manje gubitke toplote i fasadu koja se uklapa u zelenilo Banje."
+      },
+      "windows": {
+        "title": "Aluminijumska stolarija",
+        "text": "Prozori i vrata od aluminijuma: čvrsti, dugotrajni i laki za održavanje."
+      }
+    }
+  },
   "inquiry": {
     "eyebrow": "Kontakt",
     "titleA": "Zatražite ponudu",
@@ -206,7 +259,10 @@
       "again": "Pošaljite još jedan upit",
       "error": "Upit nije poslat. Pokušajte ponovo ili pozovite {phone}.",
       "errorName": "Upišite ime i prezime.",
-      "errorPhone": "Upišite broj telefona."
+      "errorPhone": "Upišite broj telefona.",
+      "fixed": "Upit za",
+      "successFor": "Hvala, upit za Stan {n} je poslat.",
+      "garage": "Zanima me i garažno mesto"
     }
   },
   "footer": {

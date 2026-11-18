@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { apartments, floors } from '~/data/apartments'
+import { apartments, apartmentSlug, floors } from '~/data/apartments'
 import { project } from '~/data/project'
 
-// Kompletna ponuda (arhitektonski stil, tamna stranica): svi stanovi po spratovima, sa osnovom i površinama
-// po prostorijama. Gore naslov, kratak opis i red sa spratovima za brz skok; zatim za svaki sprat tanka linija,
+// Kompletna ponuda (arhitektonski stil, tamna stranica): svi stanovi po spratovima, kratko (osnova, površina,
+// sprat · sobe · terasa); površine po prostorijama su na stranici svakog stana.
+// Gore naslov, kratak opis i red sa spratovima za brz skok; zatim za svaki sprat tanka linija,
 // naziv i raspon (stanovi, m²), pa četiri kartice u kolonama odvojenim linijama (ista kartica kao na početnoj).
+// Cela kartica vodi na stranicu tog stana (/stanovi/stan-N), gde su velika osnova i upit baš za taj stan.
 // Posebna stranica (a ne samo sekcija na početnoj) da bi je pretraživači indeksirali zasebno.
 const { t, localeProperties } = useI18n()
 const localePath = useLocalePath()
@@ -34,8 +36,7 @@ const byFloor = computed(() =>
   }),
 )
 
-const contactTo = computed(() => ({ path: localePath('/'), hash: '#kontakt' }))
-const { apartment } = useInquiry() // klik na „Zatražite ponudu“ upisuje stan u formu na početnoj
+const unitTo = (number: number) => localePath(`/stanovi/${apartmentSlug(number)}`)
 
 useSeoMeta({
   title: () => t('apartments.page.metaTitle'),
@@ -80,12 +81,7 @@ useSeoMeta({
 
         <ul class="floor__list">
           <li v-for="unit in group.units" :id="`stan-${unit.number}`" :key="unit.number">
-            <ApartmentCard :apartment="unit" detailed>
-              <NuxtLink :to="contactTo" class="btn btn--ghost" @click="apartment = unit.number">
-                {{ t('cta.offer') }}
-                <UiIcon name="arrow" />
-              </NuxtLink>
-            </ApartmentCard>
+            <ApartmentCard :apartment="unit" :to="unitTo(unit.number)" />
           </li>
         </ul>
       </div>

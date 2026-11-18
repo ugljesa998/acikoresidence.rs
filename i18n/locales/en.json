@@ -76,9 +76,10 @@
   "about": {
     "eyebrow": "About the project",
     "title": "An apartment for living, holidays or investment.",
+    "imageAlt": "Aerial view of the ACIKO Residence building surrounded by greenery",
     "statement": "A quiet street, greenery outside your window and the spa within easy reach — a home for living slower and better.",
     "textA": "ACIKO Residence is a boutique building with just 16 apartments on Kneza Miloša Street. Four apartments per floor mean fewer neighbours, more peace and the feeling that you truly know who lives next door.",
-    "textB": "Every apartment is thought through in detail: practical layouts with one or two bedrooms, large glazed surfaces and terraces facing the greenery. We build the way we would build for ourselves.",
+    "textB": "Every apartment is thought through in detail: practical layouts with one or two bedrooms, underfloor heating and air conditioning, large glazed surfaces and terraces facing the greenery. We build the way we would build for ourselves.",
     "pillars": {
       "living": {
         "title": "For living",
@@ -93,7 +94,11 @@
         "text": "An apartment in Serbia's most visited spa holds its value, and you can rent it to guests when you are not staying there."
       }
     },
-    "link": "View apartments"
+    "link": "View apartments",
+    "facts": {
+      "completion": "planned completion",
+      "garage": "garage spaces"
+    }
   },
   "apartments": {
     "eyebrow": "Apartments",
@@ -130,10 +135,35 @@
     },
     "page": {
       "title": "Available apartments",
-      "lead": "{n} apartments from {min} to {max} m², four per floor. Each one is shown with its floor plan and room areas.",
+      "lead": "{n} apartments from {min} to {max} m², four per floor. Choose an apartment to see its floor plan and room areas and to send an inquiry about it.",
       "back": "Home",
       "metaTitle": "Apartments — ACIKO Residence, Vrnjačka Banja",
       "metaDescription": "The full offer: {n} new apartments from {min} to {max} m² in Vrnjačka Banja, with floor plans and room areas."
+    },
+    "detail": {
+      "back": "All apartments",
+      "metaTitle": "Apartment {n}, {area} m² — ACIKO Residence, Vrnjačka Banja",
+      "metaDescription": "Apartment {n} in the new ACIKO Residence building in Vrnjačka Banja: {area} m², {floor}, {bedrooms}, terrace {terrace} m². Floor plan, room areas and an inquiry for this apartment.",
+      "zoom": "Enlarge the image",
+      "close": "Close",
+      "planNote": "Catalogue page. Images are for information only; furniture is shown as a suggestion.",
+      "roomsTitle": "Room areas",
+      "total": "Total, net",
+      "askTitle": "Request an offer for Apartment {n}.",
+      "askLead": "Leave your name and phone number and we will send you the price and purchase terms for this apartment.",
+      "pager": "Other apartments",
+      "prev": "Previous apartment",
+      "next": "Next apartment",
+      "all": "All apartments",
+      "sheetAlt": "Catalogue page for Apartment {n}, {floor}: floor plan, 3D view, position on the floor and room areas",
+      "soldTitle": "Apartment {n} has been sold.",
+      "soldLead": "We will let you know which apartments with a similar layout are still available. Leave your name and phone number; you can pick an apartment from the list.",
+      "reservedLead": "This apartment is currently reserved. Leave your name and phone number and we will contact you as soon as it becomes available, with the price and purchase terms."
+    },
+    "status": {
+      "available": "Available",
+      "reserved": "Reserved",
+      "sold": "Sold"
     }
   },
   "location": {
@@ -182,6 +212,29 @@
       "rear": "Rear of the building with terraces"
     }
   },
+  "build": {
+    "eyebrow": "Construction",
+    "title": "Quality you feel every day.",
+    "lead": "What you cannot see in the pictures but makes an apartment pleasant to live in: walls of Klima blocks, an insulated façade, underfloor heating and aluminium windows.",
+    "specs": {
+      "heating": {
+        "title": "Underfloor heating and air conditioning",
+        "text": "Warmth spread evenly through the whole apartment in winter, and air conditioning for summer days."
+      },
+      "walls": {
+        "title": "Klima block walls",
+        "text": "Blocks that keep the warmth in during winter and a pleasant temperature in summer."
+      },
+      "facade": {
+        "title": "Insulated façade",
+        "text": "Thermal insulation and natural materials, for lower heat loss and a façade that blends into the greenery of the spa town."
+      },
+      "windows": {
+        "title": "Aluminium windows",
+        "text": "Aluminium windows and doors: sturdy, long-lasting and easy to maintain."
+      }
+    }
+  },
   "inquiry": {
     "eyebrow": "Contact",
     "titleA": "Request an offer",
@@ -206,7 +259,10 @@
       "again": "Send another inquiry",
       "error": "The inquiry was not sent. Please try again or call {phone}.",
       "errorName": "Please enter your full name.",
-      "errorPhone": "Please enter your phone number."
+      "errorPhone": "Please enter your phone number.",
+      "fixed": "Inquiry about",
+      "successFor": "Thank you, your inquiry about Apartment {n} has been sent.",
+      "garage": "I am also interested in a garage space"
     }
   },
   "footer": {

@@ -11,7 +11,7 @@ const contact = useContact()
 const messenger = contact.messenger
 
 // „Ponuda“ vodi na kontakt formu na dnu početne (radi i sa drugih stranica).
-const offerHref = computed(() => `${localePath('/')}#kontakt`)
+const offerHref = computed(() => localePath('/stanovi')) // „Zatražite ponudu“: lista stanova, pa upit za izabran stan
 
 const SCROLLED_AFTER = 24 // px
 const HIDE_AFTER = 520 // px; iznad ove visine header je uvek vidljiv

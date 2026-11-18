@@ -5,6 +5,9 @@ import { GALLERY_IMAGE_SIZE, galleryImages } from '~/data/gallery'
 // slika zgrade u jednom vodoravnom redu koji se lista strelicama, prevlačenjem (miš ili prst) ili točkićem,
 // sa tankom linijom koja pokazuje dokle se stiglo. Klik na sliku otvara je preko celog ekrana, gde se lista
 // strelicama, tastaturom (← →) ili prevlačenjem prstom. Slike su u data/gallery.ts.
+// `compact`: na stranici stana — manji razmak iznad i bez opisa (ostaju naslov i strelice).
+defineProps<{ compact?: boolean }>()
+
 const { t } = useI18n()
 
 const images = computed(() =>
@@ -99,7 +102,7 @@ const { direction } = useSwipe(stage, {
 </script>
 
 <template>
-  <section id="galerija" class="gal" aria-labelledby="gallery-title">
+  <section id="galerija" class="gal" :class="{ 'gal--compact': compact }" aria-labelledby="gallery-title">
     <div class="container">
       <div class="gal__head">
         <div>
@@ -107,7 +110,7 @@ const { direction } = useSwipe(stage, {
           <h2 id="gallery-title" class="section-title gal__title">{{ t('gallery.title') }}</h2>
         </div>
         <div class="gal__aside">
-          <p class="gal__lead">{{ t('gallery.lead') }}</p>
+          <p v-if="!compact" class="gal__lead">{{ t('gallery.lead') }}</p>
           <div class="gal__nav">
             <button
               type="button"
@@ -140,7 +143,7 @@ const { direction } = useSwipe(stage, {
                 alt=""
                 :width="GALLERY_IMAGE_SIZE.width"
                 :height="GALLERY_IMAGE_SIZE.height"
-                sizes="100vw md:50vw lg:560px"
+                sizes="xs:100vw sm:100vw md:50vw lg:560px"
                 loading="lazy"
                 draggable="false"
               />
@@ -175,7 +178,7 @@ const { direction } = useSwipe(stage, {
           :alt="images[current]?.alt"
           :width="GALLERY_IMAGE_SIZE.width"
           :height="GALLERY_IMAGE_SIZE.height"
-          sizes="100vw"
+          sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
           class="lightbox__img"
         />
       </div>
@@ -209,6 +212,10 @@ const { direction } = useSwipe(stage, {
   color: var(--color-text-inverse);
   font-family: var(--font-grotesk);
   scroll-margin-top: var(--header-h-compact);
+}
+
+.gal--compact {
+  padding-top: clamp(64px, 7vw, 112px);
 }
 
 /* Oznaka i naslov levo; desno opis i strelice, ispod tanke linije (kao ostale sekcije) */
