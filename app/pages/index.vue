@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // Početna (arhitektonski stil): fotografija zgrade preko celog ekrana sa naslovom i krupnim brojevima,
-// pa o projektu, tri izdvojena stana, poziv ka svim stanovima sa fotografijom i tabela spratova.
-// Ostale sekcije (lokacija, galerija, kontakt) su skinute sa početne;
-// njihove komponente su i dalje u app/components, za kada se vrate u novom stilu.
+// pa o projektu, tri izdvojena stana, poziv ka svim stanovima sa fotografijom, tabela spratova, prijava na
+// novosti (newsletter), lokacija i kontakt.
+// Galerija je skinuta sa početne; njena komponenta je i dalje u app/components, za kada se vrati u novom stilu.
 </script>
 
 <template>
@@ -12,6 +12,9 @@
     <ApartmentsPreview />
     <OfferCta />
     <FloorsSection />
+    <NewsletterSection />
+    <LocationMapSection />
+    <ContactSection />
   </div>
 </template>
 

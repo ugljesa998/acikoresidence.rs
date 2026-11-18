@@ -1,4 +1,38 @@
-/* Zajednički UI elementi (dugmad i slično). */
+/* Zajednički UI elementi (dugmad, oznake i naslovi sekcija). */
+
+/* Oznaka sekcije na tamnoj podlozi: mala velika slova sa crvenim znakom iz loga */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-grotesk);
+  font-size: 12px;
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-inverse-soft);
+}
+
+.section-label::before {
+  content: '';
+  flex: none;
+  width: 13px;
+  height: 12px;
+  background: var(--color-brand);
+  -webkit-mask: url('/brand/logo-mark.png') center / contain no-repeat;
+  mask: url('/brand/logo-mark.png') center / contain no-repeat;
+}
+
+/* Naslov sekcije: širok, tanak Archivo */
+.section-title {
+  max-width: 16em;
+  font-family: var(--font-grotesk);
+  font-size: clamp(26px, 3vw, 48px);
+  font-weight: 300;
+  font-stretch: var(--stretch-wide);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
 
 /* Dugme (arhitektonski stil): oštri uglovi, mala velika slova, tekst levo.
    Ako u dugmetu postoji <UiIcon name="arrow" />, strelica stoji u kvadratu uz desnu ivicu,

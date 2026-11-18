@@ -14,6 +14,8 @@ export default defineNuxtConfig({
   // Postavlja se promenljivom okruženja NUXT_INQUIRY_WEBHOOK; prazno = u razvoju se upit samo ispiše u terminalu.
   runtimeConfig: {
     inquiryWebhook: '',
+    // Isto za prijave na novosti (server/api/newsletter.post.ts): NUXT_NEWSLETTER_WEBHOOK.
+    newsletterWebhook: '',
   },
 
   app: {

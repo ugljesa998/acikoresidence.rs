@@ -60,6 +60,19 @@
     "bedroomsRange": "1 ili 2 spavaće sobe",
     "terraceUpTo": "terase do {n} m²"
   },
+  "newsletter": {
+    "eyebrow": "Novosti",
+    "title": "Budite prvi koji saznaju.",
+    "lead": "Ostavite e-adresu i javljamo vam novosti sa gradilišta, cene i slobodne stanove. Samo važne vesti, bez spama.",
+    "label": "Vaša e-adresa",
+    "placeholder": "ime{'@'}primer.rs",
+    "submit": "Prijavite se",
+    "sending": "Šaljemo…",
+    "success": "Hvala, prijavljeni ste. Javićemo se čim bude novosti.",
+    "error": "Prijava nije uspela. Pokušajte ponovo za koji minut.",
+    "errorEmail": "Upišite ispravnu e-adresu.",
+    "privacy": "E-adresu koristimo samo za slanje novosti o ACIKO Residence."
+  },
   "about": {
     "eyebrow": "O projektu",
     "title": "Stan za život, odmor ili ulaganje.",

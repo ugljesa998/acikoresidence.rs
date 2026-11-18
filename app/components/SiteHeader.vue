@@ -10,8 +10,8 @@ const nav = useNavigation()
 const contact = useContact()
 const messenger = contact.messenger
 
-// Kontakt forma trenutno nije na početnoj, pa „Ponuda“ vodi na kompletnu ponudu stanova.
-const offerHref = computed(() => localePath('/stanovi'))
+// „Ponuda“ vodi na kontakt formu na dnu početne (radi i sa drugih stranica).
+const offerHref = computed(() => `${localePath('/')}#kontakt`)
 
 const SCROLLED_AFTER = 24 // px
 const HIDE_AFTER = 520 // px; iznad ove visine header je uvek vidljiv

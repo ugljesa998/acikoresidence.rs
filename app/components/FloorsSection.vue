@@ -55,8 +55,9 @@ const rows = computed(() =>
 </template>
 
 <style scoped>
+/* Razmak samo na vrhu, isti kao kod ostalih sekcija; razmak do footera ima poslednja sekcija (Lokacija) */
 .floors {
-  padding-block: clamp(96px, 11vw, 168px);
+  padding-top: clamp(80px, 9vw, 144px);
   background: var(--color-bg-inverse);
   color: var(--color-text-inverse);
   font-family: var(--font-grotesk);

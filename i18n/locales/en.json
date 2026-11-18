@@ -60,6 +60,19 @@
     "bedroomsRange": "1 or 2 bedrooms",
     "terraceUpTo": "terraces up to {n} m²"
   },
+  "newsletter": {
+    "eyebrow": "News",
+    "title": "Be the first to know.",
+    "lead": "Leave your email and we will send you construction updates, prices and available apartments. Only what matters, no spam.",
+    "label": "Your email",
+    "placeholder": "name{'@'}example.com",
+    "submit": "Subscribe",
+    "sending": "Sending…",
+    "success": "Thank you, you are subscribed. We will be in touch when there is news.",
+    "error": "Subscription failed. Please try again in a minute.",
+    "errorEmail": "Please enter a valid email address.",
+    "privacy": "We only use your email to send news about ACIKO Residence."
+  },
   "about": {
     "eyebrow": "About the project",
     "title": "An apartment for living, holidays or investment.",

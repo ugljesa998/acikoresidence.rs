@@ -13,7 +13,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
 <template>
   <section id="o-projektu" class="project" aria-labelledby="project-title">
     <div class="container">
-      <p class="project__label">{{ t('about.eyebrow') }}</p>
+      <p class="section-label project__label">{{ t('about.eyebrow') }}</p>
 
       <div class="project__body">
         <figure class="project__photo">
@@ -28,7 +28,7 @@ const pillars = ['living', 'leisure', 'investment'] as const
         </figure>
 
         <div class="project__side">
-          <h2 id="project-title" class="project__title">{{ t('about.title') }}</h2>
+          <h2 id="project-title" class="section-title project__title">{{ t('about.title') }}</h2>
           <div class="project__copy">
             <p>{{ t('about.textA') }}</p>
             <p>{{ t('about.textB') }}</p>
@@ -61,39 +61,15 @@ const pillars = ['living', 'leisure', 'investment'] as const
   scroll-margin-top: var(--header-h-compact);
 }
 
-/* Naslov sekcije: mala velika slova sa znakom iz loga, ispod tanke linije */
+/* Oznaka (.section-label) ispod tanke linije koja otvara sekciju */
 .project__label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   padding-top: 20px;
   border-top: 1px solid var(--color-line-inverse);
-  font-size: 12px;
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-inverse-soft);
 }
 
-.project__label::before {
-  content: '';
-  flex: none;
-  width: 13px;
-  height: 12px;
-  background: var(--color-brand);
-  -webkit-mask: url('/brand/logo-mark.png') center / contain no-repeat;
-  mask: url('/brand/logo-mark.png') center / contain no-repeat;
-}
-
-/* Naslov: prvi u desnoj koloni, poravnat sa gornjom ivicom slike; stil kao naslov sekcije Stanovi */
+/* Naslov (.section-title) je prvi u desnoj koloni, poravnat sa gornjom ivicom slike */
 .project__title {
-  max-width: 16em;
   margin-bottom: clamp(20px, 2vw, 32px);
-  font-size: clamp(26px, 3vw, 48px);
-  font-weight: 300;
-  font-stretch: var(--stretch-wide);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
 }
 
 /* Dve polovine: fotografija levo, tekst + razlozi + link desno */

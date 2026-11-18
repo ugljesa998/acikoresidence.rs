@@ -3,9 +3,11 @@ import type { Map as LeafletMap } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { building, byCar, nearby } from '~/data/location'
 
-// Lokacija: prava mapa (OpenStreetMap preko Leaflet-a) sa zgradom i numerisanim mestima u blizini,
-// a pored nje koliko je šta daleko peške i kolima. Prelaskom preko stavke ističe se tačka na mapi i obrnuto.
-// Podaci su u data/location.ts. Leaflet se učitava samo u pregledaču, tek kad se sekcija prikaže.
+// Lokacija (arhitektonski stil): gore oznaka, naslov i kratak opis; ispod, u dve polovine, tamna mapa
+// (OpenStreetMap preko Leaflet-a) sa zgradom i numerisanim mestima levo, a desno koliko je šta daleko
+// peške (redovi tabele u dve kolone, uz vrh mape) i kolima (krupni brojevi, uz dno mape).
+// Prelaskom preko stavke ističe se tačka na mapi i obrnuto.
+// Podaci su u data/location.ts. Leaflet se učitava samo u pregledaču, tek kad se sekcija približi ekranu.
 const { t, localeProperties } = useI18n()
 
 const WALK_METERS_PER_MINUTE = 80 // ≈ 4,8 km/h, obična šetnja
@@ -88,7 +90,7 @@ async function createMap() {
 
   map.fitBounds(
     L.latLngBounds([[building.lat, building.lon], ...nearby.map((p) => [p.lat, p.lon] as [number, number])]),
-    { padding: [36, 36] },
+    { padding: [40, 40] },
   )
 
   pinEl(active.value)?.classList.add('is-active')
@@ -119,24 +121,21 @@ onBeforeUnmount(() => {
 <template>
   <section id="lokacija" class="loc" aria-labelledby="location-title">
     <div class="container">
-      <header class="loc__head">
+      <div class="loc__head">
         <div>
-          <p class="loc__eyebrow">
-            <span class="loc__mark" aria-hidden="true" />
-            {{ t('location.eyebrow') }}
-          </p>
-          <h2 id="location-title" class="loc__title">{{ t('location.title') }}</h2>
+          <p class="section-label">{{ t('location.eyebrow') }}</p>
+          <h2 id="location-title" class="section-title loc__title">{{ t('location.title') }}</h2>
         </div>
         <p class="loc__lead">{{ t('location.lead', { m: motorwayTime }) }}</p>
-      </header>
+      </div>
 
-      <div class="loc__grid">
+      <div class="loc__body">
         <div class="map">
           <div ref="mapEl" class="map__canvas" role="application" :aria-label="t('location.mapAlt')" />
         </div>
 
-        <div class="loc__lists">
-          <div>
+        <div class="loc__side">
+          <div class="loc__group">
             <h3 class="loc__subtitle">{{ t('location.walkTitle') }}</h3>
             <ol class="walk">
               <li
@@ -154,7 +153,7 @@ onBeforeUnmount(() => {
             </ol>
           </div>
 
-          <div>
+          <div class="loc__group">
             <h3 class="loc__subtitle">{{ t('location.carTitle') }}</h3>
             <ul class="car">
               <li v-for="route in routes" :key="route.key" class="car__item">
@@ -163,11 +162,6 @@ onBeforeUnmount(() => {
               </li>
             </ul>
           </div>
-
-          <a :href="building.mapsUrl" class="loc__link" target="_blank" rel="noopener">
-            {{ t('location.mapLink') }}
-            <UiIcon name="arrow" />
-          </a>
         </div>
       </div>
     </div>
@@ -175,101 +169,85 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-/* Ista svetla podloga kao sekcija iznad; razdvaja ih samo tanka linija, ne promena boje */
+/* Uži razmak na vrhu: odmah iznad je kratak panel za novosti (NewsletterSection) */
 .loc {
-  padding-bottom: clamp(48px, 5vw, 88px);
-  background: var(--color-bg);
+  padding-top: clamp(40px, 4.5vw, 72px);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--font-grotesk);
+  scroll-margin-top: var(--header-h-compact);
 }
 
+/* Oznaka i naslov levo, kratak opis desno, ispod tanke linije (kao sekcija Stanovi) */
 .loc__head {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   align-items: end;
-  gap: clamp(20px, 4vw, 64px);
-  padding-top: clamp(48px, 5vw, 88px);
-  border-top: 1px solid var(--color-line-strong);
-}
-
-.loc__eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 12px;
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--color-text-subtle);
-}
-
-.loc__mark {
-  width: 13px;
-  height: 12px;
-  background: var(--color-brand);
-  -webkit-mask: url('/brand/logo-mark.png') center / contain no-repeat;
-  mask: url('/brand/logo-mark.png') center / contain no-repeat;
+  gap: 24px 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-line-inverse);
 }
 
 .loc__title {
-  max-width: 17em;
-  margin-top: 16px;
-  font-family: var(--font-display);
-  font-size: var(--text-h2);
-  font-weight: var(--weight-regular);
-  line-height: 1.12;
-  letter-spacing: var(--tracking-display);
-  text-wrap: balance;
+  margin-top: clamp(16px, 1.8vw, 28px);
 }
 
 .loc__lead {
   max-width: 34em;
+  font-size: 15.5px;
   line-height: 1.65;
-  color: var(--color-text-soft);
+  color: var(--color-text-inverse-soft);
 }
 
-.loc__grid {
+/* Dve polovine: mapa levo (iste visine kao desna kolona), liste i dugme desno */
+.loc__body {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-  align-items: start;
-  gap: clamp(24px, 4vw, 72px);
-  margin-top: clamp(28px, 3.4vw, 52px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 48px);
+  margin-top: clamp(32px, 3.6vw, 56px);
 }
 
 /* Mapa: okvir je ovde, a oznake na mapi pravi Leaflet van komponente (vidi drugi <style> ispod) */
 .map {
   position: relative;
-  aspect-ratio: 1;
+  min-height: clamp(400px, 37vw, 560px);
   overflow: hidden;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface-sand);
+  background: var(--color-surface-inverse-raised);
   isolation: isolate; /* Leaflet-ovi slojevi ne smeju preko header-a */
 }
 
 .map__canvas {
   position: absolute;
   inset: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-grotesk);
 }
 
-/* Liste */
-.loc__lists {
-  display: grid;
-  gap: clamp(24px, 2.6vw, 36px);
+/* Dve grupe (peške, kolima): prva uz gornju ivicu mape, druga uz donju, pa desno nema rupe */
+.loc__side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(24px, 2.4vw, 36px);
 }
 
 .loc__subtitle {
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--color-line-strong);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-semibold);
+  font-size: 12px;
+  font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+  color: var(--color-text-inverse-soft);
 }
 
+.loc__subtitle + * {
+  border-top: 1px solid var(--color-line-inverse);
+}
+
+/* Peške: redovi tabele u dve kolone — broj | mesto | minuti */
 .walk {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(20px, 2.4vw, 40px);
+  column-gap: 32px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -277,44 +255,53 @@ onBeforeUnmount(() => {
 
 .walk__item {
   display: grid;
-  grid-template-columns: 24px minmax(0, 1fr) auto;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
-  padding-block: 11px;
-  border-bottom: 1px solid var(--color-line);
+  padding-block: 12px;
+  border-bottom: 1px solid var(--color-line-inverse);
+  font-size: 14.5px;
+  transition: color var(--duration-fast) var(--ease-out);
 }
 
 .walk__num {
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--color-line-inverse-strong);
   border-radius: var(--radius-full);
-  border: 1px solid var(--color-line-strong);
-  font-size: var(--text-xs);
+  font-size: 11px;
   font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
   transition:
     background-color var(--duration-fast) var(--ease-out),
-    border-color var(--duration-fast) var(--ease-out),
-    color var(--duration-fast) var(--ease-out);
+    border-color var(--duration-fast) var(--ease-out);
 }
 
 .walk__item.is-active .walk__num {
   border-color: var(--color-accent);
   background: var(--color-accent);
+}
+
+.walk__name {
+  color: var(--color-text-inverse-soft);
+}
+
+.walk__item.is-active .walk__name {
   color: var(--color-text-inverse);
 }
 
 .walk__time {
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-medium);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
+/* Kolima: 2 × 2 krupna broja odvojena tankim linijama */
 .car {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
   padding: 0;
   list-style: none;
@@ -323,104 +310,97 @@ onBeforeUnmount(() => {
 .car__item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 16px 16px 0;
-  border-left: 1px solid var(--color-line);
+  gap: 8px;
+  padding: 18px 20px 20px;
+  border-bottom: 1px solid var(--color-line-inverse);
 }
 
-.car__item:first-child {
+.car__item:nth-child(odd) {
   padding-left: 0;
-  border-left: 0;
+}
+
+.car__item:nth-child(even) {
+  border-left: 1px solid var(--color-line-inverse);
 }
 
 .car__time {
-  font-family: var(--font-display);
-  font-size: clamp(22px, 1.9vw, 28px);
-  font-weight: var(--weight-medium);
-  line-height: 1.1;
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 300;
+  font-stretch: var(--stretch-wide);
+  line-height: 1;
+  letter-spacing: -0.02em;
   white-space: nowrap;
 }
 
 .car__name {
-  font-size: var(--text-sm);
-  color: var(--color-text-soft);
-}
-
-.loc__link {
-  display: inline-flex;
-  align-items: center;
-  justify-self: start;
-  gap: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-line-strong);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
+  font-size: 11px;
+  font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
+  color: var(--color-text-inverse-muted);
 }
 
-.loc__link .ui-icon {
-  font-size: 17px;
-  color: var(--color-accent);
-  transition: transform 0.45s var(--ease-out);
-}
-
-.loc__link:hover .ui-icon {
-  transform: translateX(5px);
-}
-
+/* Tablet i telefon: sve u jednoj koloni; mapa dobija svoj odnos stranica */
 @media (max-width: 900px) {
   .loc__head,
-  .loc__grid {
-    grid-template-columns: 1fr;
+  .loc__body {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .loc__head {
     align-items: start;
   }
+
+  .map {
+    min-height: 0;
+    aspect-ratio: 3 / 2;
+  }
 }
 
 @media (max-width: 560px) {
-  .walk {
-    grid-template-columns: 1fr;
-  }
-
-  .car {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    row-gap: 4px;
-  }
-
-  .car__item:nth-child(odd) {
-    padding-left: 0;
-    border-left: 0;
-  }
-
   .map {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1;
+  }
+
+  .walk {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .car__time {
+    font-size: 22px;
+  }
+
+  .car__item {
+    padding-inline: 14px;
   }
 }
 </style>
 
 <!-- Oznake i kontrole pravi Leaflet, pa do njih scoped stilovi ne dopiru. -->
 <style>
-/* Topliji, mirniji ton podloge da se mapa uklopi u paletu sajta */
+/* Tamna mapa: podloga OpenStreetMap-a u sivim tonovima, obrnuta, da se uklopi u tamnu stranicu */
+#lokacija .leaflet-container {
+  background: var(--color-bg-inverse);
+}
+
 #lokacija .leaflet-tile-pane {
-  filter: sepia(0.28) saturate(0.75) contrast(0.96);
+  filter: grayscale(1) invert(1) brightness(0.88) contrast(0.9);
 }
 
 .loc-pin {
   display: grid;
   place-items: center;
-  border: 2px solid var(--color-text-inverse);
   border-radius: var(--radius-full);
-  background: var(--color-bg-inverse);
-  color: var(--color-text-inverse);
+  background: var(--color-text-inverse);
+  color: var(--color-text);
+  font-family: var(--font-grotesk);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   font-variant-numeric: tabular-nums;
   box-shadow: var(--shadow-pop);
   transition:
     background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
 }
 
@@ -428,6 +408,7 @@ onBeforeUnmount(() => {
 .loc-pin.is-active {
   z-index: 900 !important;
   background: var(--color-accent);
+  color: var(--color-text-inverse);
   box-shadow: 0 0 0 7px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
@@ -470,29 +451,42 @@ onBeforeUnmount(() => {
 }
 
 .loc-home__label {
-  padding: 5px 10px;
+  padding: 6px 10px;
   border-radius: var(--radius-sm);
-  background: var(--color-bg-inverse);
+  background: var(--color-accent);
   color: var(--color-text-inverse);
-  font-size: var(--text-xs);
+  font-family: var(--font-grotesk);
+  font-size: 11px;
   font-weight: var(--weight-semibold);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
   white-space: nowrap;
   box-shadow: var(--shadow-pop);
 }
 
 #lokacija .leaflet-bar {
-  border: 0;
+  border: 1px solid var(--color-line-inverse);
   border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-pop);
+  box-shadow: none;
 }
 
 #lokacija .leaflet-bar a {
-  color: var(--color-text);
+  background: var(--color-bg-inverse);
+  border-bottom-color: var(--color-line-inverse);
+  color: var(--color-text-inverse);
+}
+
+#lokacija .leaflet-bar a:hover {
+  background: var(--color-accent);
 }
 
 #lokacija .leaflet-control-attribution {
-  background: var(--color-surface-glass);
+  background: var(--color-surface-glass-dark);
+  color: var(--color-text-inverse-muted);
   font-size: var(--text-2xs);
+}
+
+#lokacija .leaflet-control-attribution a {
+  color: var(--color-text-inverse-soft);
 }
 </style>

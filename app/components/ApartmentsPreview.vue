@@ -65,8 +65,8 @@ const lead = computed(() =>
     <div class="container">
       <div class="apts__head">
         <div>
-          <p class="apts__label">{{ t('apartments.eyebrow') }}</p>
-          <h2 id="apartments-title" class="apts__title">{{ t('apartments.title') }}</h2>
+          <p class="section-label">{{ t('apartments.eyebrow') }}</p>
+          <h2 id="apartments-title" class="section-title apts__title">{{ t('apartments.title') }}</h2>
         </div>
         <p class="apts__lead">{{ lead }}</p>
       </div>
@@ -125,35 +125,8 @@ const lead = computed(() =>
   border-top: 1px solid var(--color-line-inverse);
 }
 
-.apts__label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 12px;
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--color-text-inverse-soft);
-}
-
-.apts__label::before {
-  content: '';
-  flex: none;
-  width: 13px;
-  height: 12px;
-  background: var(--color-brand);
-  -webkit-mask: url('/brand/logo-mark.png') center / contain no-repeat;
-  mask: url('/brand/logo-mark.png') center / contain no-repeat;
-}
-
 .apts__title {
-  max-width: 16em;
   margin-top: clamp(16px, 1.8vw, 28px);
-  font-size: clamp(26px, 3vw, 48px);
-  font-weight: 300;
-  font-stretch: var(--stretch-wide);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
 }
 
 .apts__lead {
