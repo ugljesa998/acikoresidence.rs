@@ -4,8 +4,9 @@ import { project } from '~/data/project'
 
 // Hero (arhitektonski stil): fotografija zgrade od samog vrha preko celog ekrana; header je providan preko nje.
 // Pri dnu, preko zatamnjenog dela slike: nadnaslov, naslov, pa iznad tanke linije četiri krupna broja
-// iz kataloga (data/project.ts i data/apartments.ts) i dugme „Izaberite stan“.
+// iz kataloga (data/project.ts i data/apartments.ts) i dugme „Izaberite stan“ (vodi na /stanovi).
 const { t, localeProperties } = useI18n()
+const localePath = useLocalePath()
 
 const formatNumber = (n: number, digits = 0) =>
   new Intl.NumberFormat(localeProperties.value.language, { maximumFractionDigits: digits }).format(n)
@@ -48,10 +49,11 @@ const stats = computed(() => [
           </div>
         </dl>
 
-        <a href="#spratovi" class="btn btn--primary hero__cta">
+        <!-- Vodi na stranicu sa svim stanovima (kao i svako drugo dugme za ponudu na sajtu) -->
+        <NuxtLink :to="localePath('/stanovi')" class="btn btn--primary hero__cta">
           {{ t('cta.choose') }}
           <UiIcon name="arrow" />
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </section>

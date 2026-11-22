@@ -75,6 +75,12 @@ public/                   slike, logo, favicon
 2. Dodaj jezik u `i18n.locales` u `nuxt.config.ts`.
 3. Po želji dodaj željeni messenger za taj jezik u `app/composables/useContact.ts`.
 
+## SEO i GEO
+
+Šta sajt radi za pretraživače i AI asistente (meta, JSON-LD, sitemap, robots.txt, llms.txt, česta pitanja)
+i šta još treba uraditi van koda: [SEO.md](SEO.md). Kad se promeni stanje stanova, promeniti i `site.updated`
+u `app/data/site.ts`.
+
 ## Pre objave
 
 - [ ] Pravi broj telefona i messengeri u `app/data/contact.ts` (sada je privremeni 064 123 45 67)

@@ -1,5 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { site } from './app/data/site'
+import { defaultLocale, locales, site } from './app/data/site'
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -24,20 +24,19 @@ export default defineNuxtConfig({
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
       ],
-      meta: [{ name: 'theme-color', content: '#14120f' }],
+      meta: [
+        { name: 'theme-color', content: '#14120f' },
+        { name: 'color-scheme', content: 'dark' },
+      ],
     },
   },
 
   // Prevodi: i18n/locales/<kod>.json. Svaki jezik se učitava tek kada zatreba.
   i18n: {
     baseUrl: site.url,
-    defaultLocale: 'sr',
+    defaultLocale,
     strategy: 'prefix_except_default', // sr na „/“, ostali na „/en“, „/ru“
-    locales: [
-      { code: 'sr', language: 'sr-Latn-RS', name: 'Srpski', file: 'sr.json' },
-      { code: 'en', language: 'en', name: 'English', file: 'en.json' },
-      { code: 'ru', language: 'ru', name: 'Русский', file: 'ru.json' },
-    ],
+    locales: locales.map((l) => ({ ...l })), // spisak jezika je u app/data/site.ts (koristi ga i sitemap.xml)
     // Mnogi u Srbiji imaju browser na engleskom, pa ne preusmeravamo automatski.
     detectBrowserLanguage: false,
   },
@@ -65,5 +64,12 @@ export default defineNuxtConfig({
   image: {
     quality: 80,
     format: ['avif', 'webp'],
+  },
+
+  // SEO fajlovi (server/routes) se prave pri build-u kao statični, pa rade i uz `npm run generate`.
+  nitro: {
+    prerender: {
+      routes: ['/sitemap.xml', '/robots.txt', '/llms.txt'],
+    },
   },
 })

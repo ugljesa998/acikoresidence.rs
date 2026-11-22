@@ -154,7 +154,7 @@ const { direction } = useSwipe(stage, {
             <span class="gal__frame">
               <NuxtImg
                 :src="image.src"
-                alt=""
+                :alt="image.alt"
                 :width="GALLERY_IMAGE_SIZE.width"
                 :height="GALLERY_IMAGE_SIZE.height"
                 sizes="xs:100vw sm:100vw md:50vw lg:560px"

@@ -13,13 +13,8 @@ const localePath = useLocalePath()
 
 const pillars = ['living', 'leisure', 'investment'] as const
 
-// „Jun 2027“: naziv meseca po jeziku sajta, veliko prvo slovo
-const completion = computed(() => {
-  const { year, month } = project.completion
-  const lang = localeProperties.value.language
-  const name = new Intl.DateTimeFormat(lang, { month: 'long' }).format(new Date(year, month - 1, 1))
-  return `${name.charAt(0).toLocaleUpperCase(lang)}${name.slice(1)} ${year}`
-})
+// „Jun 2027“: naziv meseca po jeziku sajta, veliko prvo slovo (utils/completion.ts)
+const completion = computed(() => completionLabel(localeProperties.value.language!))
 </script>
 
 <template>

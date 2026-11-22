@@ -7,6 +7,8 @@
 }
 
 html {
+  background: var(--color-bg-inverse);
+  color-scheme: dark;
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -15,8 +17,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
   font-family: var(--font-sans);
   font-size: var(--text-base);
   line-height: 1.55;

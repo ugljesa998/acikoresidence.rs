@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { apartmentBySlug, apartments, apartmentSlug, catalogPage, statusOf } from '~/data/apartments'
+import { absoluteUrl } from '~/data/site'
 
 // Stranica jednog stana (/stanovi/stan-15), arhitektonski stil, tamna.
 // Gore naslov „Stan 15 · 59,23 m²“ i sprat · sobe · terasa; ispod, preko cele širine, cela strana kataloga za taj
@@ -68,13 +69,32 @@ const seo = computed(() => ({
   terrace: formatArea(apartment.terrace),
 }))
 
+// Prodat stan ima drugačiji naslov i opis u pretrazi (bez „na prodaju“ i „upit za cenu“)
+const sold = status === 'sold'
+const metaTitle = computed(() => t(sold ? 'apartments.detail.metaTitleSold' : 'apartments.detail.metaTitle', seo.value))
+const metaDescription = computed(() =>
+  t(sold ? 'apartments.detail.metaDescriptionSold' : 'apartments.detail.metaDescription', seo.value),
+)
+
 useSeoMeta({
-  title: () => t('apartments.detail.metaTitle', seo.value),
-  description: () => t('apartments.detail.metaDescription', seo.value),
-  ogTitle: () => t('apartments.detail.metaTitle', seo.value),
-  ogDescription: () => t('apartments.detail.metaDescription', seo.value),
-  ogImage: sheet.src,
+  title: () => metaTitle.value,
+  description: () => metaDescription.value,
+  ogTitle: () => metaTitle.value,
+  ogDescription: () => metaDescription.value,
+  ogImage: () => ({ url: absoluteUrl(sheet.src), width: sheet.width, height: sheet.height, alt: sheetAlt.value }),
 })
+
+// Strukturisani podaci: putanja (Početna › Stanovi › Stan 15), stan (površina, sobe, sprat, terasa, osnova)
+// i oglas sa stanjem (slobodan / rezervisan / prodat)
+const schema = useSchemaOrg()
+useJsonLd('page', () => [
+  schema.breadcrumbs([
+    { name: t('apartments.page.back'), path: '/' },
+    { name: t('apartments.page.title'), path: '/stanovi' },
+    { name: t('apartments.unit', { n: apartment.number }), path: `/stanovi/${apartmentSlug(apartment.number)}` },
+  ]),
+  ...schema.apartment(apartment, { title: metaTitle.value, description: metaDescription.value }),
+])
 </script>
 
 <template>

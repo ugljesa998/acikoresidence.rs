@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { apartments, apartmentSlug, floors } from '~/data/apartments'
+import { apartments, apartmentSlug, floors, statusOf } from '~/data/apartments'
 import { project } from '~/data/project'
 
 // Kompletna ponuda (arhitektonski stil, tamna stranica): svi stanovi po spratovima, kratko (osnova, površina,
@@ -18,6 +18,7 @@ const summary = computed(() => ({
   n: project.units,
   min: formatNumber(project.minArea),
   max: formatNumber(project.maxArea),
+  free: apartments.filter((a) => statusOf(a.number) === 'available').length,
 }))
 
 // Spratovi odozdo nagore (I, II, III, povučeni), kao kad se ulazi u zgradu
@@ -44,6 +45,16 @@ useSeoMeta({
   ogTitle: () => t('apartments.page.metaTitle'),
   ogDescription: () => t('apartments.page.metaDescription', summary.value),
 })
+
+// Strukturisani podaci: putanja (Početna › Stanovi) i spisak svih stanova sa linkovima
+const schema = useSchemaOrg()
+useJsonLd('page', () => [
+  schema.breadcrumbs([
+    { name: t('apartments.page.back'), path: '/' },
+    { name: t('apartments.page.title'), path: '/stanovi' },
+  ]),
+  schema.apartmentList(),
+])
 </script>
 
 <template>

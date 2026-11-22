@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "ACIKO Residence — new apartments in Vrnjačka Banja, Serbia",
-    "description": "16 new apartments from 38 to 65 m² on Kneza Miloša Street in Vrnjačka Banja. A home, a retreat, or a rental investment."
+    "title": "Apartments for Sale in Vrnjačka Banja, Serbia {'|'} ACIKO Residence",
+    "description": "New-build apartments for sale in Vrnjačka Banja, Serbia: 16 units of 38–65 m² on Kneza Miloša Street, 12 minutes' walk from the spa centre. Completion: June 2027."
   },
   "nav": {
     "apartments": "Apartments",
@@ -78,7 +78,7 @@
     "title": "An apartment for living, holidays or investment.",
     "imageAlt": "Aerial view of the ACIKO Residence building surrounded by greenery",
     "statement": "A quiet street, greenery outside your window and the spa within easy reach — a home for living slower and better.",
-    "textA": "ACIKO Residence is a boutique building with just 16 apartments on Kneza Miloša Street. Four apartments per floor mean fewer neighbours, more peace and the feeling that you truly know who lives next door.",
+    "textA": "ACIKO Residence is a boutique building with just 16 apartments on Kneza Miloša Street in Vrnjačka Banja. Four apartments per floor mean fewer neighbours, more peace and the feeling that you truly know who lives next door.",
     "textB": "Every apartment is thought through in detail: practical layouts with one or two bedrooms, underfloor heating and air conditioning, large glazed surfaces and terraces facing the greenery. We build the way we would build for ourselves.",
     "pillars": {
       "living": {
@@ -134,16 +134,18 @@
       "terrace": "Terrace"
     },
     "page": {
-      "title": "Available apartments",
-      "lead": "{n} apartments from {min} to {max} m², four per floor. Choose an apartment to see its floor plan and room areas and to send an inquiry about it.",
+      "title": "Apartments in Vrnjačka Banja",
+      "lead": "{n} apartments from {min} to {max} m², four per floor, on Kneza Miloša Street. Choose an apartment to see its floor plan and room areas and to send an inquiry about it.",
       "back": "Home",
-      "metaTitle": "Apartments — ACIKO Residence, Vrnjačka Banja",
-      "metaDescription": "The full offer: {n} new apartments from {min} to {max} m² in Vrnjačka Banja, with floor plans and room areas."
+      "metaTitle": "Apartments for Sale in Vrnjačka Banja — Floor Plans & Sizes",
+      "metaDescription": "The full offer of new-build apartments in Vrnjačka Banja, Serbia: {n} units from {min} to {max} m², {free} available. Floor plans, room areas and an inquiry form for each one."
     },
     "detail": {
       "back": "All apartments",
-      "metaTitle": "Apartment {n}, {area} m² — ACIKO Residence, Vrnjačka Banja",
-      "metaDescription": "Apartment {n} in the new ACIKO Residence building in Vrnjačka Banja: {area} m², {floor}, {bedrooms}, terrace {terrace} m². Floor plan, room areas and an inquiry for this apartment.",
+      "metaTitle": "Apartment {n} for Sale, {area} m² — Vrnjačka Banja {'|'} ACIKO Residence",
+      "metaTitleSold": "Apartment {n}, {area} m² (sold) — Vrnjačka Banja {'|'} ACIKO Residence",
+      "metaDescription": "Apartment {n} in the new ACIKO Residence building in Vrnjačka Banja, Serbia: {area} m², {floor}, {bedrooms}, terrace {terrace} m². Floor plan, room areas and a price inquiry.",
+      "metaDescriptionSold": "Apartment {n} in ACIKO Residence, Vrnjačka Banja, has been sold: {area} m², {floor}, {bedrooms}. See the floor plan and available apartments with a similar layout.",
       "zoom": "Enlarge the image",
       "close": "Close",
       "planNote": "Catalogue page. Images are for information only; furniture is shown as a suggestion.",
@@ -232,6 +234,50 @@
       "windows": {
         "title": "Aluminium windows",
         "text": "Aluminium windows and doors: sturdy, long-lasting and easy to maintain."
+      }
+    }
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "title": "Questions buyers ask most.",
+    "lead": "The essentials about the building, the apartments and buying, in one place. If you can't find an answer, call us or send an inquiry.",
+    "items": {
+      "where": {
+        "q": "Where is ACIKO Residence located?",
+        "a": "On Kneza Miloša Street in Vrnjačka Banja, Serbia, in a quiet area away from the promenade crowds. The spa centre is about {center} minutes on foot, a shop is {shop} minutes away, and the Morava Corridor motorway is a {motorway}-minute drive."
+      },
+      "size": {
+        "q": "How big are the apartments and what are the layouts?",
+        "a": "The building has {n} apartments from {min} to {max} m² (net), {perFloor} per floor. Each has a living room with kitchen, one or two bedrooms and a terrace; the largest terraces, up to {terrace} m², are on the set-back top floor."
+      },
+      "free": {
+        "q": "How many apartments are still available?",
+        "a": "{free} of {n} apartments are currently available. The status of each apartment — available, reserved or sold — is shown in the full offer on this website."
+      },
+      "completion": {
+        "q": "When will construction be completed?",
+        "a": "Construction is scheduled for completion in {completion}. Newsletter subscribers receive updates from the building site."
+      },
+      "price": {
+        "q": "How much do the apartments cost?",
+        "a": "We send prices and purchase terms on request, for each apartment individually. Leave your name and phone number in the form or call our sales team and we will send you prices for all available apartments."
+      },
+      "garage": {
+        "q": "Does the building have a garage?",
+        "a": "Yes, the building has {garage} garage spaces. If you need one, tick the option in the inquiry form."
+      },
+      "build": {
+        "q": "How is the building constructed and how is it heated?",
+        "a": "The walls are made of Klima blocks, the façade is thermally insulated and the windows are aluminium. All apartments have underfloor heating and air conditioning."
+      },
+      "rent": {
+        "q": "Can the apartment be rented out to guests?",
+        "a": "Yes. Vrnjačka Banja is Serbia's most visited spa town, with more than {nights} overnight stays a year. You can use the apartment yourself and rent it to guests when you are not staying there."
+      },
+      "contact": {
+        "q": "How do I get an offer?",
+        "a": "Call our sales team on {phone} or send an inquiry through the form on this website. We will get back to you with available apartments, prices and purchase terms.",
+        "aForm": "Send an inquiry through the form on this website. We will get back to you with available apartments, prices and purchase terms."
       }
     }
   },

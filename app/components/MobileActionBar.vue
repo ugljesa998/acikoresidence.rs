@@ -36,7 +36,7 @@ const visible = computed(() => y.value > height.value * SHOW_AFTER && !menuOpen.
     >
       <UiIcon name="chat" />{{ messenger.label }}
     </a>
-    <!-- „Ponuda“ vodi na kontakt formu na dnu početne, a na stranici stana na upit za taj stan -->
+    <!-- „Ponuda“ vodi na stranicu sa svim stanovima -->
     <NuxtLink :to="offerHref" class="actionbar__btn actionbar__btn--primary">{{ t('cta.offerShort') }}</NuxtLink>
   </nav>
 </template>

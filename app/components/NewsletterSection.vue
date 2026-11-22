@@ -140,6 +140,9 @@ async function submit() {
   flex: 1;
   min-width: 0;
   height: 52px;
+  min-height: 52px;
+  -webkit-appearance: none;
+  appearance: none;
   padding: 0 16px;
   border: 1px solid var(--color-line-inverse-strong);
   border-right: 0;
@@ -235,6 +238,8 @@ async function submit() {
   }
 
   .news__row input {
+    flex: none;
+    width: 100%;
     border-right: 1px solid var(--color-line-inverse-strong);
     border-radius: var(--radius-sm);
   }

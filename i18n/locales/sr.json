@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "ACIKO Residence — novi stanovi u Vrnjačkoj Banji",
-    "description": "16 novih stanova od 38 do 65 m² u ulici Kneza Miloša u Vrnjačkoj Banji. Za život, za odmor ili kao investicija za izdavanje."
+    "title": "Stanovi u novogradnji, Vrnjačka Banja {'|'} ACIKO Residence",
+    "description": "Prodaja stanova u novogradnji u Vrnjačkoj Banji: 16 stanova od 38 do 65 m² u ulici Kneza Miloša, 12 minuta peške do centra. Završetak gradnje jun 2027."
   },
   "nav": {
     "apartments": "Stanovi",
@@ -78,7 +78,7 @@
     "title": "Stan za život, odmor ili ulaganje.",
     "imageAlt": "Pogled iz vazduha na zgradu ACIKO Residence, okruženu zelenilom",
     "statement": "Mirna ulica, zelenilo pred prozorom i banja na dohvat ruke — dom u kome se živi sporije i lepše.",
-    "textA": "ACIKO Residence je nova zgrada sa samo 16 stanova u ulici Kneza Miloša. Po četiri stana na spratu znače manje komšija, više mira i osećaj da zaista znate ko živi pored vas.",
+    "textA": "ACIKO Residence je stambena zgrada sa samo 16 stanova u ulici Kneza Miloša u Vrnjačkoj Banji. Po četiri stana na spratu znače manje komšija, više mira i osećaj da zaista znate ko živi pored vas.",
     "textB": "Svaki stan je promišljen do detalja: funkcionalni rasporedi sa jednom ili dve spavaće sobe, podno grejanje i klima uređaji, velike staklene površine i terase okrenute zelenilu. Gradimo onako kako bismo gradili za sebe.",
     "pillars": {
       "living": {
@@ -134,16 +134,18 @@
       "terrace": "Terasa"
     },
     "page": {
-      "title": "Stanovi u ponudi",
-      "lead": "{n} stanova od {min} do {max} m², po četiri na spratu. Izaberite stan da vidite osnovu, površine po prostorijama i da pošaljete upit baš za njega.",
+      "title": "Stanovi u Vrnjačkoj Banji",
+      "lead": "{n} stanova od {min} do {max} m², po četiri na spratu, u ulici Kneza Miloša. Izaberite stan da vidite osnovu, površine po prostorijama i da pošaljete upit baš za njega.",
       "back": "Početna",
-      "metaTitle": "Stanovi u ponudi — ACIKO Residence, Vrnjačka Banja",
-      "metaDescription": "Kompletna ponuda: {n} novih stanova od {min} do {max} m² u Vrnjačkoj Banji, sa osnovama i površinama po prostorijama."
+      "metaTitle": "Prodaja stanova u Vrnjačkoj Banji — osnove i površine",
+      "metaDescription": "Kompletna ponuda novogradnje u Vrnjačkoj Banji: {n} stanova od {min} do {max} m², slobodnih {free}. Osnove, površine po prostorijama i upit za svaki stan."
     },
     "detail": {
       "back": "Svi stanovi",
-      "metaTitle": "Stan {n}, {area} m² — ACIKO Residence, Vrnjačka Banja",
-      "metaDescription": "Stan {n} u novoj zgradi ACIKO Residence u Vrnjačkoj Banji: {area} m², {floor}, {bedrooms}, terasa {terrace} m². Osnova, površine po prostorijama i upit za ovaj stan.",
+      "metaTitle": "Stan {n} na prodaju, {area} m² — Vrnjačka Banja {'|'} ACIKO Residence",
+      "metaTitleSold": "Stan {n}, {area} m² (prodat) — Vrnjačka Banja {'|'} ACIKO Residence",
+      "metaDescription": "Stan {n} u novogradnji ACIKO Residence u Vrnjačkoj Banji: {area} m², {floor}, {bedrooms}, terasa {terrace} m². Osnova, površine po prostorijama i upit za cenu.",
+      "metaDescriptionSold": "Stan {n} u novogradnji ACIKO Residence u Vrnjačkoj Banji je prodat: {area} m², {floor}, {bedrooms}. Pogledajte osnovu i slobodne stanove sličnog rasporeda.",
       "zoom": "Uvećajte sliku",
       "close": "Zatvorite",
       "planNote": "Strana iz kataloga. Prikazi su informativnog karaktera; nameštaj je prikazan kao predlog.",
@@ -232,6 +234,50 @@
       "windows": {
         "title": "Aluminijumska stolarija",
         "text": "Prozori i vrata od aluminijuma: čvrsti, dugotrajni i laki za održavanje."
+      }
+    }
+  },
+  "faq": {
+    "eyebrow": "Pitanja",
+    "title": "Česta pitanja pre kupovine stana.",
+    "lead": "Najvažnije o zgradi, stanovima i kupovini na jednom mestu. Ako ne nađete odgovor, pozovite nas ili pošaljite upit.",
+    "items": {
+      "where": {
+        "q": "Gde se nalazi ACIKO Residence?",
+        "a": "U ulici Kneza Miloša u Vrnjačkoj Banji, u mirnom delu van gužve šetališta. Do centra Banje ima oko {center} minuta peške, prodavnica je na {shop} minuta, a do auto-puta Moravski koridor stižete kolima za {motorway} minuta."
+      },
+      "size": {
+        "q": "Koliki su stanovi i kakvi su rasporedi?",
+        "a": "U zgradi je {n} stanova, od {min} do {max} m² neto, po {perFloor} na spratu. Svaki stan ima dnevni boravak sa kuhinjom, jednu ili dve spavaće sobe i terasu; najveće terase, do {terrace} m², su na povučenom spratu."
+      },
+      "free": {
+        "q": "Koliko je stanova još slobodno?",
+        "a": "Trenutno je slobodno {free} od {n} stanova. Stanje svakog stana — slobodan, rezervisan ili prodat — vidi se u kompletnoj ponudi na sajtu."
+      },
+      "completion": {
+        "q": "Kada je završetak gradnje?",
+        "a": "Planirani završetak gradnje je {completion}. Novosti sa gradilišta šaljemo svima koji se prijave na novosti."
+      },
+      "price": {
+        "q": "Kolika je cena stanova?",
+        "a": "Cenu i uslove kupovine šaljemo na upit, za svaki stan posebno. Ostavite ime i broj telefona u formi ili pozovite prodaju i javljamo vam cene svih slobodnih stanova."
+      },
+      "garage": {
+        "q": "Da li zgrada ima garažu?",
+        "a": "Da, zgrada ima {garage} garažnih mesta. Ako vam treba garažno mesto, označite to u formi za upit."
+      },
+      "build": {
+        "q": "Kako je zgrada građena i kakvo je grejanje?",
+        "a": "Zidovi su od klima bloka, fasada je termoizolovana, a stolarija aluminijumska. Svi stanovi imaju podno grejanje i klima uređaje."
+      },
+      "rent": {
+        "q": "Da li stan može da se izdaje gostima?",
+        "a": "Da. Vrnjačka Banja je najposećenija banja u Srbiji, sa više od {nights} noćenja godišnje. Stan možete koristiti za sebe, a kada u njemu ne boravite, izdavati ga gostima."
+      },
+      "contact": {
+        "q": "Kako da dobijem ponudu?",
+        "a": "Pozovite prodaju na {phone} ili pošaljite upit preko forme na sajtu. Javljamo se sa slobodnim stanovima, cenama i uslovima kupovine.",
+        "aForm": "Pošaljite upit preko forme na sajtu. Javljamo se sa slobodnim stanovima, cenama i uslovima kupovine."
       }
     }
   },
