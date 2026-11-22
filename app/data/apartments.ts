@@ -32,15 +32,15 @@ export const apartmentBySlug = (slug: unknown) => {
 }
 
 // Stanje stanova: oznaka „Slobodno“, „Rezervisano“ ili „Prodato“ na karticama i na stranici stana.
-// Ovde se upisuju samo rezervisani i prodati; svi ostali su slobodni.
-// TODO: PRIMER, nije pravo stanje — nasumično izabrani stanovi, samo da se vidi izgled oznaka.
-// Pre objavljivanja upisati pravo stanje (ili ostaviti prazno: {} = svi slobodni).
+// Ovde se upisuju samo rezervisani i prodati; svi ostali su slobodni. Prodati stanovi se ne nude u formi za upit.
+// Stanje od investitora, 22. 11. 2026: prodati Stan 2, 7, 8, 11 i 14; rezervisanih nema.
 export type UnitStatus = 'available' | 'reserved' | 'sold'
 export const unitStatus: Partial<Record<number, Exclude<UnitStatus, 'available'>>> = {
-  4: 'sold',
-  10: 'sold',
-  7: 'reserved',
-  16: 'reserved',
+  2: 'sold',
+  7: 'sold',
+  8: 'sold',
+  11: 'sold',
+  14: 'sold',
 }
 
 export type FloorKey = 'f1' | 'f2' | 'f3' | 'ph' // I, II, III i povučeni sprat

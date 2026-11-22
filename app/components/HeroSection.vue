@@ -14,7 +14,7 @@ const stats = computed(() => [
   { value: String(project.units), label: t('hero.stats.units') },
   { value: `${formatNumber(project.minArea)}–${formatNumber(project.maxArea)}`, label: t('hero.stats.area') },
   { value: String(floors.length), label: t('hero.stats.floors', { n: project.unitsPerFloor }) },
-  { value: formatNumber(project.maxTerrace, 1), label: t('hero.stats.terrace') },
+  { value: String(project.garageSpaces), label: t('hero.stats.garage') },
 ])
 </script>
 

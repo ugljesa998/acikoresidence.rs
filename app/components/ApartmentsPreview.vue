@@ -11,7 +11,7 @@ const localePath = useLocalePath()
 
 const FEATURED = [
   { number: 13, tag: 'compact' },
-  { number: 2, tag: 'family' },
+  { number: 6, tag: 'family' }, // Stan 2 (isti raspored) je prodat
   { number: 15, tag: 'terrace' },
 ] as const
 

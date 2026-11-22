@@ -49,7 +49,7 @@
       "units": "stanova",
       "area": "m² po stanu",
       "floors": "sprata, po {n} stana",
-      "terrace": "m² najveća terasa"
+      "garage": "garažnih mesta"
     }
   },
   "floorsList": {

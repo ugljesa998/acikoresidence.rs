@@ -49,7 +49,7 @@
       "units": "apartments",
       "area": "m² per apartment",
       "floors": "floors, {n} apartments each",
-      "terrace": "m² largest terrace"
+      "garage": "garage spaces"
     }
   },
   "floorsList": {
