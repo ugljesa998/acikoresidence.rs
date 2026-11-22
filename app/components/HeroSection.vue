@@ -38,6 +38,8 @@ const stats = computed(() => [
         <span class="hero__line"><span style="--delay: 0.42s">{{ t('hero.titleB') }}</span></span>
       </h1>
 
+      <p class="hero__lead reveal" style="--delay: 0.55s">{{ t('hero.lead') }}</p>
+
       <div class="hero__bar reveal" style="--delay: 0.7s">
         <dl class="stats">
           <div v-for="stat in stats" :key="stat.label" class="stat">
@@ -134,6 +136,15 @@ const stats = computed(() => [
   font-stretch: var(--stretch-wide);
   line-height: 0.98;
   letter-spacing: -0.035em;
+}
+
+.hero__lead {
+  max-width: 660px;
+  margin-top: clamp(16px, 2.4vh, 24px);
+  font-size: clamp(14px, 1.2vw, 17px);
+  line-height: 1.6;
+  color: var(--color-text-inverse-soft);
+  text-wrap: pretty;
 }
 
 /* Maska za animaciju reda; padding ostavlja mesta za kvačice (Š, Ć) i repove slova (j, g). */

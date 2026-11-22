@@ -6,7 +6,8 @@
 const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
-const nav = useNavigation()
+const navigation = useNavigation()
+const nav = computed(() => navigation.value.filter((item) => item.key !== 'floors'))
 const contact = useContact()
 const messenger = contact.messenger
 
