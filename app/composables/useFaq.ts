@@ -31,7 +31,6 @@ export function useFaq() {
       terrace: number(project.maxTerrace, 2),
       free: apartments.filter((a) => statusOf(a.number) === 'available').length,
       completion: completionLabel(lang, false),
-      garage: project.garageSpaces,
       nights: number(yearlyNights),
       phone: contact.phoneDisplay,
     }

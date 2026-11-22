@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { project } from '~/data/project'
-
 // O projektu (arhitektonski stil): tamna podloga, tanke linije, široki Archivo, bez uvlačenja.
 // Gore oznaka „O projektu“ ispod tanke linije, pa dve simetrične polovine: fotografija levo, a desno naslov
 // (about.title) poravnat sa vrhom slike, ispod njega dva pasusa, tri razloga (život, odmor, ulaganje) kao
 // redovi tabele i link. Fotografija se rasteže do visine desne kolone, pa nigde ne ostaje prazan prostor.
-// Na dnu fotografije traka sa dva podatka (planiran završetak, broj garažnih mesta), kao brojevi u heru;
+// Na dnu fotografije traka sa podatkom o planiranom završetku gradnje, kao brojevi u heru;
 // na telefonu je traka ispod fotografije. Brojevi su u data/project.ts.
 // Tekstovi su ključevi `about.*` u i18n/locales/*.json.
 const { t, localeProperties } = useI18n()
@@ -40,10 +38,6 @@ const completion = computed(() => completionLabel(localeProperties.value.languag
             <div class="pfact">
               <dt>{{ t('about.facts.completion') }}</dt>
               <dd>{{ completion }}</dd>
-            </div>
-            <div class="pfact">
-              <dt>{{ t('about.facts.garage') }}</dt>
-              <dd>{{ project.garageSpaces }}</dd>
             </div>
           </dl>
         </figure>
@@ -140,7 +134,8 @@ const completion = computed(() => completionLabel(localeProperties.value.languag
   position: absolute;
   inset: auto 0 0;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-columns: minmax(0, 1fr); /* onoliko kolona koliko ima podataka */
+  grid-auto-flow: column;
   margin: 0;
   border-top: 1px solid var(--color-line-on-photo);
 }

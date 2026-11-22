@@ -48,8 +48,7 @@
     "stats": {
       "units": "apartments",
       "area": "m² per apartment",
-      "floors": "floors, {n} apartments each",
-      "garage": "garage spaces"
+      "floors": "floors, {n} apartments each"
     }
   },
   "floorsList": {
@@ -96,8 +95,7 @@
     },
     "link": "View apartments",
     "facts": {
-      "completion": "planned completion",
-      "garage": "garage spaces"
+      "completion": "planned completion"
     }
   },
   "apartments": {
@@ -148,6 +146,8 @@
       "metaDescriptionSold": "Apartment {n} in ACIKO Residence, Vrnjačka Banja, has been sold: {area} m², {floor}, {bedrooms}. See the floor plan and available apartments with a similar layout.",
       "zoom": "Enlarge the image",
       "close": "Close",
+      "zoomHintIn": "Tap the page to zoom in",
+      "zoomHintOut": "Drag to move · tap to see the whole page",
       "planNote": "Catalogue page. Images are for information only; furniture is shown as a suggestion.",
       "roomsTitle": "Room areas",
       "total": "Total, net",
@@ -264,7 +264,7 @@
       },
       "garage": {
         "q": "Does the building have a garage?",
-        "a": "Yes, the building has {garage} garage spaces. If you need one, tick the option in the inquiry form."
+        "a": "Yes, the building has a garage. If you need a space, tick the option in the inquiry form and we will send you the details."
       },
       "build": {
         "q": "How is the building constructed and how is it heated?",

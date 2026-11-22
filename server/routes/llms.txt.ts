@@ -62,7 +62,7 @@ Zvanični sajt prodaje: ${site.url} (srpski), ${url('/en')} (English), ${url('/r
 - Zgrada: podrum, prizemlje, tri sprata i povučeni sprat; ${project.unitsPerFloor} stana po spratu, ukupno ${project.units} stanova
 - Površine: od ${sr(project.minArea)} do ${sr(project.maxArea)} m² neto; terase do ${sr(project.maxTerrace)} m² (povučeni sprat)
 - Struktura: dnevni boravak sa kuhinjom, jedna ili dve spavaće sobe, kupatilo, terasa
-- Garaža: ${project.garageSpaces} garažnih mesta
+- Garaža: postoji; garažno mesto se može tražiti uz upit
 - Gradnja: zidovi od klima bloka, termoizolovana fasada, aluminijumska stolarija
 - Grejanje i hlađenje: podno grejanje i klima uređaji u svim stanovima
 - Planirani završetak gradnje: ${completionSr}
@@ -97,7 +97,7 @@ ${contact.phone ? `- Telefon prodaje: ${contact.phoneDisplay} (${contact.phone})
 
 ## English summary
 
-${site.name} is a residential building under construction with ${project.units} apartments on ${site.address.street} Street in Vrnjačka Banja, Serbia's most visited spa town. Apartments range from ${en(project.minArea)} to ${en(project.maxArea)} m² (net), with one or two bedrooms and a terrace (up to ${en(project.maxTerrace)} m² on the set-back top floor). ${project.garageSpaces} garage spaces, underfloor heating and air conditioning. Completion is planned for ${completionEn}. ${free} of ${project.units} apartments are available. Prices on request. English site: ${url('/en')}
+${site.name} is a residential building under construction with ${project.units} apartments on ${site.address.street} Street in Vrnjačka Banja, Serbia's most visited spa town. Apartments range from ${en(project.minArea)} to ${en(project.maxArea)} m² (net), with one or two bedrooms and a terrace (up to ${en(project.maxTerrace)} m² on the set-back top floor). Garage, underfloor heating and air conditioning. Completion is planned for ${completionEn}. ${free} of ${project.units} apartments are available. Prices on request. English site: ${url('/en')}
 
 Floors: ${(['f1', 'f2', 'f3', 'ph'] as const).map((f) => `${FLOOR_EN[f]}: apartments ${apartments.filter((a) => a.floor === f).map((a) => a.number).join(', ')}`).join('; ')}.
 

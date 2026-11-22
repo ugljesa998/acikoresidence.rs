@@ -2,7 +2,7 @@
 // Gradnja (arhitektonski stil): podaci od investitora o tome kako je zgrada građena.
 // Gore oznaka „Gradnja“, naslov levo i kratak opis desno (kao kontakt); ispod četiri odlike gradnje
 // (grejanje, zidovi, fasada, stolarija) u četiri kolone odvojene tankim linijama, kao kartice stanova.
-// Završetak gradnje i broj garažnih mesta su u sekciji „O projektu“ (na fotografiji).
+// Završetak gradnje je u sekciji „O projektu“ (na fotografiji).
 // Tekstovi su ključevi `build.*` u i18n/locales/*.json.
 const { t } = useI18n()
 

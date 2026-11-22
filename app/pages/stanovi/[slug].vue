@@ -58,7 +58,31 @@ const openZoom = () => {
 const closeZoom = () => zoom.value?.close()
 const onZoomClose = () => {
   zoomOpen.value = false
+  zoomed.value = false
   scrollLocked.value = false
+}
+
+// Telefon (uspravno ili položeno): list se prvo vidi ceo; dodir ga uveća toliko da se tekst čita, a onda se
+// pomera prstom u svim pravcima. Ponovni dodir vraća ceo list. Dodirnuta tačka ostaje pod prstom.
+const touchZoom = useMediaQuery('(max-width: 760px), (max-height: 500px)')
+const zoomed = ref(false)
+const stage = ref<HTMLElement | null>(null)
+function onSheetTap(event: MouseEvent) {
+  const box = stage.value
+  const img = event.currentTarget as HTMLElement | null
+  if (!touchZoom.value || !box || !img) return
+
+  const r = img.getBoundingClientRect()
+  const s = box.getBoundingClientRect()
+  const fx = (event.clientX - r.left) / r.width
+  const fy = (event.clientY - r.top) / r.height
+
+  zoomed.value = !zoomed.value
+  nextTick(() => {
+    if (!zoomed.value) return box.scrollTo(0, 0)
+    box.scrollLeft = img.offsetLeft + fx * img.offsetWidth - (event.clientX - s.left)
+    box.scrollTop = img.offsetTop + fy * img.offsetHeight - (event.clientY - s.top)
+  })
 }
 
 const seo = computed(() => ({
@@ -208,23 +232,30 @@ useJsonLd('page', () => [
     <dialog
       ref="zoom"
       class="zoom"
+      :class="{ 'is-zoomed': zoomed }"
       :aria-label="sheetAlt"
       @close="onZoomClose"
       @click.self="closeZoom"
     >
-      <div class="zoom__stage" @click.self="closeZoom">
+      <div ref="stage" class="zoom__stage" @click.self="closeZoom">
+        <!-- Na telefonu se odmah učitava verzija od 1100 px (×2), pa je uvećanje oštro bez novog učitavanja -->
         <NuxtImg
           v-if="zoomOpen"
           :src="sheet.src"
           :alt="sheetAlt"
           :width="sheet.width"
           :height="sheet.height"
-          sizes="xs:1100px sm:1100px md:100vw lg:100vw xl:100vw xxl:100vw"
+          sizes="xs:1100px sm:1100px md:1100px lg:100vw xl:100vw xxl:100vw"
           format="webp"
           quality="88"
           class="zoom__img"
+          @click="onSheetTap"
         />
       </div>
+      <!-- Uputstvo samo na telefonu (CSS) -->
+      <p class="zoom__hint" aria-live="polite">
+        {{ zoomed ? t('apartments.detail.zoomHintOut') : t('apartments.detail.zoomHintIn') }}
+      </p>
       <button type="button" class="zoom__close" :aria-label="t('apartments.detail.close')" @click="closeZoom">
         <span aria-hidden="true">×</span>
       </button>
@@ -619,18 +650,73 @@ useJsonLd('page', () => [
   }
 }
 
-/* Telefon: uvećan list je širi od ekrana (da se tekst čita), a pomera se prstom */
-@media (max-width: 760px) {
+.zoom__hint {
+  display: none;
+}
+
+/* Telefon (uspravno ili položeno): prvo ceo list u ekranu; dodir ga uveća (širi od ekrana, da se tekst čita)
+   i tada se pomera prstom u svim pravcima; ponovni dodir vraća ceo list. Uputstvo stoji pri dnu. */
+@media (max-width: 760px), (max-height: 500px) {
   .zoom__stage {
-    place-items: center start;
+    --pad-top: 68px;
+    --pad-bottom: 52px;
+    position: relative;
+    place-items: start;
     overflow: auto;
     overscroll-behavior: contain;
+    padding: var(--pad-top) 12px var(--pad-bottom);
   }
 
+  /* `margin: auto` centrira list dok staje u ekran, a kad je veći ne odseca mu levu i gornju ivicu */
   .zoom__img {
+    margin: auto;
+    max-height: calc(100dvh - var(--pad-top) - var(--pad-bottom));
+    cursor: zoom-in;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .zoom.is-zoomed .zoom__img {
     width: 1100px;
     max-width: none;
     max-height: none;
+    border-radius: 0;
+    cursor: zoom-out;
+  }
+
+  /* Dugme × i uputstvo imaju tamnu podlogu, da se vide i kad je ispod njih uvećan (svetao) list */
+  .zoom__close {
+    z-index: 1;
+    background: var(--color-bg-inverse);
+  }
+
+  .zoom__hint {
+    display: block;
+    position: absolute;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 50%;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    background: color-mix(in srgb, var(--color-bg-inverse) 88%, transparent);
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-label);
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+    pointer-events: none;
+  }
+}
+
+/* Položen telefon: ekran je nizak, pa list ide gotovo do vrha; sa strane mesta za dugme × */
+@media (max-height: 500px) {
+  .zoom__stage {
+    --pad-top: 12px;
+    --pad-bottom: 52px;
+    padding-inline: 68px;
   }
 }
 

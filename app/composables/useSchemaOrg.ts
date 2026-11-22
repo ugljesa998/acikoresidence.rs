@@ -110,14 +110,11 @@ export function useSchemaOrg() {
       image: [site.ogImage.src, ...galleryImages.map((g) => g.src)].map(absoluteUrl),
       numberOfAccommodationUnits: { '@type': 'QuantitativeValue', value: project.units },
       numberOfAvailableAccommodationUnits: { '@type': 'QuantitativeValue', value: free },
-      amenityFeature: [
-        ...(['heating', 'walls', 'facade', 'windows'] as const).map((key) => ({
-          '@type': 'LocationFeatureSpecification',
-          name: t(`build.specs.${key}.title`),
-          value: true,
-        })),
-        { '@type': 'LocationFeatureSpecification', name: t('hero.stats.garage'), value: project.garageSpaces },
-      ],
+      amenityFeature: (['heating', 'walls', 'facade', 'windows'] as const).map((key) => ({
+        '@type': 'LocationFeatureSpecification',
+        name: t(`build.specs.${key}.title`),
+        value: true,
+      })),
       additionalProperty: [
         {
           '@type': 'PropertyValue',

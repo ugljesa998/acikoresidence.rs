@@ -3,7 +3,7 @@ import { floors } from '~/data/apartments'
 import { project } from '~/data/project'
 
 // Hero (arhitektonski stil): fotografija zgrade od samog vrha preko celog ekrana; header je providan preko nje.
-// Pri dnu, preko zatamnjenog dela slike: nadnaslov, naslov, pa iznad tanke linije četiri krupna broja
+// Pri dnu, preko zatamnjenog dela slike: nadnaslov, naslov, pa iznad tanke linije tri krupna broja
 // iz kataloga (data/project.ts i data/apartments.ts) i dugme „Izaberite stan“ (vodi na /stanovi).
 const { t, localeProperties } = useI18n()
 const localePath = useLocalePath()
@@ -15,7 +15,6 @@ const stats = computed(() => [
   { value: String(project.units), label: t('hero.stats.units') },
   { value: `${formatNumber(project.minArea)}–${formatNumber(project.maxArea)}`, label: t('hero.stats.area') },
   { value: String(floors.length), label: t('hero.stats.floors', { n: project.unitsPerFloor }) },
-  { value: String(project.garageSpaces), label: t('hero.stats.garage') },
 ])
 </script>
 
@@ -167,7 +166,7 @@ const stats = computed(() => [
   color: var(--color-text-inverse-muted);
 }
 
-/* Traka ispod naslova: četiri broja odvojena tankim linijama, dugme desno */
+/* Traka ispod naslova: brojevi odvojeni tankim linijama, dugme desno */
 .hero__bar {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -177,9 +176,11 @@ const stats = computed(() => [
   border-top: 1px solid var(--color-line-on-photo);
 }
 
+/* Onoliko istih kolona koliko ima brojeva (sada tri) */
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
 }
 
 .stat {
@@ -247,7 +248,7 @@ const stats = computed(() => [
   }
 }
 
-/* Telefon: slika isečena tako da se vidi zgrada; brojevi 2 × 2, dugme preko cele širine */
+/* Telefon: slika isečena tako da se vidi zgrada; tri broja u jednom redu, dugme preko cele širine */
 @media (max-width: 560px) {
   /* Visina prati sadržaj (a najmanje je ceo ekran), pa se na niskim telefonima vrh teksta ne seče ispod headera */
   .hero {
@@ -304,30 +305,18 @@ const stats = computed(() => [
     margin-top: 22px;
   }
 
-  .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
+  /* bez desnog razmaka: „38–65“ i na 320 px staje u svoju trećinu */
   .stat {
     gap: 6px;
-    padding: 12px 12px 12px;
+    padding: 14px 0 4px 10px;
   }
 
   .stat__value {
-    font-size: 28px;
+    font-size: clamp(22px, 7vw, 28px);
   }
 
   .stat__label {
     font-size: 10px;
-  }
-
-  .stat:nth-child(odd) {
-    padding-left: 0;
-    border-left: 0;
-  }
-
-  .stat:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--color-line-on-photo);
   }
 
   .hero__cta {

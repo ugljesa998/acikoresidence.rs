@@ -48,8 +48,7 @@
     "stats": {
       "units": "stanova",
       "area": "m² po stanu",
-      "floors": "sprata, po {n} stana",
-      "garage": "garažnih mesta"
+      "floors": "sprata, po {n} stana"
     }
   },
   "floorsList": {
@@ -96,8 +95,7 @@
     },
     "link": "Pogledajte stanove",
     "facts": {
-      "completion": "planiran završetak gradnje",
-      "garage": "garažnih mesta"
+      "completion": "planiran završetak gradnje"
     }
   },
   "apartments": {
@@ -148,6 +146,8 @@
       "metaDescriptionSold": "Stan {n} u novogradnji ACIKO Residence u Vrnjačkoj Banji je prodat: {area} m², {floor}, {bedrooms}. Pogledajte osnovu i slobodne stanove sličnog rasporeda.",
       "zoom": "Uvećajte sliku",
       "close": "Zatvorite",
+      "zoomHintIn": "Dodirnite list da ga uvećate",
+      "zoomHintOut": "Prevucite da pomerate · dodir za ceo list",
       "planNote": "Strana iz kataloga. Prikazi su informativnog karaktera; nameštaj je prikazan kao predlog.",
       "roomsTitle": "Površine po prostorijama",
       "total": "Ukupno, neto",
@@ -264,7 +264,7 @@
       },
       "garage": {
         "q": "Da li zgrada ima garažu?",
-        "a": "Da, zgrada ima {garage} garažnih mesta. Ako vam treba garažno mesto, označite to u formi za upit."
+        "a": "Da, zgrada ima garažu. Ako vam treba garažno mesto, označite to u formi za upit i javljamo vam detalje."
       },
       "build": {
         "q": "Kako je zgrada građena i kakvo je grejanje?",
