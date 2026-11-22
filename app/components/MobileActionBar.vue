@@ -123,4 +123,42 @@ const visible = computed(() => y.value > height.value * SHOW_AFTER && !menuOpen.
     display: grid;
   }
 }
+
+/* Tri dugmeta uvek iste širine i u ekranu: tekst ne sme da proširi traku (npr. „Предложение“ na ruskom) */
+.actionbar {
+  grid-auto-columns: minmax(0, 1fr);
+}
+
+.actionbar__btn {
+  min-width: 0;
+  padding-inline: 6px;
+  white-space: nowrap;
+}
+
+/* Uži telefoni: zbijenija slova */
+@media (max-width: 380px) {
+  .actionbar {
+    gap: 6px;
+    padding-inline: 8px;
+  }
+
+  .actionbar__btn {
+    gap: 6px;
+    padding-inline: 4px;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* Najuži telefoni (320–360 px): samo tekst, bez ikonica, da sva tri natpisa stanu */
+@media (max-width: 360px) {
+  .actionbar__btn {
+    letter-spacing: 0.01em;
+  }
+
+  .actionbar__ring,
+  .actionbar__btn > .ui-icon {
+    display: none;
+  }
+}
 </style>

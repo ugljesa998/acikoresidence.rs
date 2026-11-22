@@ -183,6 +183,19 @@ onClickOutside(root, () => {
   white-space: nowrap;
 }
 
+/* U samom polju i naziv može da se skrati (…) ako ne staje — npr. „Još ne znam…“ na telefonu od 320 px.
+   `contain` znači da dug tekst ne određuje širinu polja (inače bi polje proširilo celu stranicu). */
+.select__button .select__value {
+  contain: inline-size;
+}
+
+.select__button .select__label {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .select__meta {
   min-width: 0;
   overflow: hidden;

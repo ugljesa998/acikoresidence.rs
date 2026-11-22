@@ -249,12 +249,59 @@ const stats = computed(() => [
 
 /* Telefon: slika isečena tako da se vidi zgrada; brojevi 2 × 2, dugme preko cele širine */
 @media (max-width: 560px) {
+  /* Visina prati sadržaj (a najmanje je ceo ekran), pa se na niskim telefonima vrh teksta ne seče ispod headera */
+  .hero {
+    height: auto;
+    min-height: 100svh;
+    padding-top: calc(var(--header-h) + 24px);
+  }
+
   .hero__media :deep(.hero__img) {
     object-position: 74% 50%;
   }
 
+  /* Tekst ide preko cele širine fotografije, pa je zatamnjenje odozdo jače i seže više */
+  .hero::after {
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--o) 60%, transparent) 0%, transparent 18%),
+      linear-gradient(
+        0deg,
+        color-mix(in srgb, var(--o) 94%, transparent) 0%,
+        color-mix(in srgb, var(--o) 80%, transparent) 40%,
+        color-mix(in srgb, var(--o) 35%, transparent) 66%,
+        transparent 84%
+      );
+  }
+
+  .hero__body {
+    padding-bottom: 20px;
+  }
+
   .hero__eyebrow {
+    margin-bottom: 14px;
     font-size: 11px;
+  }
+
+  /* Naslov raste sa širinom ekrana tako da „Pronađite svoj stan“ uvek stane u jedan red (320–560 px) */
+  .hero__title {
+    font-size: clamp(26px, calc(10.2vw - 5px), 44px);
+    line-height: 1.02;
+  }
+
+  /* Drugi red svetliji nego na računaru: ovde stoji preko fasade, ne preko tamnog neba */
+  .hero__line:nth-child(2) > span {
+    color: var(--color-text-inverse-soft);
+  }
+
+  .hero__lead {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .hero__bar {
+    gap: 16px;
+    margin-top: 22px;
   }
 
   .stats {
@@ -262,10 +309,19 @@ const stats = computed(() => [
   }
 
   .stat {
-    padding: 16px 14px 14px;
+    gap: 6px;
+    padding: 12px 12px 12px;
   }
 
-  .stat:nth-child(3) {
+  .stat__value {
+    font-size: 28px;
+  }
+
+  .stat__label {
+    font-size: 10px;
+  }
+
+  .stat:nth-child(odd) {
     padding-left: 0;
     border-left: 0;
   }

@@ -116,8 +116,10 @@ const localePath = useLocalePath()
     object-position: 60% 50%;
   }
 
+  /* Tekst dugmeta sme da pređe u drugi red, inače na uskom telefonu (320 px) gura stranicu u širinu */
   .offer__cta {
     width: 100%;
+    white-space: normal;
   }
 }
 </style>
