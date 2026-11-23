@@ -95,8 +95,9 @@ Bez `SMTP_USER`/`SMTP_PASS` Google prima mejl samo sa dozvoljene IP adrese: u Go
 ## Analitika i oglasi
 
 Google Tag Manager (`site.gtmId` u `app/data/site.ts`) se učitava na svakoj stranici, osim u lokalnom razvoju.
-Google Analytics, Google Ads i Meta Pixel se dodaju u GTM-u, bez izmene koda. Sajt sam šalje događaje u
-`dataLayer` (`app/composables/useTrack.ts`):
+U njemu je Google tag za Google Analytics (G-H36B4Q2QYR); Google Ads i Meta Pixel se dodaju isto tamo, bez
+izmene koda. Sajt sam šalje događaje (`app/composables/useTrack.ts`) pravo u Google Analytics (`gtag`), pa za
+GA4 u GTM-u ne treba ništa podešavati, a i u `dataLayer` za ostale alate u GTM-u:
 
 | Događaj             | Kada                                     | Parametri                       |
 | ------------------- | ---------------------------------------- | ------------------------------- |
