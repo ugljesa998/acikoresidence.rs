@@ -28,6 +28,7 @@
     "call": "Call",
     "callAria": "Call sales: {n}",
     "writeAria": "Message us on {app}",
+    "messageVia": "Send a message via",
     "bar": "Quick contact",
     "address": "Kneza Miloša St, Vrnjačka Banja"
   },
@@ -288,6 +289,7 @@
     "lead": "Leave your name and phone number and we will get back to you with available apartments, prices and purchase terms.",
     "phoneLabel": "Phone",
     "messengerLabel": "Message",
+    "emailLabel": "Email",
     "addressLabel": "Address",
     "form": {
       "name": "Full name",

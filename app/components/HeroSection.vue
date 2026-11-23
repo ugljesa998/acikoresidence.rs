@@ -11,6 +11,31 @@ const localePath = useLocalePath()
 const formatNumber = (n: number, digits = 0) =>
   new Intl.NumberFormat(localeProperties.value.language, { maximumFractionDigits: digits }).format(n)
 
+// Fotografija: na telefonu (do 560 px) posebna uspravna (hero-mobile.jpg, kadar za ekran telefona),
+// na tabletu i računaru široka (hero.jpg). Obe u AVIF i WebP, u više širina; slike se ne uvećavaju preko originala.
+// Preload sa `media` učitava odmah samo onu koja će se prikazati (najveći element prvog ekrana).
+const MOBILE_MEDIA = '(max-width: 560px)'
+const HERO = { src: '/images/hero.jpg', widths: [640, 1024, 1280, 1536, 1774] }
+const HERO_MOBILE = { src: '/images/hero-mobile.jpg', widths: [430, 640, 852] }
+const FORMATS = ['avif', 'webp'] as const
+
+const img = useImage()
+const srcset = (image: typeof HERO, format: string) =>
+  image.widths.map((w) => `${img(image.src, { width: w, format, quality: 80 })} ${w}w`).join(', ')
+
+const sources = [
+  ...FORMATS.map((format) => ({ key: `m-${format}`, media: MOBILE_MEDIA, type: `image/${format}`, srcset: srcset(HERO_MOBILE, format) })),
+  ...FORMATS.map((format) => ({ key: `d-${format}`, media: undefined, type: `image/${format}`, srcset: srcset(HERO, format) })),
+]
+const fallback = img(HERO.src, { width: 1280, quality: 80 })
+
+useHead({
+  link: [
+    { key: 'hero-mobile', rel: 'preload', as: 'image', type: 'image/avif', media: MOBILE_MEDIA, imagesrcset: srcset(HERO_MOBILE, 'avif'), imagesizes: '100vw', fetchpriority: 'high' },
+    { key: 'hero', rel: 'preload', as: 'image', type: 'image/avif', media: '(min-width: 561px)', imagesrcset: srcset(HERO, 'avif'), imagesizes: '100vw', fetchpriority: 'high' },
+  ],
+})
+
 const stats = computed(() => [
   { value: String(project.units), label: t('hero.stats.units') },
   { value: `${formatNumber(project.minArea)}–${formatNumber(project.maxArea)}`, label: t('hero.stats.area') },
@@ -21,13 +46,11 @@ const stats = computed(() => [
 <template>
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero__media">
-      <NuxtPicture
-        src="/images/hero.jpg"
-        :alt="t('hero.imageAlt')"
-        sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw 2xl:100vw"
-        :preload="{ fetchPriority: 'high' }"
-        :img-attrs="{ class: 'hero__img' }"
-      />
+      <!-- Telefon: uspravna slika; tablet i računar: široka (izvori i preload su u <script>) -->
+      <picture>
+        <source v-for="s in sources" :key="s.key" :media="s.media" :type="s.type" :srcset="s.srcset" sizes="100vw" />
+        <img :src="fallback" :alt="t('hero.imageAlt')" width="1774" height="887" fetchpriority="high" class="hero__img" />
+      </picture>
     </div>
 
     <div class="hero__body container">
@@ -257,8 +280,17 @@ const stats = computed(() => [
     padding-top: calc(var(--header-h) + 24px);
   }
 
+  /* Uspravna slika za telefon: zgrada je na sredini kadra, a tekst pokriva donju polovinu ekrana. Zato se slika
+     podiže (gore se odseca deo neba), a dno bez slike je tamna podloga ispod zatamnjenja; donja ivica slike se
+     postepeno gubi, pa se prelaz ne vidi. */
+  .hero__media {
+    inset: -16% 0 16%;
+  }
+
   .hero__media :deep(.hero__img) {
-    object-position: 74% 50%;
+    object-position: 50% 50%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent);
+    mask-image: linear-gradient(to bottom, #000 80%, transparent);
   }
 
   /* Tekst ide preko cele širine fotografije, pa je zatamnjenje odozdo jače i seže više */

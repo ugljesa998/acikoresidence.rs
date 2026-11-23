@@ -1,13 +1,11 @@
-// Kontakt prodaje — jedino mesto za broj telefona i messengere.
-// Prazno polje = taj element se ne prikazuje na sajtu.
+// Kontakt prodaje — jedino mesto za broj telefona, messengere i e-poštu.
+// Prazno polje = taj element se ne prikazuje na sajtu. „Poruka“ nudi WhatsApp, pa Viber, pa SMS na broj telefona.
 // Ako je `phone` prazan, u lokalnom razvoju (npm run dev) prikazuje se lažni „06X XXX XXXX“ da se vidi dizajn.
 
-// TODO: PRIVREMENI broj (064 123 45 67) — zameniti pravim brojem prodaje pre objave sajta!
 export const contact = {
-  phone: '+381641234567', // međunarodni format, bez razmaka
-  phoneDisplay: '064 123 45 67', // kako se broj ispisuje na sajtu
-  viber: '+381641234567',
-  whatsapp: '+381641234567',
-  telegram: '', // korisničko ime bez @, npr. 'aciko_residence'
-  email: '',
+  phone: '+38163615805', // međunarodni format, bez razmaka
+  phoneDisplay: '063 615 805', // kako se broj ispisuje na sajtu
+  viber: '+38163615805',
+  whatsapp: '+38163615805',
+  email: 'info@aciko.rs', // prikazuje se u kontaktu i footeru, ide i u strukturisane podatke i llms.txt
 }

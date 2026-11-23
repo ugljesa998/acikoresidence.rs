@@ -2,7 +2,7 @@
 import { building } from '~/data/location'
 import { site } from '~/data/site'
 
-// Footer: tamni završetak stranice. Logo, meni, telefon i adresa, pa red sa pravima, napomenom o prikazima
+// Footer: tamni završetak stranice. Logo, meni, telefon, e-pošta i adresa, pa red sa pravima, napomenom o prikazima
 // i potpisom izrade sajta.
 const { t } = useI18n()
 const nav = useNavigation()
@@ -30,6 +30,7 @@ const creditUrl = `https://www.omniit.rs/?${new URLSearchParams({
 
         <div class="footer__contact">
           <a v-if="contact.phoneHref" :href="contact.phoneHref" class="footer__phone">{{ contact.phoneDisplay }}</a>
+          <a v-if="contact.email" :href="`mailto:${contact.email}`">{{ contact.email }}</a>
           <a :href="building.mapsUrl" target="_blank" rel="noopener">{{ t('contact.address') }}</a>
         </div>
       </div>

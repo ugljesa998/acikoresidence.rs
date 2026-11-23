@@ -25,7 +25,8 @@ npm run dev        # http://localhost:3000
 | Želim da promenim…                       | Fajl                                    |
 | ---------------------------------------- | --------------------------------------- |
 | bilo koji tekst na sajtu                 | `i18n/locales/sr.json`, `en.json`, `ru.json` |
-| broj telefona, Viber, WhatsApp, Telegram | `app/data/contact.ts`                   |
+| broj telefona, Viber, WhatsApp, Telegram, e-pošta | `app/data/contact.ts`          |
+| kome i preko čega stižu upiti mejlom     | `.env` (lokalno) / panel hostinga — vidi `.env.example` |
 | brojeve o zgradi (stanovi, m², terase)   | `app/data/project.ts`                   |
 | ime sajta i adresu domena                | `app/data/site.ts`                      |
 | boje, fontove, razmake, animacije        | `app/assets/css/tokens.css`             |
@@ -81,8 +82,19 @@ public/                   slike, logo, favicon
 i šta još treba uraditi van koda: [SEO.md](SEO.md). Kad se promeni stanje stanova, promeniti i `site.updated`
 u `app/data/site.ts`.
 
+## Upiti na mejl
+
+Upiti sa forme i prijave na novosti stižu mejlom na `CONTACT_EMAIL` (sada `info@aciko.rs`), preko SMTP-a
+(Google Workspace „SMTP relay“). Podešavanja su promenljive okruženja: lokalno u `.env`, a u produkciji u panelu
+hostinga — build ih ne nosi sa sobom. Spisak i objašnjenje: `.env.example`; kod: `server/utils/mail.ts`.
+
+Bez `SMTP_USER`/`SMTP_PASS` Google prima mejl samo sa dozvoljene IP adrese: u Google Admin konzoli
+(Apps → Google Workspace → Gmail → Routing → **SMTP relay service**) dodati pravilo sa IP adresom servera,
+„Only addresses in my domains“ i „Require TLS encryption“.
+
 ## Pre objave
 
 - [ ] Pravi broj telefona i messengeri u `app/data/contact.ts` (sada je privremeni 064 123 45 67)
+- [ ] SMTP promenljive iz `.env.example` u panelu hostinga + IP adresa servera u Google SMTP relay pravilu; probni upit sa sajta
 - [ ] Hero render u većoj rezoluciji (sadašnji je 1774 px širine)
 - [ ] Sekcije na koje vode linkovi: stanovi, lokacija, gradnja, galerija, kontakt

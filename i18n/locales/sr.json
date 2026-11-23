@@ -28,6 +28,7 @@
     "call": "Pozovite",
     "callAria": "Pozovite prodaju: {n}",
     "writeAria": "Pišite nam na {app}",
+    "messageVia": "Pošaljite poruku preko",
     "bar": "Brzi kontakt",
     "address": "Kneza Miloša, Vrnjačka Banja"
   },
@@ -288,6 +289,7 @@
     "lead": "Ostavite ime i broj telefona, a mi vam se javljamo sa slobodnim stanovima, cenama i uslovima kupovine.",
     "phoneLabel": "Telefon",
     "messengerLabel": "Poruka",
+    "emailLabel": "E-pošta",
     "addressLabel": "Adresa",
     "form": {
       "name": "Ime i prezime",

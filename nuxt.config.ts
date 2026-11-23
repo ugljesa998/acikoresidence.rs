@@ -10,8 +10,9 @@ export default defineNuxtConfig({
   // Globalni CSS: tokeni, osnova, pomoćne klase, komponente (vidi assets/css/main.css)
   css: ['~/assets/css/main.css'],
 
-  // Adresa na koju server prosleđuje upite sa forme (server/api/inquiry.post.ts).
-  // Postavlja se promenljivom okruženja NUXT_INQUIRY_WEBHOOK; prazno = u razvoju se upit samo ispiše u terminalu.
+  // Upiti i prijave na novosti idu mejlom prodaji preko SMTP-a — podešavanja su u .env (vidi .env.example
+  // i server/utils/mail.ts). Webhook ispod je dodatna, neobavezna putanja (npr. upis u tabelu ili CRM):
+  // NUXT_INQUIRY_WEBHOOK za upite; prazno = ne koristi se.
   runtimeConfig: {
     inquiryWebhook: '',
     // Isto za prijave na novosti (server/api/newsletter.post.ts): NUXT_NEWSLETTER_WEBHOOK.

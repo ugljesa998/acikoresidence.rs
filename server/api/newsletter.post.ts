@@ -1,6 +1,7 @@
-// Prijava na novosti (newsletter) sa početne. Proverava e-adresu i prosleđuje je na adresu iz
-// NUXT_NEWSLETTER_WEBHOOK (npr. Make/Zapier/n8n webhook koji je upisuje u Mailchimp, Brevo ili tabelu).
-// Bez podešene adrese: u razvoju se prijava samo ispiše u terminalu, a u produkciji forma javlja grešku,
+// Prijava na novosti (newsletter) sa početne. Proverava e-adresu i šalje je:
+//  - mejlom prodaji na CONTACT_EMAIL preko SMTP-a (server/utils/mail.ts, podešavanja u .env), i/ili
+//  - na webhook iz NUXT_NEWSLETTER_WEBHOOK (npr. Make/Zapier/n8n koji je upisuje u Mailchimp, Brevo ili tabelu).
+// Bez ijednog od ta dva: u razvoju se prijava samo ispiše u terminalu, a u produkciji forma javlja grešku,
 // da se nijedna prijava ne izgubi neprimetno (isto kao upit, vidi inquiry.post.ts).
 interface NewsletterBody {
   email?: string
@@ -26,14 +27,33 @@ export default defineEventHandler(async (event) => {
 
   const { newsletterWebhook } = useRuntimeConfig(event)
 
-  if (!newsletterWebhook) {
+  if (!mailConfigured() && !newsletterWebhook) {
     if (import.meta.dev) {
-      console.info('[newsletter] (NUXT_NEWSLETTER_WEBHOOK nije podešen, prijava se samo ispisuje)', signup)
+      console.info('[newsletter] (ni SMTP ni NUXT_NEWSLETTER_WEBHOOK nisu podešeni, prijava se samo ispisuje)', signup)
       return { ok: true }
     }
     throw createError({ statusCode: 503, statusMessage: 'Newsletter delivery is not configured' })
   }
 
-  await $fetch(newsletterWebhook, { method: 'POST', body: signup })
+  try {
+    await Promise.all([
+      mailConfigured() &&
+        sendMail({
+          subject: `Nova prijava na novosti: ${signup.email}`,
+          text: [
+            'Nova prijava na novosti sa sajta acikoresidence.rs',
+            '',
+            `E-adresa: ${signup.email}`,
+            `Stranica: ${signup.page || '-'}`,
+            `Vreme: ${mailTime()}`,
+          ].join('\n'),
+          replyTo: signup.email,
+        }),
+      newsletterWebhook && $fetch(newsletterWebhook, { method: 'POST', body: signup }),
+    ])
+  } catch (error) {
+    console.error('[newsletter] slanje nije uspelo', error)
+    throw createError({ statusCode: 502, statusMessage: 'Newsletter delivery failed' })
+  }
   return { ok: true }
 })

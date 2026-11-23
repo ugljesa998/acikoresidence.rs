@@ -9,7 +9,8 @@ const localePath = useLocalePath()
 const navigation = useNavigation()
 const nav = computed(() => navigation.value.filter((item) => item.key !== 'floors'))
 const contact = useContact()
-const messenger = contact.messenger
+const messages = contact.messages
+const track = useTrack()
 
 // „Ponuda“ vodi na kontakt formu na dnu početne (radi i sa drugih stranica).
 const offerHref = computed(() => localePath('/stanovi')) // „Zatražite ponudu“: lista stanova, pa upit za izabran stan
@@ -92,20 +93,26 @@ onKeyStroke('Escape', () => (open.value = false))
         </nav>
 
         <div class="menu__foot">
-          <div v-if="contact.phoneHref || messenger" class="menu__contact">
+          <div v-if="contact.phoneHref || messages.length" class="menu__contact">
             <a v-if="contact.phoneHref" :href="contact.phoneHref" class="menu__phone">
               <UiIcon name="phone" />{{ contact.phoneDisplay }}
             </a>
-            <a
-              v-if="messenger"
-              :href="messenger.href"
-              class="menu__msg"
-              :class="`is-${messenger.type}`"
-              :target="messenger.external ? '_blank' : undefined"
-              :rel="messenger.external ? 'noopener' : undefined"
-            >
-              <UiIcon name="chat" />{{ messenger.label }}
-            </a>
+            <!-- Poruka: WhatsApp, Viber, SMS — posetilac bira (redosled u composables/useContact.ts) -->
+            <div v-if="messages.length" class="menu__msgs">
+              <a
+                v-for="option in messages"
+                :key="option.type"
+                :href="option.href"
+                class="menu__msg"
+                :class="`is-${option.type}`"
+                :aria-label="t('contact.writeAria', { app: option.label })"
+                :target="option.external ? '_blank' : undefined"
+                :rel="option.external ? 'noopener' : undefined"
+                @click="track('contact_click', { method: option.type })"
+              >
+                <UiIcon name="chat" />{{ option.label }}
+              </a>
+            </div>
           </div>
           <NuxtLink :to="offerHref" class="btn btn--primary" @click="open = false">
             {{ t('cta.offerShort') }}
@@ -347,7 +354,14 @@ onKeyStroke('Escape', () => (open.value = false))
 
 .menu__contact {
   display: grid;
-  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+/* Kanali za poruku: iste širine, u jednom redu ispod telefona */
+.menu__msgs {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
   gap: 10px;
 }
 
@@ -367,8 +381,9 @@ onKeyStroke('Escape', () => (open.value = false))
 }
 
 .menu__msg {
+  padding-inline: 8px;
   font-size: 13px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
 
 .menu__phone .ui-icon,
@@ -380,8 +395,8 @@ onKeyStroke('Escape', () => (open.value = false))
   color: var(--color-viber);
 }
 
-.menu__msg.is-telegram .ui-icon {
-  color: var(--color-telegram);
+.menu__msg.is-sms .ui-icon {
+  color: var(--color-text-inverse-soft);
 }
 
 .menu__msg.is-whatsapp .ui-icon {

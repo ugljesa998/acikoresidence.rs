@@ -2,11 +2,11 @@
 import { building } from '~/data/location'
 
 // Kontakt (arhitektonski stil): poslednja sekcija početne. Gore oznaka, naslov i kratak opis; ispod, u dve
-// polovine: levo telefon, poruka i adresa kao redovi tabele, desno forma za upit (InquiryForm).
+// polovine: levo telefon, poruka (WhatsApp · Viber · SMS), e-pošta i adresa kao redovi tabele, desno forma za upit (InquiryForm).
 // Stan izabran negde drugde na sajtu stiže kroz useInquiry() i već je upisan u formu.
 const { t } = useI18n()
 const contact = useContact()
-const messenger = contact.messenger
+const messages = contact.messages
 const track = useTrack()
 </script>
 
@@ -32,17 +32,28 @@ const track = useTrack()
               </a>
             </dd>
           </div>
-          <div v-if="messenger" class="channels__row">
+          <div v-if="messages.length" class="channels__row">
             <dt>{{ t('inquiry.messengerLabel') }}</dt>
-            <dd>
+            <dd class="channels__list">
               <a
-                :href="messenger.href"
+                v-for="option in messages"
+                :key="option.type"
+                :href="option.href"
                 class="channels__link"
-                :target="messenger.external ? '_blank' : undefined"
-                :rel="messenger.external ? 'noopener' : undefined"
-                @click="track('contact_click', { method: messenger.type })"
+                :aria-label="t('contact.writeAria', { app: option.label })"
+                :target="option.external ? '_blank' : undefined"
+                :rel="option.external ? 'noopener' : undefined"
+                @click="track('contact_click', { method: option.type })"
               >
-                {{ messenger.label }}
+                {{ option.label }}
+              </a>
+            </dd>
+          </div>
+          <div v-if="contact.email" class="channels__row">
+            <dt>{{ t('inquiry.emailLabel') }}</dt>
+            <dd>
+              <a :href="`mailto:${contact.email}`" class="channels__link" @click="track('contact_click', { method: 'email' })">
+                {{ contact.email }}
               </a>
             </dd>
           </div>
@@ -156,6 +167,13 @@ const track = useTrack()
 
 .channels__phone:hover {
   color: var(--color-accent);
+}
+
+/* Više kanala u istom redu (WhatsApp · Viber · SMS) */
+.channels__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
 }
 
 .channels__link {
