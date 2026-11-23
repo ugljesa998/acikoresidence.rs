@@ -291,6 +291,7 @@
     "messengerLabel": "Сообщение",
     "emailLabel": "Эл. почта",
     "addressLabel": "Адрес",
+    "instagramLabel": "Instagram",
     "form": {
       "name": "Имя и фамилия",
       "phone": "Телефон",

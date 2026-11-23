@@ -1,5 +1,9 @@
 // Osnovni podaci o sajtu i brendu (ne prevode se).
 // Koriste ih i SEO delovi: meta oznake, strukturisani podaci (JSON-LD), sitemap.xml, robots.txt i llms.txt.
+
+// Instagram profil brenda: link u kontaktu i footeru, a ide i u „sameAs“ ispod.
+const instagram = { handle: '@acikoresidence', url: 'https://www.instagram.com/acikoresidence/' }
+
 export const site = {
   name: 'ACIKO Residence',
   brandSuffix: 'Residence', // stoji uz logo ACIKO
@@ -24,9 +28,11 @@ export const site = {
   // Logo za Google (kvadratni, najmanje 112 × 112 px)
   logo: '/apple-touch-icon.png',
 
+  instagram,
+
   // Profili brenda na drugim mestima: Instagram, Facebook, Google Business profil, YouTube…
-  // Pune adrese, npr. 'https://www.instagram.com/acikoresidence'. Pomažu Google-u i AI asistentima da povežu brend.
-  sameAs: [] as string[],
+  // Pune adrese. Pomažu Google-u i AI asistentima da povežu brend sa sajtom (strukturisani podaci, llms.txt).
+  sameAs: [instagram.url] as string[],
 
   // Google Tag Manager kontejner (tagmanager.google.com). U njemu se podešavaju Google Analytics, Google Ads
   // i Meta Pixel, bez izmene koda. Prazno = GTM se ne učitava.

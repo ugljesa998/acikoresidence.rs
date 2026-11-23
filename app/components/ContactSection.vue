@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { building } from '~/data/location'
+import { site } from '~/data/site'
 
 // Kontakt (arhitektonski stil): poslednja sekcija početne. Gore oznaka, naslov i kratak opis; ispod, u dve
-// polovine: levo telefon, poruka (WhatsApp · Viber · SMS), e-pošta i adresa kao redovi tabele, desno forma za upit (InquiryForm).
+// polovine: levo telefon, poruka (WhatsApp · Viber · SMS), e-pošta, adresa i Instagram kao redovi tabele, desno forma za upit (InquiryForm).
 // Stan izabran negde drugde na sajtu stiže kroz useInquiry() i već je upisan u formu.
 const { t } = useI18n()
 const contact = useContact()
@@ -62,6 +63,20 @@ const track = useTrack()
             <dd>
               <a :href="building.mapsUrl" class="channels__link" target="_blank" rel="noopener">
                 {{ t('contact.address') }}
+              </a>
+            </dd>
+          </div>
+          <div class="channels__row">
+            <dt>{{ t('inquiry.instagramLabel') }}</dt>
+            <dd>
+              <a
+                :href="site.instagram.url"
+                class="channels__link"
+                target="_blank"
+                rel="noopener"
+                @click="track('contact_click', { method: 'instagram' })"
+              >
+                {{ site.instagram.handle }}
               </a>
             </dd>
           </div>

@@ -291,6 +291,7 @@
     "messengerLabel": "Poruka",
     "emailLabel": "E-pošta",
     "addressLabel": "Adresa",
+    "instagramLabel": "Instagram",
     "form": {
       "name": "Ime i prezime",
       "phone": "Telefon",

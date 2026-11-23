@@ -291,6 +291,7 @@
     "messengerLabel": "Message",
     "emailLabel": "Email",
     "addressLabel": "Address",
+    "instagramLabel": "Instagram",
     "form": {
       "name": "Full name",
       "phone": "Phone",

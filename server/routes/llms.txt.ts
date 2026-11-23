@@ -87,6 +87,7 @@ Svaka stranica stana ima osnovu, 3D prikaz, površine po prostorijama i formu za
 ## Kontakt i kupovina
 
 ${contact.phone ? `- Telefon prodaje: ${contact.phoneDisplay} (${contact.phone})\n` : ''}${contact.email ? `- E-pošta: ${contact.email}\n` : ''}- Upit za cenu i uslove kupovine: ${site.url}/#kontakt
+- Instagram: ${site.instagram.url}
 - Upit za određeni stan: na stranici stana, npr. ${url('/stanovi/stan-1')}#upit
 
 ## Stranice

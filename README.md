@@ -28,7 +28,7 @@ npm run dev        # http://localhost:3000
 | broj telefona, Viber, WhatsApp, Telegram, e-pošta | `app/data/contact.ts`          |
 | kome i preko čega stižu upiti mejlom     | `.env` (lokalno) / panel hostinga — vidi `.env.example` |
 | brojeve o zgradi (stanovi, m², terase)   | `app/data/project.ts`                   |
-| ime sajta i adresu domena                | `app/data/site.ts`                      |
+| ime sajta, adresu domena, Instagram      | `app/data/site.ts`                      |
 | boje, fontove, razmake, animacije        | `app/assets/css/tokens.css`             |
 | stavke glavnog menija                    | `app/composables/useNavigation.ts`      |
 | logo, favicon, slike                     | `public/brand/`, `public/favicon.ico`, `public/images/` |
@@ -104,7 +104,7 @@ GA4 u GTM-u ne treba ništa podešavati, a i u `dataLayer` za ostale alate u GTM
 | Događaj             | Kada                                     | Parametri                       |
 | ------------------- | ---------------------------------------- | ------------------------------- |
 | `generate_lead`     | poslat upit sa forme                     | `apartment`, `source`, `garage` |
-| `contact_click`     | klik na telefon, WhatsApp, Viber, SMS, mejl | `method`                     |
+| `contact_click`     | klik na telefon, WhatsApp, Viber, SMS, mejl, Instagram | `method`          |
 | `newsletter_signup` | prijava na novosti                       | —                               |
 
 Kolačići: dok posetilac na baneru ne klikne „Prihvatam“, Google Analytics i oglasi rade bez kolačića

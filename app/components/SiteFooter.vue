@@ -2,12 +2,13 @@
 import { building } from '~/data/location'
 import { site } from '~/data/site'
 
-// Footer: tamni završetak stranice. Logo, meni, telefon, e-pošta i adresa, pa red sa pravima, napomenom o prikazima
+// Footer: tamni završetak stranice. Logo, meni, telefon, e-pošta, adresa i Instagram, pa red sa pravima, napomenom o prikazima
 // i potpisom izrade sajta.
 const { t } = useI18n()
 const nav = useNavigation()
 const contact = useContact()
 const year = new Date().getFullYear()
+const track = useTrack()
 // „Podešavanja kolačića“: ponovo otvara baner, da posetilac može da promeni izbor (components/CookieBanner.vue)
 const { reopen: openCookieSettings } = useConsent()
 
@@ -34,6 +35,16 @@ const creditUrl = `https://www.omniit.rs/?${new URLSearchParams({
           <a v-if="contact.phoneHref" :href="contact.phoneHref" class="footer__phone">{{ contact.phoneDisplay }}</a>
           <a v-if="contact.email" :href="`mailto:${contact.email}`">{{ contact.email }}</a>
           <a :href="building.mapsUrl" target="_blank" rel="noopener">{{ t('contact.address') }}</a>
+          <a
+            :href="site.instagram.url"
+            class="footer__social"
+            target="_blank"
+            rel="noopener"
+            @click="track('contact_click', { method: 'instagram' })"
+          >
+            <UiIcon name="instagram" />
+            {{ site.instagram.handle }}
+          </a>
         </div>
       </div>
 
@@ -97,6 +108,16 @@ const creditUrl = `https://www.omniit.rs/?${new URLSearchParams({
   justify-items: end;
   font-size: var(--text-md);
   color: var(--color-text-inverse-muted);
+}
+
+.footer__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer__social .ui-icon {
+  font-size: 18px;
 }
 
 .footer__phone {
