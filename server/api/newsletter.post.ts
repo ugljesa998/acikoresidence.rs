@@ -39,14 +39,7 @@ export default defineEventHandler(async (event) => {
     await Promise.all([
       mailConfigured() &&
         sendMail({
-          subject: `Nova prijava na novosti: ${signup.email}`,
-          text: [
-            'Nova prijava na novosti sa sajta acikoresidence.rs',
-            '',
-            `E-adresa: ${signup.email}`,
-            `Stranica: ${signup.page || '-'}`,
-            `Vreme: ${mailTime()}`,
-          ].join('\n'),
+          ...newsletterEmail(signup), // izgled mejla: server/utils/mailTemplates.ts
           replyTo: signup.email,
         }),
       newsletterWebhook && $fetch(newsletterWebhook, { method: 'POST', body: signup }),

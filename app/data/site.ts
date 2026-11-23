@@ -27,6 +27,10 @@ export const site = {
   // Profili brenda na drugim mestima: Instagram, Facebook, Google Business profil, YouTube…
   // Pune adrese, npr. 'https://www.instagram.com/acikoresidence'. Pomažu Google-u i AI asistentima da povežu brend.
   sameAs: [] as string[],
+
+  // Google Tag Manager kontejner (tagmanager.google.com). U njemu se podešavaju Google Analytics, Google Ads
+  // i Meta Pixel, bez izmene koda. Prazno = GTM se ne učitava.
+  gtmId: 'GTM-KGHKKZWV',
 } as const
 
 // Jezici sajta — koriste ih nuxt.config.ts (i18n) i sitemap.xml.

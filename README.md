@@ -92,6 +92,18 @@ Bez `SMTP_USER`/`SMTP_PASS` Google prima mejl samo sa dozvoljene IP adrese: u Go
 (Apps → Google Workspace → Gmail → Routing → **SMTP relay service**) dodati pravilo sa IP adresom servera,
 „Only addresses in my domains“ i „Require TLS encryption“.
 
+## Analitika i oglasi
+
+Google Tag Manager (`site.gtmId` u `app/data/site.ts`) se učitava na svakoj stranici, osim u lokalnom razvoju.
+Google Analytics, Google Ads i Meta Pixel se dodaju u GTM-u, bez izmene koda. Sajt sam šalje događaje u
+`dataLayer` (`app/composables/useTrack.ts`):
+
+| Događaj             | Kada                                     | Parametri                       |
+| ------------------- | ---------------------------------------- | ------------------------------- |
+| `generate_lead`     | poslat upit sa forme                     | `apartment`, `source`, `garage` |
+| `contact_click`     | klik na telefon, WhatsApp, Viber, SMS, mejl | `method`                     |
+| `newsletter_signup` | prijava na novosti                       | —                               |
+
 ## Pre objave
 
 - [ ] Pravi broj telefona i messengeri u `app/data/contact.ts` (sada je privremeni 064 123 45 67)

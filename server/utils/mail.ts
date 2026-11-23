@@ -46,7 +46,7 @@ function transport(replies: string[] = []) {
 }
 
 /** Pošalje mejl prodaji. `replyTo`: na „Odgovori“ u mejlu odgovor ide posetiocu (ako je ostavio e-adresu). */
-export async function sendMail(mail: { subject: string; text: string; replyTo?: string }) {
+export async function sendMail(mail: { subject: string; text: string; html?: string; replyTo?: string }) {
   const from = env('SMTP_FROM') || env('CONTACT_EMAIL')
   const replies: string[] = []
   const smtp = transport(replies)
@@ -56,6 +56,7 @@ export async function sendMail(mail: { subject: string; text: string; replyTo?: 
       to: env('CONTACT_EMAIL'),
       subject: mail.subject.replace(/[\r\n]+/g, ' '),
       text: mail.text,
+      html: mail.html,
       replyTo: mail.replyTo || undefined,
     })
   } catch (error) {

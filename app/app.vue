@@ -31,6 +31,22 @@ useSeoMeta({
   robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
 })
 
+// Google Tag Manager (analitika i oglasi), ID je u app/data/site.ts. Samo na pravom sajtu, ne u lokalnom razvoju,
+// da posete sa localhost-a ne ulaze u statistiku. Događaji sa sajta (upit, klik na telefon/poruku, prijava na
+// novosti) idu u isti `dataLayer` — vidi composables/useTrack.ts.
+if (site.gtmId && !import.meta.dev) {
+  useHead({
+    script: [
+      { key: 'gtm', src: `https://www.googletagmanager.com/gtm.js?id=${site.gtmId}`, async: true, tagPriority: 'high' },
+      {
+        key: 'gtm-init',
+        innerHTML: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());`,
+        tagPriority: 'high',
+      },
+    ],
+  })
+}
+
 // Strukturisani podaci na svakoj stranici: prodavac, sajt i zgrada (composables/useSchemaOrg.ts)
 const schema = useSchemaOrg()
 useJsonLd('site', () => [schema.organization(), schema.website(), schema.residence()])

@@ -65,8 +65,8 @@ export default defineEventHandler(async (event) => {
     await Promise.all([
       mailConfigured() &&
         sendMail({
-          subject: `${inquiry.subject} — ${inquiry.name}`,
-          text: inquiryText({ ...inquiry, unitLabel }),
+          // Izgled mejla (HTML + običan tekst) je u server/utils/mailTemplates.ts
+          ...inquiryEmail({ ...inquiry, unit }),
           replyTo: inquiry.email,
         }),
       inquiryWebhook && $fetch(inquiryWebhook, { method: 'POST', body: inquiry }),
@@ -78,32 +78,3 @@ export default defineEventHandler(async (event) => {
   return { ok: true }
 })
 
-// Tekst mejla za prodaju: najvažnije gore (stan, ime, telefon), pa poruka i odakle je upit stigao.
-function inquiryText(inquiry: {
-  unitLabel: string
-  name: string
-  phone: string
-  email: string
-  garage: boolean
-  message: string
-  source: string
-  page: string
-}) {
-  return [
-    'Novi upit sa sajta acikoresidence.rs',
-    '',
-    `Stan: ${inquiry.unitLabel || 'nije izabran — poslati sve slobodne stanove'}`,
-    `Garažno mesto: ${inquiry.garage ? 'da' : 'ne'}`,
-    `Ime i prezime: ${inquiry.name}`,
-    `Telefon: ${inquiry.phone}`,
-    ...(inquiry.email ? [`E-pošta: ${inquiry.email}`] : []),
-    '',
-    'Poruka:',
-    inquiry.message || '(bez poruke)',
-    '',
-    '—',
-    `Forma: ${inquiry.source === 'apartment_page' ? 'stranica stana' : 'kontakt na početnoj'}`,
-    `Stranica: ${inquiry.page || '-'}`,
-    `Vreme: ${mailTime()}`,
-  ].join('\n')
-}
