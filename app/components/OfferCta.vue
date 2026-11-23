@@ -18,6 +18,7 @@ const localePath = useLocalePath()
           width="1600"
           height="900"
           sizes="100vw lg:1520px"
+          format="webp"
           loading="lazy"
           class="offer__img"
         />

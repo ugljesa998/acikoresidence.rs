@@ -131,6 +131,7 @@
 
   /* 6. Slojevi */
   --z-actionbar: 40;
+  --z-consent: 45; /* baner za kolačiće: iznad donje trake, ispod headera i menija */
   --z-header: 50;
 }
 

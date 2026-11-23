@@ -62,6 +62,7 @@ useHead(() => ({
             width="1600"
             height="900"
             sizes="xs:100vw sm:100vw md:100vw lg:45vw xl:620px"
+            format="webp"
           />
         </figure>
       </div>

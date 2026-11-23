@@ -317,6 +317,13 @@
     "rights": "© {year} ACIKO Residence. All rights reserved.",
     "note": "Images and floor plans are for information purposes only."
   },
+  "consent": {
+    "title": "Cookies",
+    "text": "We use cookies to give you the best experience on our website.",
+    "accept": "Accept",
+    "reject": "Decline",
+    "settings": "Cookie settings"
+  },
   "error": {
     "label": "Error {code}",
     "notFoundTitle": "This page does not exist.",

@@ -65,6 +65,15 @@ export default defineNuxtConfig({
   image: {
     quality: 80,
     format: ['avif', 'webp'],
+    // Obrađene slike (/_ipx) browser čuva godinu dana (inače samo 1 minut), pa ponovna poseta ne skida ništa.
+    // Zato zamenjena slika mora dobiti novo ime fajla — pod starim imenom posetioci bi i dalje videli staru.
+    ipx: { maxAge: 31_536_000 },
+  },
+
+  // Isto za logo i slike koje se učitavaju direktno (logo u headeru, slika za deljenje linka).
+  routeRules: {
+    '/brand/**': { headers: { 'cache-control': 'public, max-age=31536000' } },
+    '/images/**': { headers: { 'cache-control': 'public, max-age=31536000' } },
   },
 
   // SEO fajlovi (server/routes) se prave pri build-u kao statični, pa rade i uz `npm run generate`.

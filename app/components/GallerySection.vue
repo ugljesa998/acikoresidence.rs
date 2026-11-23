@@ -157,7 +157,8 @@ const { direction } = useSwipe(stage, {
                 :alt="image.alt"
                 :width="GALLERY_IMAGE_SIZE.width"
                 :height="GALLERY_IMAGE_SIZE.height"
-                sizes="xs:100vw sm:100vw md:50vw lg:560px"
+                sizes="xs:80vw sm:80vw md:50vw lg:560px"
+                format="webp"
                 loading="lazy"
                 draggable="false"
               />
@@ -193,6 +194,7 @@ const { direction } = useSwipe(stage, {
           :width="GALLERY_IMAGE_SIZE.width"
           :height="GALLERY_IMAGE_SIZE.height"
           sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw"
+          format="webp"
           class="lightbox__img"
           @click="onImageClick"
         />

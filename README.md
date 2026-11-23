@@ -68,6 +68,8 @@ public/                   slike, logo, favicon
 - **Nijedan tekst u kodu.** Svaki tekst ide u sva tri JSON fajla pod istim ključem
   i koristi se preko `t('ključ')`.
 - **Slike preko `<NuxtImg>` / `<NuxtPicture>`**, da se automatski prave AVIF/WebP verzije u više veličina.
+- **Zamenjena slika dobija novo ime fajla.** Slike i logo browser čuva godinu dana (brže ponovne posete,
+  PageSpeed), pa bi pod starim imenom posetioci i dalje videli staru sliku.
 - **Sidra sekcija** (`#stanovi`, `#lokacija`, `#gradnja`, `#galerija`, `#kontakt`) su ista na svim jezicima.
 
 ## Novi jezik
@@ -104,6 +106,11 @@ GA4 u GTM-u ne treba ništa podešavati, a i u `dataLayer` za ostale alate u GTM
 | `generate_lead`     | poslat upit sa forme                     | `apartment`, `source`, `garage` |
 | `contact_click`     | klik na telefon, WhatsApp, Viber, SMS, mejl | `method`                     |
 | `newsletter_signup` | prijava na novosti                       | —                               |
+
+Kolačići: dok posetilac na baneru ne klikne „Prihvatam“, Google Analytics i oglasi rade bez kolačića
+(Google Consent Mode v2). Izbor se pamti godinu dana i menja se u footeru („Podešavanja kolačića“).
+Kod: `app/utils/consent.ts`, `app/components/CookieBanner.vue`. Alati dodati u GTM (npr. Meta Pixel) treba da
+poštuju pristanak: u GTM-u, kod taga, Consent Settings → „Require additional consent“ → `ad_storage`.
 
 ## Pre objave
 

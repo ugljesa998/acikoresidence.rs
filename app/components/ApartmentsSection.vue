@@ -48,6 +48,7 @@ const planSrc = (n: number) => `/images/plans/stan-${String(n).padStart(2, '0')}
               :src="planSrc(unit.number)"
               :alt="t('apartments.planAlt', { n: unit.number, floor: t(`apartments.floors.${unit.floor}`) })"
               sizes="100vw sm:50vw lg:320px"
+              format="webp"
               width="1200"
               height="980"
               loading="lazy"

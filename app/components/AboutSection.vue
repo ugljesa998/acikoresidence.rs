@@ -29,6 +29,7 @@ const completion = computed(() => completionLabel(localeProperties.value.languag
               width="1674"
               height="940"
               sizes="xs:100vw sm:100vw md:50vw lg:760px"
+              format="webp"
               loading="lazy"
             />
           </div>

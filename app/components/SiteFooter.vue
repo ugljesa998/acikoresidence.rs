@@ -8,6 +8,8 @@ const { t } = useI18n()
 const nav = useNavigation()
 const contact = useContact()
 const year = new Date().getFullYear()
+// „Podešavanja kolačića“: ponovo otvara baner, da posetilac može da promeni izbor (components/CookieBanner.vue)
+const { reopen: openCookieSettings } = useConsent()
 
 // Potpis „Developed by Omniit“: UTM oznake da se u Omniit analitici vidi da poseta dolazi sa ovog sajta
 // (utm_source = domen sajta, npr. acikoresidence.rs).
@@ -38,6 +40,9 @@ const creditUrl = `https://www.omniit.rs/?${new URLSearchParams({
       <div class="footer__base">
         <p>{{ t('footer.rights', { year }) }}</p>
         <p>{{ t('footer.note') }}</p>
+        <p>
+          <button type="button" class="footer__link" @click="openCookieSettings">{{ t('consent.settings') }}</button>
+        </p>
         <p class="footer__credit">
           Developed by
           <a :href="creditUrl" target="_blank" rel="noopener">Omniit</a>
@@ -111,6 +116,15 @@ const creditUrl = `https://www.omniit.rs/?${new URLSearchParams({
   color: var(--color-text-inverse-muted);
 }
 
+.footer__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.footer__link,
 .footer__credit a {
   color: var(--color-text-inverse-soft);
   text-decoration: underline;
@@ -121,6 +135,7 @@ const creditUrl = `https://www.omniit.rs/?${new URLSearchParams({
     text-decoration-color var(--duration-fast) var(--ease-out);
 }
 
+.footer__link:hover,
 .footer__credit a:hover {
   color: var(--color-text-inverse);
   text-decoration-color: currentColor;

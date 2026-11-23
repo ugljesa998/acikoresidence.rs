@@ -317,6 +317,13 @@
     "rights": "© {year} ACIKO Residence. Sva prava zadržana.",
     "note": "Slike i osnove su informativnog karaktera."
   },
+  "consent": {
+    "title": "Kolačići",
+    "text": "Koristimo kolačiće kako bismo vam pružili najbolje iskustvo na sajtu.",
+    "accept": "Prihvatam",
+    "reject": "Odbijam",
+    "settings": "Podešavanja kolačića"
+  },
   "error": {
     "label": "Greška {code}",
     "notFoundTitle": "Ova stranica ne postoji.",

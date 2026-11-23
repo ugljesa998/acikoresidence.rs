@@ -14,14 +14,17 @@ const formatNumber = (n: number, digits = 0) =>
 // Fotografija: na telefonu (do 560 px) posebna uspravna (hero-mobile.jpg, kadar za ekran telefona),
 // na tabletu i računaru široka (hero.jpg). Obe u AVIF i WebP, u više širina; slike se ne uvećavaju preko originala.
 // Preload sa `media` učitava odmah samo onu koja će se prikazati (najveći element prvog ekrana).
+// AVIF sa kvalitetom 55 izgleda isto kao sa 80, a dvostruko je lakši (telefon: 96 umesto 222 KB) — ovo je
+// slika koju PageSpeed meri kao LCP. Širina 750 je za telefone sa ~412 px i gustinom 1,75 (Android).
 const MOBILE_MEDIA = '(max-width: 560px)'
 const HERO = { src: '/images/hero.jpg', widths: [640, 1024, 1280, 1536, 1774] }
-const HERO_MOBILE = { src: '/images/hero-mobile.jpg', widths: [430, 640, 852] }
+const HERO_MOBILE = { src: '/images/hero-mobile.jpg', widths: [430, 640, 750, 852] }
 const FORMATS = ['avif', 'webp'] as const
+const QUALITY: Record<(typeof FORMATS)[number], number> = { avif: 55, webp: 75 }
 
 const img = useImage()
-const srcset = (image: typeof HERO, format: string) =>
-  image.widths.map((w) => `${img(image.src, { width: w, format, quality: 80 })} ${w}w`).join(', ')
+const srcset = (image: typeof HERO, format: (typeof FORMATS)[number]) =>
+  image.widths.map((w) => `${img(image.src, { width: w, format, quality: QUALITY[format] })} ${w}w`).join(', ')
 
 const sources = [
   ...FORMATS.map((format) => ({ key: `m-${format}`, media: MOBILE_MEDIA, type: `image/${format}`, srcset: srcset(HERO_MOBILE, format) })),
